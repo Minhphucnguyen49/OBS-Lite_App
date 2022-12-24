@@ -5,6 +5,7 @@ import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -69,7 +70,7 @@ public class FileService {
     }
 
     public List<AppointmentEntity> getAppointmentsOfOneModule(String moduleID){
-        if(!appointments.containsKey(moduleID)) return List.of();
+        if(!appointments.containsKey(moduleID)) return Collections.emptyList();
 
         return appointments.get(moduleID);
     }
