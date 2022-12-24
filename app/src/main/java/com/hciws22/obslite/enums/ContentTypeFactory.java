@@ -1,6 +1,7 @@
 package com.hciws22.obslite.enums;
 
-import com.hciws22.obslite.entities.Module;
+import com.hciws22.obslite.application.Module;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,14 +21,16 @@ public enum ContentTypeFactory {
     }
 
     public static void cut(String s, Module module){
-        if(s.toUpperCase(Locale.ROOT).contains(UID.name())){
-             module.setId(s.replace(UID.name() + ":", ""));
-             return;
-        }
 
         if(s.toUpperCase(Locale.ROOT).contains(SUMMARY.name())){
-             module.setName(s.substring(s.lastIndexOf(":")+2));
-             module.setType(s.substring(s.indexOf(":")+1, s.lastIndexOf(":")));
+             if(s.contains("#")){
+                 module.setName(s.substring(s.lastIndexOf(":")+2,s.lastIndexOf("#")-1));
+                 module.getAppointment().setNr(s.substring(s.lastIndexOf("#")));
+             }else{
+                 module.setName(s.substring(s.lastIndexOf(":")+2));
+             }
+
+            module.getAppointment().setType(s.substring(s.indexOf(":")+1, s.lastIndexOf(":")));
              return;
         }
 
@@ -38,6 +41,7 @@ public enum ContentTypeFactory {
 
         if(s.toUpperCase(Locale.ROOT).contains(CATEGORIES.name())){
              module.setSemester(s.replace(CATEGORIES.name() + ":", ""));
+             module.setId(module.getName() + module.getSemester());
              return;
         }
 

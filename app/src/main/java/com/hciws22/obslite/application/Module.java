@@ -1,25 +1,16 @@
-package com.hciws22.obslite.entities;
+package com.hciws22.obslite.application;
 
 
 public class Module {
 
     private String id;
     private String name;
-    private String type;
     private String semester;
     private Appointment appointment;
 
     public Module() {
         appointment = new Appointment();
 
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     public String getId() {

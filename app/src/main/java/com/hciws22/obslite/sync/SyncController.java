@@ -42,6 +42,8 @@ public class SyncController {
                 fileService.convertToModule(responseService.getFilteredList());
                 isAvailable = true;
             }
+
+            fileService.generateEntityRepresentation();
             // db service
         }
 
