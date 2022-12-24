@@ -6,8 +6,13 @@ import com.hciws22.obslite.application.Module;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class AppointmentEntity {
+
+
+    @NotNull
+    private String moduleID;
 
     private LocalDateTime from;
     private LocalDateTime to;
@@ -15,19 +20,18 @@ public class AppointmentEntity {
     private String type;
     private String nr;
 
-    @NotNull
-    private String moduleID;
 
-    public String getModuleID() {
-        return moduleID;
-    }
 
     public String getNr() {
-        return nr;
+        return Optional.ofNullable(nr).orElse("");
     }
 
     public void setNr(String nr) {
         this.nr = nr;
+    }
+
+    public String getModuleID() {
+        return moduleID;
     }
 
     public void setModuleID(@NotNull String moduleID) {
@@ -39,7 +43,7 @@ public class AppointmentEntity {
     }
 
     public String getType() {
-        return type;
+        return Optional.ofNullable(type).orElse("");
     }
 
     public LocalDateTime getFrom() {
@@ -59,7 +63,7 @@ public class AppointmentEntity {
     }
 
     public String getLocation() {
-        return location;
+        return Optional.ofNullable(location).orElse("");
     }
 
     public void setLocation(String location) {

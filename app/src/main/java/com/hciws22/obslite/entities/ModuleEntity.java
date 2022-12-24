@@ -1,10 +1,7 @@
 package com.hciws22.obslite.entities;
 
-import com.hciws22.obslite.application.Appointment;
 import com.hciws22.obslite.application.Module;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class ModuleEntity {
@@ -15,6 +12,7 @@ public class ModuleEntity {
     @NotNull
     private String name;
 
+    @NotNull
     private String semester;
 
     public ModuleEntity() {
@@ -42,7 +40,7 @@ public class ModuleEntity {
         return semester;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(@NotNull String semester) {
         this.semester = semester;
     }
 
@@ -51,12 +49,12 @@ public class ModuleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ModuleEntity that = (ModuleEntity) o;
-        return name.equals(that.name);
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(id);
     }
 
     public static ModuleEntity fromModule(Module m){

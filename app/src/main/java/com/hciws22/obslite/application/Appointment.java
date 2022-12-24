@@ -16,7 +16,7 @@ public class Appointment {
     }
 
     public String getType() {
-        return type;
+        return Optional.ofNullable(type).orElse("");
     }
 
     public void setType(String type) {
@@ -49,7 +49,7 @@ public class Appointment {
     }
 
     public String getLocation() {
-        return location;
+        return Optional.ofNullable(location).orElse("");
     }
 
     public void setLocation(String location) {

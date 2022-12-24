@@ -1,8 +1,11 @@
 package com.hciws22.obslite.application;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 
 public class Module {
 
+    @NotNull
     private String id;
     private String name;
     private String semester;
@@ -14,15 +17,15 @@ public class Module {
     }
 
     public String getId() {
-        return id;
+        return Optional.ofNullable(id).orElse("");
     }
 
-    public void setId(String id) {
+    public void setId(@NotNull String id) {
         this.id = id;
     }
 
     public String getName() {
-        return name;
+        return Optional.ofNullable(name).orElse("");
     }
 
     public void setName(String name) {
@@ -31,7 +34,7 @@ public class Module {
 
 
     public String getSemester() {
-        return semester;
+        return Optional.ofNullable(semester).orElse("");
     }
 
     public void setSemester(String semester) {
