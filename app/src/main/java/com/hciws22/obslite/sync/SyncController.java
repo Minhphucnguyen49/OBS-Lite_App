@@ -1,9 +1,7 @@
 package com.hciws22.obslite.sync;
 
 import android.view.View;
-
 import com.hciws22.obslite.db.SqLiteHelper;
-
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.ZoneId;

@@ -1,16 +1,9 @@
 package com.hciws22.obslite.sync;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-
-import com.hciws22.obslite.application.Module;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,12 +38,9 @@ public class SyncDbService {
                 COLUMNS_FOR_APPOINTMENT[4] +", "+ COLUMNS_FOR_APPOINTMENT[5] +" ) values ";
     }
 
-
     private String selectTemplate(String tableName){
         return "select * from " + tableName + ";";
     }
-
-
 
     public void insertAppointments(Map<String,List<AppointmentEntity>> appointments) {
 

@@ -3,10 +3,14 @@ package com.hciws22.obslite.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.Nullable;
 
-import java.time.LocalDateTime;
+/* ########## Do not implement your logic here ########
+*  create your own DBService. See in MainActivity.class
+*
+*
+*
+ */
 
 public class SqLiteHelper extends SQLiteOpenHelper {
 

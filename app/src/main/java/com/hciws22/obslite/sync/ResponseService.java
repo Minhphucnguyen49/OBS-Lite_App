@@ -3,7 +3,6 @@ package com.hciws22.obslite.sync;
 import androidx.annotation.NonNull;
 
 import com.hciws22.obslite.enums.ContentTypeFactory;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
