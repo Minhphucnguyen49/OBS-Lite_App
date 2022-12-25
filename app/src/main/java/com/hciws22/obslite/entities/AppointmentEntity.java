@@ -10,17 +10,24 @@ import java.util.Optional;
 
 public class AppointmentEntity {
 
-
-    @NotNull
-    private String moduleID;
-
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private Integer id;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
     private String location;
     private String type;
     private String nr;
 
+    @NotNull
+    private String moduleID;
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNr() {
         return Optional.ofNullable(nr).orElse("");
@@ -46,20 +53,20 @@ public class AppointmentEntity {
         return Optional.ofNullable(type).orElse("");
     }
 
-    public LocalDateTime getFrom() {
-        return from;
+    public LocalDateTime getStartAt() {
+        return startAt;
     }
 
-    public void setFrom(LocalDateTime from) {
-        this.from = from;
+    public void setStartAt(LocalDateTime startAt) {
+        this.startAt = startAt;
     }
 
-    public LocalDateTime getTo() {
-        return to;
+    public LocalDateTime getEndAt() {
+        return endAt;
     }
 
-    public void setTo(LocalDateTime to) {
-        this.to = to;
+    public void setEndAt(LocalDateTime endAt) {
+        this.endAt = endAt;
     }
 
     public String getLocation() {
@@ -75,8 +82,8 @@ public class AppointmentEntity {
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setModuleID(u_id);
         appointmentEntity.setLocation(a.getLocation());
-        appointmentEntity.setFrom(a.getFrom());
-        appointmentEntity.setTo(a.getTo());
+        appointmentEntity.setStartAt(a.getStartAt());
+        appointmentEntity.setEndAt(a.getEndAt());
         appointmentEntity.setType(type);
         appointmentEntity.setNr(a.getNr());
         return appointmentEntity;

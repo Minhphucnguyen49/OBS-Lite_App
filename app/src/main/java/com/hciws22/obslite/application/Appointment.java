@@ -5,8 +5,8 @@ import java.util.Optional;
 
 public class Appointment {
 
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
     private String location;
     private String type;
     private String nr;
@@ -32,20 +32,20 @@ public class Appointment {
         this.nr = nr;
     }
 
-    public LocalDateTime getFrom() {
-        return from;
+    public LocalDateTime getStartAt() {
+        return startAt;
     }
 
-    public void setFrom(LocalDateTime from) {
-        this.from = from;
+    public void setStartAt(LocalDateTime startAt) {
+        this.startAt = startAt;
     }
 
-    public LocalDateTime getTo() {
-        return to;
+    public LocalDateTime getEndAt() {
+        return endAt;
     }
 
-    public void setTo(LocalDateTime to) {
-        this.to = to;
+    public void setEndAt(LocalDateTime endAt) {
+        this.endAt = endAt;
     }
 
     public String getLocation() {

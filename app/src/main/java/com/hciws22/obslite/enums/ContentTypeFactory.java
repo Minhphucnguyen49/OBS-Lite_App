@@ -47,14 +47,14 @@ public enum ContentTypeFactory {
 
         if(s.toUpperCase(Locale.ROOT).contains(DTSTART.name())){
             String from =  s.replace(DTSTART.name() + ":", "");
-            module.getAppointment().setFrom(dateFormat(from));
+            module.getAppointment().setStartAt(dateFormat(from));
             return;
 
         }
 
         if(s.toUpperCase(Locale.ROOT).contains(DTEND.name())){
             String end =  s.replace(DTEND.name() + ":", "");
-            module.getAppointment().setTo(dateFormat(end));
+            module.getAppointment().setEndAt(dateFormat(end));
         }
 
     }

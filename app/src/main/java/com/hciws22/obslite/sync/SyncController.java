@@ -2,16 +2,24 @@ package com.hciws22.obslite.sync;
 
 import android.view.View;
 
+import com.hciws22.obslite.db.SqLiteHelper;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
 public class SyncController {
 
-    ResponseService responseService = new ResponseService();
-    FileService fileService = new FileService();
-    SyncDbService syncDbService = new SyncDbService();
+    ResponseService responseService;
+    FileService fileService;
+    SyncDbService syncDbService;
     Boolean isAvailable = true;
+
+    public SyncController(SqLiteHelper sqLiteHelper) {
+        responseService = new ResponseService();
+        fileService = new FileService();
+        syncDbService = new SyncDbService(sqLiteHelper);
+    }
 
 
     public void init(View sendbtn) {
@@ -44,7 +52,8 @@ public class SyncController {
             }
 
             fileService.generateEntityRepresentation();
-            // db service
+            syncDbService.insertModule(fileService.getModules());
+            syncDbService.insertAppointments(fileService.getAllAppointments());
         }
 
     }

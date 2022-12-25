@@ -62,7 +62,7 @@ public class FileService {
         System.out.println("hello");
     }
 
-    public Set<ModuleEntity> getModuleEntities(){
+    public Set<ModuleEntity> getModules(){
         return moduleEntities;
     }
 
