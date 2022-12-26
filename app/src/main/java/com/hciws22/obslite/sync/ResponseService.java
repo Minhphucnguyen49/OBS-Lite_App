@@ -16,7 +16,7 @@ import okhttp3.Response;
 
 public class ResponseService implements Callback {
 
-    private final String SERVER_URI = "https://obs.fbi.h-da.de/obs/service.php?action=getPersPlanAbo&lfkey=ebf5317528799bfe687bd3203b724586082bce6c920044f15a7184abcdb7cd6460d39333528ff026";
+    private final String SERVER_URI = "https://obs.fbi.h-da.de/obs/service.php?action=getPersPlanAbo&lfkey=a52b599e4590ef0dcebd9cb3cce4c069fb14723adb31161445ce8d31de3942cd998ef01c09f5ffac";
     private final OkHttpClient client = new OkHttpClient().newBuilder().build();
     private final List<String> filteredList = new ArrayList <>();
 
@@ -25,7 +25,6 @@ public class ResponseService implements Callback {
         Request request = requestSpecification();
         client.newCall(request).enqueue(this);
     }
-
 
     @Override
     public void onFailure(@NonNull Call call, @NonNull IOException e) {
