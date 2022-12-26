@@ -41,7 +41,7 @@ public enum ContentTypeFactory {
 
         if(s.toUpperCase(Locale.ROOT).contains(CATEGORIES.name())){
              module.setSemester(s.replace(CATEGORIES.name() + ":", ""));
-             module.setId(module.getName() + module.getSemester());
+             module.setId(module.getName() + " " + module.getSemester());
              return;
         }
 
