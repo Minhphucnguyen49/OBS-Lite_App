@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">OBS-Lite</string>
+    <string name="TODAY">TODAY</string>
+    <string name="TODO">TODO</string>
+    <string name="pg2_p1_20_m">PG2  P1  100%\nMon 26.11.22</string>
+    <string name="hci_p1_90_w">HCI  P1  90%\nWed 29.11.22</string>
+    <string name="bs_p2_50_fr">BS  P2  50%\nFri 02.12.22</string>
+    <string name="db_p2_0_tue">DB  P2  0%\nTue 15.12.22</string>
+    <string name="gdv_p2_20_m">GDV  P2  20%\nMon 07.11.22</string>
+    <string name="db_p3_0_tue">DB  P3  0%\nTue 22.12.22</string>
+    <string name="gdv_p3_20_m">GDV  P3  20%\nMon 21.11.22</string>
+    <string name="pg2_p2_20_m">PG2  P2  50%\nMon 26.11.22</string>
+    <string name="pg2_p3_20_m">PG2  P2  20%\nMon 26.11.22</string>
+    <string name="hci_p2_90_w">HCI  P2  90%\nWed 29.11.22</string>
+    <string name="bs_p3_50_fr">BS  P3 50%\nFri 02.12.22</string>
+    <string name="time_location">14:15-15:45\tD15/01.07.</string>
+    <string name="notes">Notes</string>
+
+
 </resources>
