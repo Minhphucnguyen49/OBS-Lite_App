@@ -2,7 +2,7 @@ package com.hciws22.obslite.sync;
 
 import android.view.View;
 
-import com.hciws22.obslite.TodoView;
+import com.hciws22.obslite.Todo;
 import com.hciws22.obslite.db.SqLiteHelper;
 import java.io.IOException;
 import java.time.LocalTime;
@@ -30,7 +30,7 @@ public class SyncController {
         sendbtn.setOnClickListener(this::manualSynchronize);
 
     }
-    public ArrayList<TodoView> getToDo(){
+    public ArrayList<Todo> getToDo(){
         return syncDbService.getToDo();
     }
 

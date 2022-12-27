@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ModuleRecViewAdapter(this);
         modulesRecView = findViewById(R.id.modulesRecView);
-
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 

@@ -1,6 +1,6 @@
 package com.hciws22.obslite;
 
-public class TodoView {
+public class Todo {
     private String name;//name + prakID
     private String moduleType;
 
@@ -14,7 +14,7 @@ public class TodoView {
 
     private boolean isExpanded;
 
-    public TodoView(String name, String moduleType, String percentage, String date, String time, String location) {
+    public Todo(String name, String moduleType, String percentage, String date, String time, String location) {
         this.name = name;
         this.moduleType = moduleType;
         this.percentage = percentage;

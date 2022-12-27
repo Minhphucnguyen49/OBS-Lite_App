@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdapter.ViewHolder> {
 
-    private ArrayList<TodoView> modules = new ArrayList<>();
+    private ArrayList<Todo> modules = new ArrayList<>();
     private Context contextToShowImage;
     public static Integer sliderValue;
 
@@ -45,12 +45,13 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         final String upRow = modules.get(position).getName() + " " ;
         final String downRow = "\n" + modules.get(position).getDate();
         holder.moduleInfor.setText(upRow + downRow);
-        holder.module.setOnClickListener(new View.OnClickListener(){
-        @Override
-        public void onClick(View v){
-            //TODO: Navigate to MODULE Screen
-        }
-    });
+
+        holder.module.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Navigate to MODULE Screen
+            }
+        });
 
         /**
          * ExpandedLayout
@@ -78,7 +79,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
-
         if (modules.get(position).isExpanded()){
             TransitionManager.beginDelayedTransition(holder.module);
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
@@ -90,7 +90,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             holder.upArrow.setVisibility(View.GONE);
         }
 
-
     }
 
     @Override
@@ -98,7 +97,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         return modules.size();
     }
 
-    public void setModules(ArrayList<TodoView> modules) {
+    public void setModules(ArrayList<Todo> modules) {
         this.modules = modules;
         /*
         indicates that the data set has changed
@@ -119,19 +118,16 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             super(itemView);
             module = itemView.findViewById(R.id.module);
             moduleInfor = itemView.findViewById(R.id.module_infor);
-
-
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);
             expandedRelLayout = itemView.findViewById(R.id.expandedRelLayout);
             time_location = itemView.findViewById(R.id.time_location);
-
             slider = itemView.findViewById(R.id.slider);
 
             downArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TodoView module = modules.get(getAdapterPosition());
+                    Todo module = modules.get(getAdapterPosition());
                     module.setExpanded( !module.isExpanded() );//toggle
                     notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
                 }
@@ -140,7 +136,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             upArrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TodoView module = modules.get(getAdapterPosition());
+                    Todo module = modules.get(getAdapterPosition());
                     module.setExpanded( !module.isExpanded() );//toggle
                     notifyItemChanged(getAdapterPosition());
                 }

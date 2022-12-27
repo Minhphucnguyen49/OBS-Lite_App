@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import java.util.ArrayList;
 
-
+/*
 public class TodoActivity extends AppCompatActivity {
 
     private RecyclerView modulesRecView;
@@ -24,7 +24,6 @@ public class TodoActivity extends AppCompatActivity {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        /*
         ArrayList<TodoView> moduleList = new ArrayList<>();
 
         moduleList.add( new Module("HCI #4", ModuleType.Practical, "20%",
@@ -47,9 +46,9 @@ public class TodoActivity extends AppCompatActivity {
 
         adapter.setModules(moduleList);
 
-         */
+
     }
 }
-
+*/
 
 

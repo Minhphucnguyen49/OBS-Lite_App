@@ -1,17 +1,24 @@
 package com.hciws22.obslite.sync;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
-import com.hciws22.obslite.TodoView;
+import androidx.annotation.Nullable;
+
+import com.hciws22.obslite.Todo;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -116,9 +123,9 @@ public class SyncDbService {
         }
     }
 
-    public ArrayList<TodoView> getToDo(){
+    public ArrayList<Todo> getToDo(){
 
-        ArrayList<TodoView> returnList = new ArrayList<>();
+        ArrayList<Todo> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TABLE_APPOINTMENT;
 
         SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
@@ -127,13 +134,12 @@ public class SyncDbService {
         if (cursor.moveToFirst()){
             //loop through the cursor and create new appointment object. Put them into the returnList
             do{
-                String date1 = cursor.getString(1);
-                String date2 = cursor.getString(2);
+                String startAt = cursor.getString(1);
+                String endAt = cursor.getString(2);
 
-                String dateString = date1;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-                LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
-                String dayOfWeek = dateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
+                String dayOfWeek = getDayOfWeek(startAt);
+
+                String date = getDateInFormat(startAt, dayOfWeek);
 
                 String location = cursor.getString(3);
                 String type = cursor.getString(4);
@@ -142,40 +148,47 @@ public class SyncDbService {
                 name = name.substring(0, name.lastIndexOf(' '));
                 name += cursor.getString(5);//name += nr;
 
-                int index = date1.indexOf('T');
-                date1 = date1.substring(index+1);
-                date2 = date2.substring(index+1);
-                dateString = date1 + "-" + date2;
+                int index = startAt.indexOf('T');
+                startAt = startAt.substring(index+1);
+                endAt = endAt.substring(index+1);
+                String dateString = startAt + "-" + endAt;
 
-                TodoView todo = new TodoView(name ,type," ",dayOfWeek.substring(0,3),dateString, location );
+                Todo todo = new Todo(name ,type," ",date,dateString, location );
                 returnList.add(todo);
 
             } while(cursor.moveToNext());
         }else{
-
+            System.out.println("Error by loading data!!!!!!!!!!!!!");
         }
-     /*
-        ArrayList<ModuleView> moduleList = new ArrayList<>();
 
-        moduleList.add( new ModuleView("HCI #4", "Practical", "20%",
-                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
-
-        moduleList.add( new ModuleView("BS #5", "Practical", "20%",
-                "Mon 20.11.2022", "10:15-11:45","D15/01.07."));
-        moduleList.add( new ModuleView("TI #6", "Practical", "20%",
-                "Mon 20.11.2022", "08:30-10:00","D15/01.07."));
-        moduleList.add( new ModuleView("GDV #4", "Practical", "20%",
-                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
-        moduleList.add( new ModuleView("PG2 #4", "Practical", "20%",
-                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
-        moduleList.add( new ModuleView("DB #5", "Practical", "20%",
-                "Mon 20.11.2022", "08:30-10:00","D15/01.07."));
-        moduleList.add( new ModuleView("TI #7", "Practical", "20%",
-                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
-        moduleList.add( new ModuleView("MPS #5", "Practical", "20%",
-                "Mon 20.11.2022", "10:15-11:45","D15/01.07."));
-                */
         return returnList;
+
+    }
+
+    private String getDayOfWeek(String date1) {
+        String dateString = date1;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+        String dayOfWeek = dateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        return dayOfWeek;
+    }
+
+    @Nullable
+    private String getDateInFormat (String date1, String dayOfWeek) {
+        try {
+            // Parse the input date string
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date datelocal = inputFormat.parse(date1.substring(0, 10));
+            // Format the date using the output format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd.MM.yyyy");
+            String outputString = outputFormat.format(datelocal);
+            
+            if (outputString != null) return dayOfWeek.substring(0, 3) + " " + outputString;
+        }
+        catch (ParseException e) {
+            System.out.println("Error parsing date: " + e.getMessage());
+        }
+        return null;
     }
     /*
                 todo.setName(name);
@@ -215,7 +228,6 @@ public class SyncDbService {
     }
 
      */
-
     /*
     // ================ Execute Single INSERT statements ===================
 
@@ -239,6 +251,28 @@ public class SyncDbService {
     }
 
      */
+         /*
+        ArrayList<TodoView> moduleList = new ArrayList<>();
+
+        moduleList.add( new TodoView("HCI #4", "Practical", "20%",
+                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
+
+        moduleList.add( new TodoView("BS #5", "Practical", "20%",
+                "Mon 20.11.2022", "10:15-11:45","D15/01.07."));
+        moduleList.add( new TodoView("TI #6", "Practical", "20%",
+                "Mon 20.11.2022", "08:30-10:00","D15/01.07."));
+        moduleList.add( new TodoView("GDV #4", "Practical", "20%",
+                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
+        moduleList.add( new TodoView("PG2 #4", "Practical", "20%",
+                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
+        moduleList.add( new TodoView("DB #5", "Practical", "20%",
+                "Mon 20.11.2022", "08:30-10:00","D15/01.07."));
+        moduleList.add( new TodoView("TI #7", "Practical", "20%",
+                "Mon 20.11.2022", "14:15-15:45","D15/01.07."));
+        moduleList.add( new TodoView("MPS #5", "Practical", "20%",
+                "Mon 20.11.2022", "10:15-11:45","D15/01.07."));
+        return moduleList;
+                */
 
 
 

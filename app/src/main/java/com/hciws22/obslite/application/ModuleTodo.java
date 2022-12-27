@@ -1,6 +1,6 @@
 package com.hciws22.obslite.application;
 
-public class Todo {
+public class ModuleTodo {
 
 
     private String name;//name + prakID
