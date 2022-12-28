@@ -57,10 +57,4 @@ public class Appointment {
         this.location = location;
     }
 
-
-    public boolean isInitialized() {
-        return Optional.ofNullable(getStartAt()).isPresent() &&
-                Optional.ofNullable(getEndAt()).isPresent() &&
-                !getLocation().isEmpty();
-    }
 }

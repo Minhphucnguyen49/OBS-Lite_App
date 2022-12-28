@@ -35,7 +35,6 @@ public class FileService {
                 obsItem = new OBSItem();
             };
         }
-        System.out.println("Out");
     }
 
     // this function will be executed outside the synchronize block (Asynchronously).
