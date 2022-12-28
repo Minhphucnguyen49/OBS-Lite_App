@@ -160,7 +160,9 @@ public class SyncDbService {
         }else{
             System.out.println("Error by loading data!!!!!!!!!!!!!");
         }
-
+        //close both cursor and the db
+        cursor.close();
+        db.close();
         return returnList;
 
     }
