@@ -22,8 +22,6 @@ public class FileService {
     private final Set<ModuleEntity> moduleEntities = new HashSet<>();
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
 
-
-
     public void convertToModule(@NotNull List<String> filteredList){
 
         obsList.clear();

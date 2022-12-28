@@ -30,6 +30,7 @@ public class SyncDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID","percentage", "note"};
+    private static final String[] TO_DO = {"Ü", "P", "LN"};
 
     /*
     private static final String TABLE_EXTRA_INFO = "ExtraInfo";
@@ -74,7 +75,6 @@ public class SyncDbService {
 
     public void insertAppointments(Map<String,List<AppointmentEntity>> appointments) {
 
-
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -93,7 +93,7 @@ public class SyncDbService {
 
             }
             db.setTransactionSuccessful();
-        }finally {
+        } finally {
             db.endTransaction();
             db.close();
         }
@@ -125,8 +125,12 @@ public class SyncDbService {
     public ArrayList<Todo> getToDo(){
 
         ArrayList<Todo> returnList = new ArrayList<>();
-        String queryString = "SELECT * FROM " + TABLE_APPOINTMENT;
-
+        String queryString = "SELECT * FROM " + TABLE_APPOINTMENT
+                            + " WHERE type = " + "'Ü'"
+                            + " OR type = " + "'P'"
+                            + " OR type = " + "'LN'"
+                            + " OR type = " + "'E'"
+                            + " OR type = " + "'EX'"+ ";";
         SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -165,7 +169,6 @@ public class SyncDbService {
         return returnList;
 
     }
-
     public ArrayList<Today> getToDay() {
         ArrayList<Today> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TABLE_APPOINTMENT;
@@ -213,7 +216,6 @@ public class SyncDbService {
         String dayOfWeek = dateTime.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
         return dayOfWeek;
     }
-
     @Nullable
     private String getDateInFormat (String date1, String dayOfWeek) {
         try {
@@ -231,7 +233,6 @@ public class SyncDbService {
         }
         return null;
     }
-
 
 
     /* ================ Execute multiple insert statements once ===============

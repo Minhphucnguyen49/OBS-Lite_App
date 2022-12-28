@@ -77,7 +77,6 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
             module = itemView.findViewById(R.id.module_today);
             moduleInfor = itemView.findViewById(R.id.module_infor_today);
             date = itemView.findViewById(R.id.date_TODAY);
-
         }
     }
 }
