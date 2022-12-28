@@ -3,7 +3,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public class Module {
+public class OBSItem {
 
     @NotNull
     private String id;
@@ -11,7 +11,7 @@ public class Module {
     private String semester;
     private Appointment appointment;
 
-    public Module() {
+    public OBSItem() {
         appointment = new Appointment();
 
     }
@@ -48,4 +48,5 @@ public class Module {
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
     }
+
 }

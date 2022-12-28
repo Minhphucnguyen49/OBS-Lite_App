@@ -16,6 +16,7 @@ public class Appointment {
     }
 
     public String getType() {
+
         return Optional.ofNullable(type).orElse("");
     }
 
@@ -24,7 +25,6 @@ public class Appointment {
     }
 
     public String getNr() {
-
         return Optional.ofNullable(nr).orElse("");
     }
 
@@ -41,6 +41,7 @@ public class Appointment {
     }
 
     public LocalDateTime getEndAt() {
+
         return endAt;
     }
 
@@ -54,5 +55,12 @@ public class Appointment {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+
+    public boolean isInitialized() {
+        return Optional.ofNullable(getStartAt()).isPresent() &&
+                Optional.ofNullable(getEndAt()).isPresent() &&
+                !getLocation().isEmpty();
     }
 }

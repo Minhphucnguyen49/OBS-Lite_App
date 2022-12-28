@@ -1,7 +1,6 @@
 package com.hciws22.obslite.entities;
 
 import com.hciws22.obslite.application.Appointment;
-import com.hciws22.obslite.application.Module;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Todo {
 
-    private List<Module> module;
+    private List<OBSItem> module;
     private Integer percentage;
     private String text = "";
 
