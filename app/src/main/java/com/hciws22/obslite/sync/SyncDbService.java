@@ -185,26 +185,14 @@ public class SyncDbService {
             SimpleDateFormat outputFormat = new SimpleDateFormat("dd.MM.yyyy");
             String outputString = outputFormat.format(datelocal);
             
-            if (outputString != null) return dayOfWeek.substring(0, 3) + " " + outputString;
+            return dayOfWeek.substring(0, 3) + " " + outputString;
         }
         catch (ParseException e) {
             System.out.println("Error parsing date: " + e.getMessage());
         }
         return null;
     }
-    /*
-                todo.setName(name);
-                date1.substring(date1.indexOf("T"));
-                date2.substring(date2.indexOf("T"));
-                todo.setTime(date1 + "-" + date2);
-                todo.setDate(dayOfWeek.substring(0,3));
-                todo.setLocation(location);
-                todo.setType(type);
-                todo.setNr(nr);
-                todo.setPercentage("");
-                todo.setNote(" ");
 
-                 */
     /* ================ Execute multiple insert statements once ===============
     public void insertExtraInfo(Set<ExtraInfoEntity> extraInfoEntities){
 
