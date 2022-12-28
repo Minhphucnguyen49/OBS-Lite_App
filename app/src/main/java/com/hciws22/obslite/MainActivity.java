@@ -20,13 +20,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         syncController.init(findViewById(R.id.send));
-        move(findViewById(R.id.move));
+        moveToDo(findViewById(R.id.move));
+        moveToday(findViewById(R.id.move_today));
     }
-    public void move(View moveBtn) {
+
+    public void moveToDo(View moveBtn) {
         moveBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TodoActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void moveToday(View moveBtn) {
+        moveBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TodayActivity.class);
                 startActivity(intent);
             }
         });

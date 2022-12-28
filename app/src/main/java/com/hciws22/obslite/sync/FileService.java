@@ -59,7 +59,6 @@ public class FileService {
                                     ,obsItem.getAppointment().getType())
                             ));
         }
-        //System.out.println("hello");
     }
 
     public Set<ModuleEntity> getModules(){

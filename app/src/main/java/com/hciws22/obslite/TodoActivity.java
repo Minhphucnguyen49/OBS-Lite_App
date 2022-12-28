@@ -1,3 +1,4 @@
+
 package com.hciws22.obslite;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
+import com.hciws22.obslite.todo.ModuleRecViewAdapter;
 
 
 public class TodoActivity extends AppCompatActivity {
@@ -30,3 +32,4 @@ public class TodoActivity extends AppCompatActivity {
 
     }
 }
+

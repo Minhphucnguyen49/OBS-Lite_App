@@ -1,4 +1,4 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.todo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.slider.Slider.OnChangeListener;
+import com.hciws22.obslite.R;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //list_item_module is connected with todo.xml HERE
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_module, parent, false);
         return new ViewHolder(view);
     }

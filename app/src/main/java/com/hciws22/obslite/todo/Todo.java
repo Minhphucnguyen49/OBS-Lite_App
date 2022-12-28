@@ -1,4 +1,4 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.todo;
 
 public class Todo {
     private String name;//name + prakID

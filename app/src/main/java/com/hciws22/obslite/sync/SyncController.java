@@ -1,10 +1,11 @@
 package com.hciws22.obslite.sync;
 
-import android.content.Intent;
 import android.view.View;
 
+import com.hciws22.obslite.today.Today;
+import com.hciws22.obslite.todo.Todo;
+import android.content.Intent;
 import com.hciws22.obslite.MainActivity;
-import com.hciws22.obslite.Todo;
 import com.hciws22.obslite.TodoActivity;
 import com.hciws22.obslite.db.SqLiteHelper;
 import java.io.IOException;
@@ -35,6 +36,9 @@ public class SyncController {
 
     public ArrayList<Todo> getToDo(){
         return syncDbService.getToDo();
+    }
+    public ArrayList<Today> getToDay(){
+        return syncDbService.getToDay();
     }
 
     public void fetchDataFromOBS()  {
