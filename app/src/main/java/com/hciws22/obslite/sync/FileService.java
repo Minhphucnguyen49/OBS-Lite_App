@@ -22,7 +22,7 @@ public class FileService {
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
 
 
-    // this function will be executed inside a synchronize Block
+    // this function will be executed inside a synchronize Block (synchronously)
     public void convertToModule(@NotNull List<String> filteredList){
 
         obsList.clear();
@@ -38,7 +38,7 @@ public class FileService {
         System.out.println("Out");
     }
 
-    // this function will be generate outside the synchronize block
+    // this function will be executed outside the synchronize block (Asynchronously).
     // generate entity representation
     // convert OBS List with multiple OBS Items into a small Map<ModuleID, List<Appointment>
     void generateEntityRepresentation(){
@@ -53,15 +53,13 @@ public class FileService {
             obsList.stream()
                     .filter(obsItem2 -> obsItem2.getId().equals(obsItem.getId()))
                     .forEach(obsItem2 -> appointments
-                            .get(obsItem2.getId())
-                            .add(AppointmentEntity.fromAppointment(
+                            .get(obsItem.getId())
+                            .add(AppointmentEntity.build(
                                     obsItem2.getAppointment()
                                     ,obsItem2.getId()
                                     ,obsItem2.getAppointment().getType())
                             ));
         }
-
-        System.out.println("out");
     }
 
     public Set<ModuleEntity> getModules(){

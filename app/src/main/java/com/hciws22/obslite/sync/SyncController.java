@@ -11,7 +11,6 @@ public class SyncController {
     ResponseService responseService;
     FileService fileService;
     SyncDbService syncDbService;
-    Boolean isAvailable = true;
 
     public SyncController(SqLiteHelper sqLiteHelper) {
         responseService = new ResponseService();
@@ -39,20 +38,15 @@ public class SyncController {
     }
     public void manualSynchronize(View e){
 
-        // prevent multiple clicks
-        if(isAvailable) {
-            isAvailable = false;
-            fetchDataFromOBS();
+        fetchDataFromOBS();
 
-            synchronized (responseService.getFilteredList()) {
-                fileService.convertToModule(responseService.getFilteredList());
-                isAvailable = true;
-            }
-
-            fileService.generateEntityRepresentation();
-            syncDbService.insertModule(fileService.getModules());
-            syncDbService.insertAppointments(fileService.getAllAppointments());
+        synchronized (responseService.getFilteredList()) {
+            fileService.convertToModule(responseService.getFilteredList());
         }
+
+        fileService.generateEntityRepresentation();
+        syncDbService.insertModule(fileService.getModules());
+        syncDbService.insertAppointments(fileService.getAllAppointments());
 
     }
 
