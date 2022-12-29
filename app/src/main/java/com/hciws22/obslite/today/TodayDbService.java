@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TodayDbService {
@@ -24,16 +26,27 @@ public class TodayDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    public ArrayList<Today> getToDay() {
+    public List<Today> getToDay() {
         ArrayList<Today> returnList = new ArrayList<>();
         String queryString = "SELECT * FROM " + TABLE_APPOINTMENT;
 
         SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
-        if (cursor.moveToFirst()){
-            //loop through the cursor and create new appointment object. Put them into the returnList
-            do{
+        if (!cursor.moveToFirst()) {
+            return Collections.emptyList();
+        }
+
+        for (cursor.moveToFirst(); !cursor.isLast(); cursor.moveToNext()){
+            Today today = new Today(
+                    cursor.getString(6),
+                    cursor.getString(4),
+                    LocalDateTime.parse(cursor.getString(1)),
+                    LocalDateTime.parse(cursor.getString(2)),
+                    cursor.getString(3));
+        }
+        //loop through the cursor and create new appointment object. Put them into the returnList
+        do{
                 String startAt = cursor.getString(1);
                 String endAt = cursor.getString(2);
 
@@ -51,14 +64,10 @@ public class TodayDbService {
                 startAt = startAt.substring(index+1);
                 endAt = endAt.substring(index+1);
                 String time = startAt + "-" + endAt;
-
                 Today today = new Today(name, type, date,time, location );
                 returnList.add(today);
+        } while(cursor.moveToNext());
 
-            } while(cursor.moveToNext());
-        }else{
-            System.out.println("Error by loading data!!!!!!!!!!!!!");
-        }
         //close both cursor and the db
         cursor.close();
         db.close();

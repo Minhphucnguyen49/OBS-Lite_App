@@ -1,5 +1,7 @@
 package com.hciws22.obslite.today;
 
+import java.time.LocalDateTime;
+
 public class Today {
     private String date;// on top of TODAY Screen
     private String name;//name
@@ -13,6 +15,12 @@ public class Today {
         this.date = date;
         this.time = time;
         this.location = location;
+    }
+
+    public Today(String name, String type, LocalDateTime startAt, LocalDateTime endAt, String location) {
+        this.name = name;
+        this.moduleType = type,
+        this.date = startAt.
     }
 
     public String getName() {
