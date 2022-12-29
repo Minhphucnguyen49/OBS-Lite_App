@@ -29,7 +29,7 @@ public class SyncDbService {
     private static final String[] COLUMNS_FOR_MODULE = {"id", "name", "semester"};
 
     private static final String TABLE_APPOINTMENT = "Appointment";
-    private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID","percentage", "note"};
+    private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
 
     public SqLiteHelper sqLiteHelper;
 

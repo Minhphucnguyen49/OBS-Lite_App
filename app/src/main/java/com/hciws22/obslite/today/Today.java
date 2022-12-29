@@ -9,18 +9,12 @@ public class Today {
     private String time;
     private String location;
 
-    public Today(String name, String moduleType, String date, String time, String location) {
+    public Today(String name, String moduleType, String location, String date, String time) {
         this.name = name;
         this.moduleType = moduleType;
         this.date = date;
         this.time = time;
         this.location = location;
-    }
-
-    public Today(String name, String type, LocalDateTime startAt, LocalDateTime endAt, String location) {
-        this.name = name;
-        this.moduleType = type,
-        this.date = startAt.
     }
 
     public String getName() {

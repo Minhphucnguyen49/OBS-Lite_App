@@ -5,9 +5,9 @@ import com.hciws22.obslite.todo.Todo;
 import com.hciws22.obslite.todo.TodoDbService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TodayController {
-
 
     private final TodayDbService todayDbService;
 
@@ -15,8 +15,7 @@ public class TodayController {
         this.todayDbService = new TodayDbService(sqLiteHelper);
     }
 
-
-    public ArrayList<Today> getToDay(){
-        return todayDbService.getToDay();
+    public List<Today> getToDay(){
+        return todayDbService.selectToDayAppointments();
     }
 }
