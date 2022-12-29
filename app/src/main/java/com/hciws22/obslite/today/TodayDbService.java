@@ -16,7 +16,7 @@ public class TodayDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
-    public SqLiteHelper sqLiteHelper;
+    private final SqLiteHelper sqLiteHelper;
 
     public TodayDbService(SqLiteHelper sqLiteHelper) {
         this.sqLiteHelper = sqLiteHelper;
@@ -35,7 +35,10 @@ public class TodayDbService {
                 COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now() + "%';";
     }
 
-    // only for development purpose (in vacation we don't have today courses)
+    @Deprecated(since=
+            "Only for development purpose " +
+            "(in vacation we don't have today objects). " +
+            "delete function if not needed anymore")
     private String selectPattern(){
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
@@ -70,6 +73,8 @@ public class TodayDbService {
         }
         return todayList;
     }
+
+
     private String getName(String name){
         return name.substring(0,name.lastIndexOf(' '));
     }
@@ -94,6 +99,7 @@ public class TodayDbService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         return LocalDateTime.parse(dateToString, formatter);
     }
+
 
 
 }

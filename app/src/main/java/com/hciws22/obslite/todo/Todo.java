@@ -2,7 +2,6 @@ package com.hciws22.obslite.todo;
 
 public class Todo {
     private String name;//name + prakID
-    private String moduleType;
 
     private String percentage;
 
@@ -14,9 +13,8 @@ public class Todo {
 
     private boolean isExpanded;
 
-    public Todo(String name, String moduleType, String percentage, String date, String time, String location) {
+    public Todo(String name, String percentage, String date, String time, String location) {
         this.name = name;
-        this.moduleType = moduleType;
         this.percentage = percentage;
         this.date = date;
         this.time = time;
