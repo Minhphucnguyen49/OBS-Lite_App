@@ -1,6 +1,6 @@
 package com.hciws22.obslite.entities;
 
-import com.hciws22.obslite.application.Appointment;
+import com.hciws22.obslite.sync.Appointment;
 
 import org.jetbrains.annotations.NotNull;
 

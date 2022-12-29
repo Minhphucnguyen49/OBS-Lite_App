@@ -1,6 +1,5 @@
 package com.hciws22.obslite.sync;
 
-import com.hciws22.obslite.application.OBSItem;
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;

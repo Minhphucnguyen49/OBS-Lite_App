@@ -1,6 +1,6 @@
 package com.hciws22.obslite.enums;
 
-import com.hciws22.obslite.application.OBSItem;
+import com.hciws22.obslite.sync.OBSItem;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

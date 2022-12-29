@@ -1,4 +1,5 @@
-package com.hciws22.obslite.application;
+package com.hciws22.obslite.sync;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;

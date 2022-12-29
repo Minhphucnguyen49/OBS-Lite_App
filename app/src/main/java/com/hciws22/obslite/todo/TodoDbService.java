@@ -16,15 +16,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class DbTodo {
+public class TodoDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     public SqLiteHelper sqLiteHelper;
+    private static final String[] TO_DO = {"Ü", "P", "LN"};
 
-    public DbTodo(SqLiteHelper sqLiteHelper) {
+    /*
+    private static final String TABLE_EXTRA_INFO = "ExtraInfo";
+    private static final String[] COLUMNS_FOR_EXTRA_INFO = { "nr", "moduleID", "percentage", "note"};
+
+     */
+    public TodoDbService(SqLiteHelper sqLiteHelper) {
         this.sqLiteHelper = sqLiteHelper;
     }
+    /*
+    private String insertExtraInfoTemplate(){
+        return "insert or replace into " +
+                TABLE_EXTRA_INFO +" ("+
+                COLUMNS_FOR_EXTRA_INFO[0] + ", "+ COLUMNS_FOR_EXTRA_INFO[1]  +", "+
+                COLUMNS_FOR_EXTRA_INFO[2] + ", "+ COLUMNS_FOR_EXTRA_INFO[3]  +" ) values ";
+    }
 
+
+ */
     public ArrayList<Todo> getToDo(){
 
         ArrayList<Todo> returnList = new ArrayList<>();

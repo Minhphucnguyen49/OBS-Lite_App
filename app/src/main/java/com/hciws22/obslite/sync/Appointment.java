@@ -1,4 +1,4 @@
-package com.hciws22.obslite.application;
+package com.hciws22.obslite.sync;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

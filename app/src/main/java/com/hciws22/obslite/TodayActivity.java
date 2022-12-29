@@ -10,12 +10,13 @@ import android.os.Bundle;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
+import com.hciws22.obslite.today.TodayController;
 
 public class TodayActivity extends AppCompatActivity {
 
     private RecyclerView modulesRecView;
     private LectureRecViewAdapter adapter;
-    SyncController syncController = new SyncController(new SqLiteHelper(TodayActivity.this));
+    TodayController todayController = new TodayController(new SqLiteHelper(TodayActivity.this));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class TodayActivity extends AppCompatActivity {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setModules(syncController.getToDay());
+        adapter.setModules(todayController.getToDay());
     }
 }
 

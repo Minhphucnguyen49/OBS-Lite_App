@@ -1,6 +1,6 @@
 package com.hciws22.obslite.entities;
 
-import com.hciws22.obslite.application.OBSItem;
+import com.hciws22.obslite.sync.OBSItem;
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
