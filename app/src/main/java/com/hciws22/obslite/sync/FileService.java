@@ -57,7 +57,8 @@ public class FileService {
                                     obsItem2.getAppointment()
                                     ,obsItem2.getId()
                                     ,obsItem2.getAppointment().getType())
-                            ));
+                            )
+                    );
         }
     }
 
