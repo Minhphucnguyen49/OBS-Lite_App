@@ -4,26 +4,32 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.TransitionManager;
-import com.google.android.material.slider.Slider;
-import com.google.android.material.slider.Slider.OnChangeListener;
+
 import com.hciws22.obslite.R;
-import com.hciws22.obslite.todo.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAdapter.ViewHolder> {
 
+    public List<Today> getModules() {
+        return modules;
+    }
+
     private List<Today> modules = new ArrayList<>();
     private Context contextToShowImage;
+
+    public TextView getDateToday() {
+        return dateToday;
+    }
+
+    private TextView dateToday;
+
 
     public LectureRecViewAdapter(Context contextToShowImage) {
         this.contextToShowImage = contextToShowImage;
@@ -39,19 +45,12 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         /**
-         * date on TOP
-         */
-        String date = modules.get(position).getDate();
-        holder.date.setText(date);
-
-        /**
          * Module information displayed on CardViews
          */
         String time = modules.get(position).getTime() + " " ;
         String name = "\n" + modules.get(position).getModuleType() +": "+ modules.get(position).getName();
         String location = "\n" + modules.get(position).getLocation();
         holder.moduleInfor.setText(time + name + location);
-
     }
 
     @Override
@@ -69,15 +68,13 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private CardView module;//name of CardView Material
-        private TextView date;
+        private CardView moduleToday;//name of CardView Material
         private TextView moduleInfor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            module = itemView.findViewById(R.id.module_today);
-            moduleInfor = itemView.findViewById(R.id.module_infor_today);
-            date = itemView.findViewById(R.id.date_TODAY);
+            this.moduleToday = itemView.findViewById(R.id.module_today);
+            this.moduleInfor = itemView.findViewById(R.id.module_infor_today);
         }
     }
 }

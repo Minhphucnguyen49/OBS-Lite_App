@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.sync.SyncController;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
 import com.hciws22.obslite.today.TodayController;
 
