@@ -66,7 +66,7 @@ public class TodayDbService {
                         getName(cursor.getString(5)),
                         cursor.getString(3),
                         cursor.getString(2),
-                        getToday(cursor.getString(0)),
+                        getDate(cursor.getString(0)),
                         getTimePeriod(cursor.getString(0), cursor.getString(1)));
                 todayList.add(today);
             }
@@ -87,7 +87,7 @@ public class TodayDbService {
 
     }
 
-    private String getToday(String dateToString) {
+    private String getDate(String dateToString) {
         LocalDateTime localDateTime = parseFormat(dateToString);
 
         return localDateTime
