@@ -1,7 +1,6 @@
 package com.hciws22.obslite.entities;
 
-import com.hciws22.obslite.application.Appointment;
-import com.hciws22.obslite.application.Module;
+import com.hciws22.obslite.sync.Appointment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,7 +77,7 @@ public class AppointmentEntity {
     }
 
 
-    public static AppointmentEntity fromAppointment(Appointment a, String u_id, String type){
+    public static AppointmentEntity build(Appointment a, String u_id, String type){
         AppointmentEntity appointmentEntity = new AppointmentEntity();
         appointmentEntity.setModuleID(u_id);
         appointmentEntity.setLocation(a.getLocation());

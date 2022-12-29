@@ -1,4 +1,4 @@
-package com.hciws22.obslite.application;
+package com.hciws22.obslite.sync;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -16,6 +16,7 @@ public class Appointment {
     }
 
     public String getType() {
+
         return Optional.ofNullable(type).orElse("");
     }
 
@@ -24,7 +25,6 @@ public class Appointment {
     }
 
     public String getNr() {
-
         return Optional.ofNullable(nr).orElse("");
     }
 
@@ -41,6 +41,7 @@ public class Appointment {
     }
 
     public LocalDateTime getEndAt() {
+
         return endAt;
     }
 
@@ -55,4 +56,5 @@ public class Appointment {
     public void setLocation(String location) {
         this.location = location;
     }
+
 }

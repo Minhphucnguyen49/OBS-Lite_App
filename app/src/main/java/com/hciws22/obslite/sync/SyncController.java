@@ -1,24 +1,16 @@
 package com.hciws22.obslite.sync;
 
 import android.view.View;
-
-import com.hciws22.obslite.today.Today;
-import com.hciws22.obslite.todo.Todo;
-import android.content.Intent;
-import com.hciws22.obslite.MainActivity;
-import com.hciws22.obslite.TodoActivity;
 import com.hciws22.obslite.db.SqLiteHelper;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 
 public class SyncController {
 
     ResponseService responseService;
     FileService fileService;
     SyncDbService syncDbService;
-    Boolean isAvailable = true;
 
     public SyncController(SqLiteHelper sqLiteHelper) {
         responseService = new ResponseService();
@@ -33,12 +25,6 @@ public class SyncController {
 
     }
 
-    public ArrayList<Todo> getToDo(){
-        return syncDbService.getToDo();
-    }
-    public ArrayList<Today> getToDay(){
-        return syncDbService.getToDay();
-    }
 
     public void fetchDataFromOBS()  {
 
@@ -51,20 +37,15 @@ public class SyncController {
     }
     public void manualSynchronize(View e){
 
-        // prevent multiple clicks
-        if(isAvailable) {
-            isAvailable = false;
-            fetchDataFromOBS();
+        fetchDataFromOBS();
 
-            synchronized (responseService.getFilteredList()) {
-                fileService.convertToModule(responseService.getFilteredList());
-                isAvailable = true;
-            }
-
-            fileService.generateEntityRepresentation();
-            syncDbService.insertModule(fileService.getModules());
-            syncDbService.insertAppointments(fileService.getAllAppointments());
+        synchronized (responseService.getFilteredList()) {
+            fileService.convertToModule(responseService.getFilteredList());
         }
+
+        fileService.generateEntityRepresentation();
+        syncDbService.insertModule(fileService.getModules());
+        syncDbService.insertAppointments(fileService.getAllAppointments());
 
     }
 

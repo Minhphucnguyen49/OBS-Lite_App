@@ -1,6 +1,5 @@
 package com.hciws22.obslite.sync;
 
-import com.hciws22.obslite.application.Module;
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;
@@ -17,45 +16,48 @@ import org.jetbrains.annotations.NotNull;
 
 public class FileService {
 
-    final List<Module> obsList = new ArrayList<>();
-
+    private final List<OBSItem> obsList = new ArrayList<>();
     private final Set<ModuleEntity> moduleEntities = new HashSet<>();
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
 
+
+    // this function will be executed inside a synchronize Block (synchronously)
     public void convertToModule(@NotNull List<String> filteredList){
 
         obsList.clear();
-        // generate application representation
-        Module module = new Module();
+        // generate application representations
+        OBSItem obsItem = new OBSItem();
         for (String variable: filteredList) {
-            ContentTypeFactory.cut(variable, module);
 
-            if(variable.contains(ContentTypeFactory.CATEGORIES.name())){
-                obsList.add(module);
-                module = new Module();
-            }
+            if(ContentTypeFactory.cut(variable, obsItem)){
+                obsList.add(obsItem);
+                obsItem = new OBSItem();
+            };
         }
-
     }
+
+    // this function will be executed outside the synchronize block (Asynchronously).
     // generate entity representation
+    // convert OBS List with multiple OBS Items into a small Map<ModuleID, List<Appointment>
     void generateEntityRepresentation(){
 
         moduleEntities.clear();
         appointments.clear();
 
-        for (Module m : obsList) {
-            moduleEntities.add(ModuleEntity.fromModule(m));
-            appointments.put(m.getId(), new ArrayList<>());
+        for (OBSItem obsItem : obsList) {
+            moduleEntities.add(ModuleEntity.build(obsItem));
+            appointments.put(obsItem.getId(), new ArrayList<>());
 
             obsList.stream()
-                    .filter(obsItem -> obsItem.getId().equals(m.getId()))
-                    .forEach(obsItem -> appointments
-                            .get(m.getId())
-                            .add(AppointmentEntity.fromAppointment(
-                                    obsItem.getAppointment()
-                                    ,obsItem.getId()
-                                    ,obsItem.getAppointment().getType())
-                            ));
+                    .filter(obsItem2 -> obsItem2.getId().equals(obsItem.getId()))
+                    .forEach(obsItem2 -> appointments
+                            .get(obsItem.getId())
+                            .add(AppointmentEntity.build(
+                                    obsItem2.getAppointment()
+                                    ,obsItem2.getId()
+                                    ,obsItem2.getAppointment().getType())
+                            )
+                    );
         }
     }
 
@@ -69,7 +71,6 @@ public class FileService {
 
     public List<AppointmentEntity> getAppointmentsOfOneModule(String moduleID){
         if(!appointments.containsKey(moduleID)) return Collections.emptyList();
-
         return appointments.get(moduleID);
     }
 }

@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
-
 import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.text.ParseException;
@@ -16,12 +15,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class DbToday {
+public class TodayDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     public SqLiteHelper sqLiteHelper;
 
-    public DbToday(SqLiteHelper sqLiteHelper) {
+    public TodayDbService(SqLiteHelper sqLiteHelper) {
         this.sqLiteHelper = sqLiteHelper;
     }
 

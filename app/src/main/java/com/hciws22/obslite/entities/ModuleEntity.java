@@ -1,6 +1,6 @@
 package com.hciws22.obslite.entities;
 
-import com.hciws22.obslite.application.Module;
+import com.hciws22.obslite.sync.OBSItem;
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
@@ -57,11 +57,11 @@ public class ModuleEntity {
         return Objects.hash(id);
     }
 
-    public static ModuleEntity fromModule(Module m){
+    public static ModuleEntity build(OBSItem obs){
         ModuleEntity moduleEntity = new ModuleEntity();
-        moduleEntity.setId(m.getId());
-        moduleEntity.setSemester(m.getSemester());
-        moduleEntity.setName(m.getName());
+        moduleEntity.setId(obs.getId());
+        moduleEntity.setSemester(obs.getSemester());
+        moduleEntity.setName(obs.getName());
         return moduleEntity;
     }
 }

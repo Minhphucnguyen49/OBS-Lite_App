@@ -10,13 +10,14 @@ import android.os.Bundle;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
 import com.hciws22.obslite.todo.ModuleRecViewAdapter;
+import com.hciws22.obslite.todo.TodoController;
 
 
 public class TodoActivity extends AppCompatActivity {
 
     private RecyclerView modulesRecView;
     private ModuleRecViewAdapter adapter;
-    SyncController syncController = new SyncController(new SqLiteHelper(TodoActivity.this));
+    TodoController todoController = new TodoController(new SqLiteHelper(TodoActivity.this));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class TodoActivity extends AppCompatActivity {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setModules(syncController.getToDo());
+        adapter.setModules(todoController.getToDo());
 
     }
 }
