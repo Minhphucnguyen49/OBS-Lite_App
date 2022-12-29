@@ -17,10 +17,11 @@ import com.google.android.material.slider.Slider.OnChangeListener;
 import com.hciws22.obslite.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdapter.ViewHolder> {
 
-    private ArrayList<Todo> modules = new ArrayList<>();
+    private List<Todo> modules = new ArrayList<>();
     private Context contextToShowImage;
     public static Integer sliderValue;
 
@@ -99,7 +100,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         return modules.size();
     }
 
-    public void setModules(ArrayList<Todo> modules) {
+    public void setModules(List<Todo> modules) {
         this.modules = modules;
         /*
         indicates that the data set has changed

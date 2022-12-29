@@ -1,13 +1,12 @@
 package com.hciws22.obslite.today;
 
-import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.todo.Todo;
-import com.hciws22.obslite.todo.TodoDbService;
+import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.hciws22.obslite.db.SqLiteHelper;
+
+import java.util.List;
 
 public class TodayController {
-
 
     private final TodayDbService todayDbService;
 
@@ -15,8 +14,17 @@ public class TodayController {
         this.todayDbService = new TodayDbService(sqLiteHelper);
     }
 
-
-    public ArrayList<Today> getToDay(){
-        return todayDbService.getToDay();
+    public List<Today> getToDay(){
+        return todayDbService.selectToDayAppointments();
     }
+
+/*
+    public void getDate(TextView v, List<Today>modules){
+        String date = modules.get(position).getDate();
+        v.setText(date);//Eventttttttt nur für Jamil
+    }
+
+ */
+
+
 }

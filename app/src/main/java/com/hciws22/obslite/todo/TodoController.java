@@ -3,6 +3,7 @@ package com.hciws22.obslite.todo;
 import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TodoController {
 
@@ -12,7 +13,7 @@ public class TodoController {
         this.todoDbService = new TodoDbService(sqLiteHelper);
     }
 
-    public ArrayList<Todo> getToDo(){
-        return todoDbService.getToDo();
+    public List<Todo> getToDo(){
+        return todoDbService.selectTodoAppointments();
     }
 }
