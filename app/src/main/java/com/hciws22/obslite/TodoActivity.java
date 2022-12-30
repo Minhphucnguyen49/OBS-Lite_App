@@ -11,6 +11,7 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
 import com.hciws22.obslite.todo.ModuleRecViewAdapter;
 import com.hciws22.obslite.todo.TodoController;
+import com.hciws22.obslite.utils.SpacingItemDecorator;
 
 
 public class TodoActivity extends AppCompatActivity {
@@ -24,12 +25,16 @@ public class TodoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todo);
 
+
         adapter = new ModuleRecViewAdapter(this);
         modulesRecView = findViewById(R.id.modulesRecView);
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.setModules(todoController.getToDo());
+        //Add space between cards
+        SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
+        modulesRecView.addItemDecoration(itemDecorator);
 
     }
 }
