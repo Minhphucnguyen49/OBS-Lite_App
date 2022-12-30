@@ -29,4 +29,10 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
+    <style name="button">
+        <item name="android:textSize">35sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+
 </resources>

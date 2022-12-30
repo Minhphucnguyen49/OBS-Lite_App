@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/dark"
-        tools:context=".TodayActivity">
+        tools:context=".WeekActivity">
 
         <TextView
-            android:id="@+id/title_TODAY"
+            android:id="@+id/title_WEEK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/TODAY"
+            android:text="@string/WEEK"
             android:textAppearance="@style/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,22 +29,16 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="T"
             android:background="@drawable/rounded_button"
-            android:text="W"
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/title_TODAY"
+            app:layout_constraintStart_toEndOf="@+id/title_WEEK"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/date_today"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Today place holder"
-        android:textAppearance="@style/date" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
