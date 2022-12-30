@@ -24,6 +24,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/modulesRecView"
+            android:paddingBottom="30dp"
+            android:paddingTop="30dp"
             android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
