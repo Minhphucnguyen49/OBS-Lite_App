@@ -26,9 +26,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/button_to_today"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:text="T"
             android:background="@drawable/rounded_button"
             android:textAppearance="@style/button"
@@ -38,7 +38,6 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
@@ -46,9 +45,8 @@
         android:background="@color/dark"
         tools:context=".TodayActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/modulesRecView_today"
-            android:clipToPadding="false"
+        <ListView
+            android:id="@+id/modulesListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
