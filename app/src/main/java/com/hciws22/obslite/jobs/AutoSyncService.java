@@ -67,16 +67,4 @@ public class AutoSyncService extends JobService {
         return true;
 
     }
-
-
-    public int setUpScheduler(Context c){
-        ComponentName componentName = new ComponentName(c, AutoSyncService.class);
-        JobInfo jobInfo = new JobInfo.Builder(123, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(1000 * 60 * 60)
-                .build();
-        JobScheduler scheduler = (JobScheduler) c.getSystemService(JOB_SCHEDULER_SERVICE);
-        return scheduler.schedule(jobInfo);
-    }
 }
