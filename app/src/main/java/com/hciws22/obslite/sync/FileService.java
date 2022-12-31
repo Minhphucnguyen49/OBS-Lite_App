@@ -45,7 +45,7 @@ public class FileService {
 
     // this function will be executed outside the synchronize block (Asynchronously).
     // generate entity representation
-    // convert OBS List with multiple OBS Items into a small Map<ModuleID, List<Appointment>
+    // convert OBS List with multiple OBS Items into a small Map<ModuleID, List<Appointment>>
     void generateEntityRepresentation(){
 
         moduleEntities.clear();
@@ -59,10 +59,11 @@ public class FileService {
                     .filter(obsItem2 -> obsItem2.getId().equals(obsItem.getId()))
                     .forEach(obsItem2 -> appointments
                             .get(obsItem.getId())
-                            .add(AppointmentEntity.build(
-                                    obsItem2.getAppointment()
-                                    ,obsItem2.getId()
-                                    ,obsItem2.getAppointment().getType())
+                            .add(
+                                    AppointmentEntity.build(
+                                            obsItem2.getAppointment()
+                                            , obsItem2.getId()
+                                            , obsItem2.getAppointment().getType())
                             )
                     );
         }

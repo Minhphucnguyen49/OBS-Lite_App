@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
@@ -33,7 +35,14 @@ public class TodayActivity extends AppCompatActivity {
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
         modulesRecView.addItemDecoration(itemDecorator);
+        moveWeek(findViewById(R.id.button_to_week));
 
+    }
+    public void moveWeek(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(TodayActivity.this, WeekActivity.class);
+            startActivity(intent);
+        });
     }
 }
 
