@@ -2,6 +2,7 @@ package com.hciws22.obslite.sync;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -59,6 +60,11 @@ public class SyncDbService {
 
     public void insertAppointments(Map<String,List<AppointmentEntity>> appointments) {
 
+        if(appointments.isEmpty()){
+            Log.d(Thread.currentThread().getName() + ": DbService: ", "no records!");
+            return;
+        }
+
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -85,6 +91,8 @@ public class SyncDbService {
     // ================ Execute multiple insert statements once ===============
     public void insertModule(Set<ModuleEntity> moduleEntities){
 
+        if(moduleEntities.isEmpty()) return;
+
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
@@ -96,7 +104,7 @@ public class SyncDbService {
             // remove last "," and add ";"
             sql = sql.substring(0, sql.length() - 1) + ";";
 
-            // System.out.println("LOG: " + sql);
+            System.out.println("LOG: " + sql);
             db.execSQL(sql);
             db.setTransactionSuccessful();
 

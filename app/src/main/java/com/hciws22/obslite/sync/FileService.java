@@ -1,5 +1,7 @@
 package com.hciws22.obslite.sync;
 
+import android.util.Log;
+
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;
@@ -25,6 +27,7 @@ public class FileService {
     public void convertToModule(@NotNull List<String> filteredList){
 
         obsList.clear();
+        Log.d("File Service", String.valueOf(filteredList.size()));
         // generate application representations
         OBSItem obsItem = new OBSItem();
         for (String variable: filteredList) {
@@ -34,6 +37,10 @@ public class FileService {
                 obsItem = new OBSItem();
             };
         }
+
+        Log.d("File Service OBSList", String.valueOf(obsList.size()));
+
+
     }
 
     // this function will be executed outside the synchronize block (Asynchronously).

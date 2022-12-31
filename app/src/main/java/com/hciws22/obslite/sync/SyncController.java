@@ -1,10 +1,12 @@
 package com.hciws22.obslite.sync;
 
+import android.util.Log;
 import android.view.View;
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.jobs.ResponseService;
+
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.util.List;
 
 public class SyncController {
 
@@ -21,44 +23,44 @@ public class SyncController {
     public void init(View sendbtn) {
 
         fetchDataFromOBS();
-        sendbtn.setOnClickListener(this::manualSynchronize);
+        sendbtn.setOnClickListener(view -> manualSynchronize());
 
     }
 
 
-    public void fetchDataFromOBS()  {
+    public boolean fetchDataFromOBS()  {
 
         try {
             responseService.getDataFromObs();
         } catch (IOException e) {
-            String errorMessage = "No internet connection";
+            e.printStackTrace();
+            Log.d("fetch", "fetch data has failed");
+            return true;
         }
+        Log.d("fetch", "fetch data has succeeded");
+        return false;
 
     }
-    public void manualSynchronize(View e){
+    public boolean manualSynchronize(){
 
-        fetchDataFromOBS();
-
-        synchronized (responseService.getFilteredList()) {
-            fileService.convertToModule(responseService.getFilteredList());
+        if(fetchDataFromOBS()){
+            return true;
         }
+
+        List<String> filteredList = responseService.getFilteredList();
+        Log.d(Thread.currentThread().getName() + ": synccontroller", "Converting");
+        synchronized (filteredList) {
+            Log.d(Thread.currentThread().getName() + ": synccontroller", "start Converting");
+            fileService.convertToModule(filteredList);
+        }
+
+        Log.d(Thread.currentThread().getName() + ": FilteredList Size: ", String.valueOf(responseService.getFilteredList().size()));
 
         fileService.generateEntityRepresentation();
         syncDbService.insertModule(fileService.getModules());
         syncDbService.insertAppointments(fileService.getAllAppointments());
 
-    }
+        return false;
 
-    // This function should be called automatically every midnight
-    // it will just call the manualSynchronize function
-    public void synchronize(View e){
-
-        int current = LocalTime
-                .now(ZoneId.of("Europe/Berlin"))
-                .getHour();
-
-        if(current == LocalTime.MIDNIGHT.getHour()){
-            manualSynchronize(e);
-        }
     }
 }
