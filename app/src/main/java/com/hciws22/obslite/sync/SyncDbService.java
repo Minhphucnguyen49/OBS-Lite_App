@@ -1,26 +1,14 @@
 package com.hciws22.obslite.sync;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.hciws22.obslite.today.Today;
-import com.hciws22.obslite.todo.Todo;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
+import com.hciws22.obslite.entities.ExtraInfoEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +19,8 @@ public class SyncDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
+    private static final String TABLE_EXTRA_INFO = "Extra";
+    private static final String[] COLUMNS_FOR_EXTRA_INFO = { "nr", "id", "percentage", "note"};
 
     public SqLiteHelper sqLiteHelper;
 
@@ -52,6 +42,13 @@ public class SyncDbService {
                 COLUMNS_FOR_APPOINTMENT[0] + ", "+ COLUMNS_FOR_APPOINTMENT[1]  +", "+
                 COLUMNS_FOR_APPOINTMENT[2] + ", "+ COLUMNS_FOR_APPOINTMENT[3] + ", "+
                 COLUMNS_FOR_APPOINTMENT[4] +", "+ COLUMNS_FOR_APPOINTMENT[5] +" ) values ";
+    }
+
+    private String insertExtraInfoTemplate() {
+        return "insert or replace into " +
+                TABLE_EXTRA_INFO + " (" +
+                COLUMNS_FOR_EXTRA_INFO[0] + ", " + COLUMNS_FOR_EXTRA_INFO[1] + ", " +
+                COLUMNS_FOR_EXTRA_INFO[2] + ", " + COLUMNS_FOR_EXTRA_INFO[3] + " ) values ";
     }
 
     private String selectTemplate(String tableName){
@@ -113,5 +110,8 @@ public class SyncDbService {
             db.close();
         }
     }
+
+
+
 
 }

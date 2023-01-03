@@ -56,11 +56,12 @@ public class SyncController {
 
         Log.d(Thread.currentThread().getName() + ": FilteredList Size: ", String.valueOf(responseService.getFilteredList().size()));
 
-        fileService.generateEntityRepresentation();
+        fileService.convertOBStoEntityRepresentation();
         syncDbService.insertModule(fileService.getModules());
         syncDbService.insertAppointments(fileService.getAllAppointments());
 
         return false;
 
     }
+
 }

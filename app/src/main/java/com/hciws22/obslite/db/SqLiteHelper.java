@@ -54,8 +54,15 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                "ON UPDATE CASCADE ON DELETE CASCADE" +
                ");";
 
+        String createExtraInfoStatement = "" +
+                "CREATE TABLE Extra (" +
+                "name TEXT PRIMARY KEY, " +
+                "percentage TEXT, " +
+                "note TEXT );";
+
        db.execSQL(createModuleStatement);
        db.execSQL(createAppointmentStatement);
+       db.execSQL(createExtraInfoStatement);
     }
 
     // this is called if the database version changes. It will automatically update the schema

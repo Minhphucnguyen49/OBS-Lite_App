@@ -1,7 +1,10 @@
 package com.hciws22.obslite.entities;
 
+import com.hciws22.obslite.sync.Appointment;
+import com.hciws22.obslite.sync.OBSItem;
+
 import org.jetbrains.annotations.NotNull;
-/*
+
 public class ExtraInfoEntity {
     @NotNull
     private String nr;
@@ -46,6 +49,21 @@ public class ExtraInfoEntity {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public static ExtraInfoEntity build(OBSItem obsItem){
+        ExtraInfoEntity extraInfoEntity = new ExtraInfoEntity();
+        extraInfoEntity.setNr(obsItem.getAppointment().getNr());
+        extraInfoEntity.setModuleID(obsItem.getId());
+        return extraInfoEntity;
+    }
+
+    public static ExtraInfoEntity build1(String id, String nr){
+        ExtraInfoEntity extraInfoEntity = new ExtraInfoEntity();
+        extraInfoEntity.setNr(nr);
+        extraInfoEntity.setModuleID(id);
+        return extraInfoEntity;
+    }
+
 }
 
- */
+

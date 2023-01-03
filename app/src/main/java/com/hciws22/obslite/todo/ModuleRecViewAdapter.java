@@ -23,7 +23,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
     private List<Todo> modules = new ArrayList<>();
     private Context contextToShowImage;
-    public static Integer sliderValue;
 
     public ModuleRecViewAdapter(Context contextToShowImage) {
         this.contextToShowImage = contextToShowImage;
@@ -47,39 +46,33 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         final String upRow = modules.get(position).getName() + " " ;
         final String downRow = "\n" + modules.get(position).getDate();
-        holder.moduleInfor.setText(upRow + downRow);
+        final String sliderValue = modules.get(position).getPercentage() + " %";
+        holder.moduleInfor.setText(upRow + sliderValue + downRow);
 
-        holder.module.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Navigate to MODULE Screen
-            }
+        holder.module.setOnClickListener(v -> {
+            //TODO: Navigate to MODULE Screen
         });
 
         /**
          * ExpandedLayout
          */
-        holder.slider.addOnChangeListener(new OnChangeListener() {
-            @Override
-            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
-                value = slider.getValue();
-                Integer valueInt = Math.round(value);
-                sliderValue = valueInt;
-                /**
-                 * Problem when calling holder here:
-                 * Only when the Slider is being moved, the percentage will be displayed.
-                 * But when the card collapse, all data will be back to normal
-                 *
-                 * If I just setText here and not in CollapsedLayout,
-                 * no data will be shown except for the
-                 * default value PG2 P1 100% assigned in xml
-                 */
-                holder.moduleInfor.setText(upRow + Integer.toString(valueInt) + " %" + downRow);
-            }
 
+        holder.slider.addOnChangeListener((slider, value, fromUser) -> {
+            //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
+            value = slider.getValue();
+            Integer valueInt = Math.round(value);
+
+           /**
+             * Problem when calling holder here:
+             * Only when the Slider is being moved, the percentage will be displayed.
+             * But when the card collapse, all data will be back to normal
+             *
+             * If I just setText here and not in CollapsedLayout,
+             * no data will be shown except for the
+             * default value PG2 P1 100% assigned in xml
+             */
+            holder.moduleInfor.setText(upRow + Integer.toString(valueInt) + " %" + downRow);
         });
-
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
         if (modules.get(position).isExpanded()){
@@ -127,22 +120,23 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             time_location = itemView.findViewById(R.id.time_location);
             slider = itemView.findViewById(R.id.slider);
 
-            downArrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Todo module = modules.get(getAdapterPosition());
-                    module.setExpanded( !module.isExpanded() );//toggle
-                    notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
-                }
+            downArrow.setOnClickListener(view -> {
+                Todo module = modules.get(getAdapterPosition());
+                module.setExpanded( !module.isExpanded() );//toggle
+                notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
             });
 
-            upArrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Todo module = modules.get(getAdapterPosition());
-                    module.setExpanded( !module.isExpanded() );//toggle
-                    notifyItemChanged(getAdapterPosition());
-                }
+            upArrow.setOnClickListener(view -> {
+                Todo module = modules.get(getAdapterPosition());
+                module.setExpanded( !module.isExpanded() );//toggle
+                notifyItemChanged(getAdapterPosition());
+            });
+
+            slider.addOnChangeListener((slider, value, fromUser) -> {
+                Todo module = modules.get(getAdapterPosition());
+                Integer valueInt = Math.round(value);
+                module.setPercentage(Integer.toString(valueInt));
+                //TODO: save the value in database
             });
         }
     }
