@@ -3,6 +3,7 @@ package com.hciws22.obslite.sync;
 import android.util.Log;
 
 import com.hciws22.obslite.entities.AppointmentEntity;
+import com.hciws22.obslite.entities.ExtraInfoEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class FileService {
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
 
 
+
     // this function will be executed inside a synchronize Block (synchronously)
     public void convertToModule(@NotNull List<String> filteredList){
 
@@ -35,18 +37,17 @@ public class FileService {
             if(ContentTypeFactory.cut(variable, obsItem)){
                 obsList.add(obsItem);
                 obsItem = new OBSItem();
-            };
+            }
         }
 
         Log.d("File Service OBSList", String.valueOf(obsList.size()));
-
 
     }
 
     // this function will be executed outside the synchronize block (Asynchronously).
     // generate entity representation
     // convert OBS List with multiple OBS Items into a small Map<ModuleID, List<Appointment>>
-    void generateEntityRepresentation(){
+    void convertOBStoEntityRepresentation(){
 
         moduleEntities.clear();
         appointments.clear();
@@ -59,15 +60,15 @@ public class FileService {
                     .filter(obsItem2 -> obsItem2.getId().equals(obsItem.getId()))
                     .forEach(obsItem2 -> appointments
                             .get(obsItem.getId())
-                            .add(
-                                    AppointmentEntity.build(
-                                            obsItem2.getAppointment()
-                                            , obsItem2.getId()
-                                            , obsItem2.getAppointment().getType())
+                            .add(AppointmentEntity.build(
+                                    obsItem2.getAppointment()
+                                    , obsItem2.getId()
+                                    , obsItem2.getAppointment().getType())
                             )
                     );
         }
     }
+
 
     public Set<ModuleEntity> getModules(){
         return moduleEntities;

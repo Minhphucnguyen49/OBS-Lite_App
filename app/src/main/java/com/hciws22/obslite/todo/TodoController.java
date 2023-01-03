@@ -16,4 +16,8 @@ public class TodoController {
     public List<Todo> getToDo(){
         return todoDbService.selectTodoAppointments();
     }
+
+    public void getExtraInfo(){
+        todoDbService.insertExtraInfo(getToDo());
+    }
 }
