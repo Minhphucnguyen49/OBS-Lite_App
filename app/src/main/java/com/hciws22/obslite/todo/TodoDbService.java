@@ -40,6 +40,10 @@ public class TodoDbService {
                 COLUMNS_FOR_EXTRA_INFO[2] + " ) values ";
     }
 
+    private String updateExtraInfoTemplate() {
+        return "UPDATE " +
+                TABLE_EXTRA_INFO + " SET ";
+    }
     private final Set<ExtraInfoEntity> extraInfo = new HashSet<>();
 
     public TodoDbService(SqLiteHelper sqLiteHelper) {
@@ -135,6 +139,24 @@ public class TodoDbService {
             db.close();
         }
     }
+    public void updateExtra(Todo module){
+        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        try {
+            db.beginTransaction();
+            String sql = " UPDATE " + TABLE_EXTRA_INFO
+                    + " SET " + COLUMNS_FOR_EXTRA_INFO[1] + " = '" + module.getPercentage()
+                    + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + module.getPercentage() + "';";
+
+            db.execSQL(sql);
+            db.setTransactionSuccessful();
+
+        }finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+
     /*
     void generateInternalEntityRepresentation(){
         extraInfo.clear();
