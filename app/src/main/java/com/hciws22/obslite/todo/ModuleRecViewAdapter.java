@@ -23,6 +23,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
     private List<Todo> modules = new ArrayList<>();
     private Context contextToShowImage;
+    TodoDbService todoDbService;
 
     public ModuleRecViewAdapter(Context contextToShowImage) {
         this.contextToShowImage = contextToShowImage;
@@ -136,7 +137,18 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
                 Todo module = modules.get(getAdapterPosition());
                 Integer valueInt = Math.round(value);
                 module.setPercentage(Integer.toString(valueInt));
-                //TODO: save the value in database
+                //TODO: save the value in a List so that insertExtra can function
+                /**
+                 * Problem: todoDbService is still not initialised
+                 * --> java.lang.NullPointerException: Attempt to invoke virtual method
+                 * 'void com.hciws22.obslite.todo.TodoDbService.updateExtra(com.hciws22.obslite.todo.Todo)' on a null object reference
+                 */
+
+                todoDbService.updateExtra(module);
+                //notifyItemChanged(getAdapterPosition());
+                //todoDbService.selectTodoAppointments().get(getAdapterPosition()).setPercentage(Integer.toString(valueInt));
+                //todoDbService.insertExtraInfo(todoDbService.selectTodoAppointments());
+
             });
         }
     }
