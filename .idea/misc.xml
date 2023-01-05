@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/drawable/ic_baseline_checklist_24.xml" value="0.1935" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/activity_all_modules.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/activity_main_button_nav.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/bottom_navigation_bar.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/fragment_blank.xml" value="0.17135416666666667" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/fragment_settings.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/fragment_today.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/fragment_todo.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/settings.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/today.xml" value="0.3625" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/todo.xml" value="0.275" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/layout/week.xml" value="0.275" />
+        <entry key="..\:/Users/Simon/OneDrive/Sem 7/4_HCI - Meyer/lab/Implementierung/obs-lite_development/app/src/main/res/menu/bottom_nav_menu.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
