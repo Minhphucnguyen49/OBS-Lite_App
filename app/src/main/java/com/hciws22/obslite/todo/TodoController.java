@@ -8,6 +8,7 @@ import java.util.List;
 public class TodoController {
 
     private final TodoDbService todoDbService;
+    //public static List<Todo> sliderSavedList = todoDbService.selectTodoAppointments();
 
     public TodoController(SqLiteHelper sqLiteHelper) {
         this.todoDbService = new TodoDbService(sqLiteHelper);
