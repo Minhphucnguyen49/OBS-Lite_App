@@ -24,7 +24,6 @@
     </TextView>
 
     <TextView
-        android:id="@+id/notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/time_location"

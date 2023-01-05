@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/dark"
+        tools:context=".TodayActivity">
+
+        <TextView
+            android:id="@+id/title_SETTING"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textAppearance="@style/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/send"
+        app:layout_constraintStart_toStartOf="@+id/title_SETTING"
+        app:layout_constraintEnd_toEndOf="@+id/title_SETTING"
+        app:layout_constraintTop_toTopOf="@+id/title_SETTING"
+        android:text="send"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/title_SETTING"
+        app:layout_constraintEnd_toEndOf="@+id/title_SETTING"
+        app:layout_constraintTop_toBottomOf="@+id/send"/>
+
+
+</LinearLayout>

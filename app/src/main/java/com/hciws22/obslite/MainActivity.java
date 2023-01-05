@@ -2,6 +2,9 @@
 package com.hciws22.obslite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -11,18 +14,46 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        moveToDo(findViewById(R.id.move));
-        moveToday(findViewById(R.id.move_today));
-        moveSettings(findViewById(R.id.move_settings));
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new TodayFragment()); //default screen when app starts
+
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.today);
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch(item.getItemId()){
+                case R.id.todo:
+                    replaceFragment(new TodoFragment());
+                    break;
+                case R.id.today:
+                    replaceFragment(new TodayFragment());
+                    break;
+                case R.id.settings:
+                    replaceFragment(new SettingsFragment());
+                    break;
+            }
+
+            return true;
+        });
+
+
+        //moveToDo(findViewById(R.id.move));
+        //moveToday(findViewById(R.id.move_today));
+        //moveSettings(findViewById(R.id.move_settings));
 
         setUpScheduler();
     }
@@ -59,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
         return scheduler.schedule(jobInfo);
     }
 
+    private void replaceFragment(Fragment fragment){
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        //fragmentTransaction.addToBackStack(null); //for back arrow to go back one fragment, but navbar indicator isnt changing
+        fragmentTransaction.commit();
+
+    }
 
 }
 
