@@ -144,7 +144,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
                  * 'void com.hciws22.obslite.todo.TodoDbService.updateExtra(com.hciws22.obslite.todo.Todo)' on a null object reference
                  */
 
-                todoDbService.updateExtra(module);
+                // todoDbService.updateExtra(module);
                 //notifyItemChanged(getAdapterPosition());
                 //todoDbService.selectTodoAppointments().get(getAdapterPosition()).setPercentage(Integer.toString(valueInt));
                 //todoDbService.insertExtraInfo(todoDbService.selectTodoAppointments());
