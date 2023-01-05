@@ -31,7 +31,10 @@ public class TodoActivity extends AppCompatActivity {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
+        todoController.getExtraInfo();
         adapter.setModules(todoController.getToDo());
+        todoController.getExtraInfo();
+
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
         modulesRecView.addItemDecoration(itemDecorator);

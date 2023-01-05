@@ -39,29 +39,52 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/date_today"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Today place holder"
         android:textAppearance="@style/date" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="500dp"
         android:background="@color/dark"
         tools:context=".TodayActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/modulesRecView_today"
-            android:clipToPadding="false"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
 
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/dark"
+        tools:context=".TodayActivity">
+
+        <TextView
+            android:id="@+id/NavBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="navigation bar"
+            android:textAppearance="@style/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
 

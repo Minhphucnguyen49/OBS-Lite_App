@@ -40,27 +40,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
+        android:layout_height="530dp"
         android:background="@color/dark"
-        tools:context=".TodayActivity">
+        tools:context=".WeekActivity">
 
         <ListView
+            android:id="@+id/modulesListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"/>
+            android:layout_marginRight="50dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="navigation bar"
-        android:textAppearance="@style/title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include_todo_list" />
+        android:background="@color/dark"
+        tools:context=".WeekActivity">
+
+        <TextView
+            android:id="@+id/NavBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="navigation bar"
+            android:textAppearance="@style/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>
 
