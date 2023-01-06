@@ -30,6 +30,16 @@ public class WeekActivity extends AppCompatActivity {
         modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
         modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
         modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
+        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
 
         ArrayAdapter<Week> modulesAdapter = new ArrayAdapter<>(
                 this,
