@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
@@ -43,6 +44,9 @@ public class TodayFragment extends Fragment {
         modulesRecView = (RecyclerView) view.findViewById(R.id.modulesRecView_today);
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        TextView dateToday = view.findViewById(R.id.date_today);
+        todayController.showDate(dateToday);
 
         adapter.setModules(todayController.getToDay());
 
