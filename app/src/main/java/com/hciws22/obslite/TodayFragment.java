@@ -1,6 +1,5 @@
 package com.hciws22.obslite;
 
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,17 +22,12 @@ public class TodayFragment extends Fragment {
     private RecyclerView modulesRecView;
     private LectureRecViewAdapter adapter;
     TodayController todayController;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext=context;
         todayController = new TodayController(new SqLiteHelper(mContext));
-    }
-
-
-
-    public TodayFragment() {
-        // Required empty public constructor
     }
 
 
@@ -55,8 +49,6 @@ public class TodayFragment extends Fragment {
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
         modulesRecView.addItemDecoration(itemDecorator);
-
-
         // Inflate the layout for this fragment
         return view;
     }
