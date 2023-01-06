@@ -10,15 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:background="@color/dark"
-        tools:context=".TodayActivity">
+        tools:context=".WeekActivity">
 
         <TextView
-            android:id="@+id/title_TODAY"
+            android:id="@+id/title_WEEK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/TODAY"
+            android:text="@string/WEEK"
             android:textAppearance="@style/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,43 +26,37 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button_to_week"
+            android:id="@+id/button_to_today"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:text="T"
             android:background="@drawable/rounded_button"
-            android:text="W"
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/title_TODAY"
+            app:layout_constraintStart_toEndOf="@+id/title_WEEK"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/date_today"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Today place holder"
-        android:textAppearance="@style/date" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
         android:background="@color/dark"
-        tools:context=".TodayActivity">
+        tools:context=".WeekActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/modulesRecView_today"
-            android:layout_width="300dp"
+        <ListView
+            android:id="@+id/modulesListView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
 </LinearLayout>

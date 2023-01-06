@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="55dp"
         android:background="@color/dark"
         tools:context=".TodayActivity">
 
@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/date_today"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="Today place holder"
         android:textAppearance="@style/date" />
@@ -63,6 +63,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </LinearLayout>

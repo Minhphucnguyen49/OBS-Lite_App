@@ -53,6 +53,7 @@ public class TodayDbService {
     public List<Today> selectToDayAppointments() {
         List<Today> todayList = new ArrayList<>();
         String queryString = selectPattern();
+        //TODO: String queryString = selectTodayPattern();
 
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection

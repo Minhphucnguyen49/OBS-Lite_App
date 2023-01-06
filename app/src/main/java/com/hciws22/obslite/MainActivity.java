@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.today);
 
+        /**
+         *  Auto Synchronisation
+         */
+
+        setUpScheduler();
+
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.todo:
@@ -50,34 +56,9 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-
-        //moveToDo(findViewById(R.id.move));
-        //moveToday(findViewById(R.id.move_today));
-        //moveSettings(findViewById(R.id.move_settings));
-
-        setUpScheduler();
     }
 
-    public void moveToDo(View moveBtn) {
-        moveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TodoActivity.class);
-            startActivity(intent);
-        });
-    }
 
-    public void moveToday(View moveBtn) {
-        moveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TodayActivity.class);
-            startActivity(intent);
-        });
-    }
-
-    public void moveSettings(View moveBtn) {
-        moveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        });
-    }
 
     public int setUpScheduler(){
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);
@@ -101,7 +82,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+/*
+    public void moveToDo(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TodoActivity.class);
+            startActivity(intent);
+        });
+    }
 
+    public void moveToday(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TodayActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    public void moveSettings(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+    }
+
+ */
 
 
 

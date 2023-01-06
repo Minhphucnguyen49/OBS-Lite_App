@@ -24,13 +24,6 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
     private List<Today> modules = new ArrayList<>();
     private Context contextToShowImage;
 
-    public TextView getDateToday() {
-        return dateToday;
-    }
-
-    private TextView dateToday;
-
-
     public LectureRecViewAdapter(Context contextToShowImage) {
         this.contextToShowImage = contextToShowImage;
     }
