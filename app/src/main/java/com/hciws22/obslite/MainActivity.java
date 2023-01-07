@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         /**
          *  Auto Synchronisation
          */
-
         setUpScheduler();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -52,10 +51,8 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new SettingsFragment());
                     break;
             }
-
             return true;
         });
-
     }
 
 
