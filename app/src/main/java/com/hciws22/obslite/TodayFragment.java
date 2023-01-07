@@ -1,5 +1,6 @@
 package com.hciws22.obslite;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -48,12 +50,21 @@ public class TodayFragment extends Fragment {
         TextView dateToday = view.findViewById(R.id.date_today);
         todayController.showDate(dateToday);
 
+        //Change to Week Screen
+        Button weekBtn = view.findViewById(R.id.button_to_week);
+        weekBtn.setOnClickListener(view1 -> {
+            Fragment weekFragment = new WeekFragment();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.activity_main, weekFragment).commit();
+        });
+
+
         adapter.setModules(todayController.getToDay());
 
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
         modulesRecView.addItemDecoration(itemDecorator);
-        // Inflate the layout for this fragment
+
         return view;
     }
 }
