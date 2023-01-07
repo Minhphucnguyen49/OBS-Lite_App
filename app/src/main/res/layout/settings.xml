@@ -30,6 +30,7 @@
 
     <Button
         android:id="@+id/send"
+        android:background="@drawable/rounded_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -47,5 +48,15 @@
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="456dp"
         android:text="toggle" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="167dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="550dp"
+        android:text="TextView" />
 
 </RelativeLayout>
