@@ -60,9 +60,16 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                 "percentage TEXT, " +
                 "note TEXT );";
 
+        String createSyncStatement = "" +
+                "CREATE TABLE Sync (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "obslink TEXT NOT NULL UNIQUE," +
+                "synctime TEXT NOT NULL);";
+
        db.execSQL(createModuleStatement);
        db.execSQL(createAppointmentStatement);
        db.execSQL(createExtraInfoStatement);
+       db.execSQL(createSyncStatement);
     }
 
     // this is called if the database version changes. It will automatically update the schema
