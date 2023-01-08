@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -29,7 +30,7 @@ public class SettingsFragment extends Fragment {
         super.onAttach(context);
         mContext = context;
         syncController = new SyncController(new SqLiteHelper(mContext));
-        settingcontroller = new SettingController(syncController, new SettingsModel());
+        settingcontroller = new SettingController(syncController, new SqLiteHelper(mContext), new SettingsModel());
     }
 
     @Override
@@ -41,8 +42,10 @@ public class SettingsFragment extends Fragment {
         Button sendButton = view.findViewById(R.id.send);
         Button toggleBtn = view.findViewById(R.id.button_toggle);
         TextView title = view.findViewById(R.id.title_SETTING);
+        EditText editText = view.findViewById(R.id.obs_link);
+        TextView syncTime = view.findViewById(R.id.sync_time);
 
-        settingcontroller.init(sendButton,title, toggleBtn, mContext);
+        settingcontroller.init(sendButton,title, toggleBtn, editText,syncTime, mContext);
         settingcontroller.applyChanges(title, sendButton, mContext);
         // Inflate the layout for this fragment
         return view;

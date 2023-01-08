@@ -58,7 +58,18 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="125dp"
         android:layout_marginBottom="550dp"
-        android:text="OBS Link" />
+        android:hint="insert OBS Link" />
+
+    <TextView
+        android:id="@+id/sync_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textAppearance="@style/button"
+        android:layout_marginEnd="237dp"
+        android:layout_marginBottom="524dp"
+        android:text="TextView" />
 
 
 </RelativeLayout>

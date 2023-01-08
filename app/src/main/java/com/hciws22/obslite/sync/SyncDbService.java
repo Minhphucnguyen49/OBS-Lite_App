@@ -1,13 +1,14 @@
 package com.hciws22.obslite.sync;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
-import com.hciws22.obslite.entities.ExtraInfoEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
-
+import com.hciws22.obslite.entities.SyncEntity;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,8 +20,9 @@ public class SyncDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
-    private static final String TABLE_EXTRA_INFO = "Extra";
-    private static final String[] COLUMNS_FOR_EXTRA_INFO = { "nr", "id", "percentage", "note"};
+
+    private static final String TABLE_SYNC = "Sync";
+    private static final String[] COLUMNS_FOR_SYNC = {"id", "obsLink", "syncTime"};
 
     public SqLiteHelper sqLiteHelper;
 
@@ -28,7 +30,7 @@ public class SyncDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    private String insertModulesTemplate(){
+    private String updateModulesTemplate(){
         return "insert or replace into " +
                 TABLE_MODULE +" ("+
                 COLUMNS_FOR_MODULE[0] + ", "+
@@ -36,7 +38,7 @@ public class SyncDbService {
                 COLUMNS_FOR_MODULE[2] + ") values ";
     }
 
-    private String insertAppointmentTemplate(){
+    private String updateAppointmentTemplate(){
         return "insert or replace into " +
                 TABLE_APPOINTMENT +" ("+
                 COLUMNS_FOR_APPOINTMENT[0] + ", "+ COLUMNS_FOR_APPOINTMENT[1]  +", "+
@@ -44,21 +46,59 @@ public class SyncDbService {
                 COLUMNS_FOR_APPOINTMENT[4] +", "+ COLUMNS_FOR_APPOINTMENT[5] +" ) values ";
     }
 
-    private String insertExtraInfoTemplate() {
-        return "insert or replace into " +
-                TABLE_EXTRA_INFO + " (" +
-                COLUMNS_FOR_EXTRA_INFO[0] + ", " + COLUMNS_FOR_EXTRA_INFO[1] + ", " +
-                COLUMNS_FOR_EXTRA_INFO[2] + ", " + COLUMNS_FOR_EXTRA_INFO[3] + " ) values ";
+    private String selectLastSyncRecordTemplate(){
+        return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1;";
     }
 
-    private String selectTemplate(String tableName){
-    return "select * from " + tableName + ";";
-}
+
+    private String updateSyncTableTemplate(){
+        return "insert or replace into " +
+                TABLE_SYNC +" ("+ COLUMNS_FOR_SYNC[1]  +", "+ COLUMNS_FOR_SYNC[2] + " ) values ";
+    }
+
+    public SyncEntity selectSyncData(){
+
+        String queryString = selectLastSyncRecordTemplate();
+        SyncEntity sync = new SyncEntity();
+        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null)) {
+
+            if(cursor.moveToFirst()) {
+
+
+                sync.setId(cursor.getInt(0));
+                sync.setObsLink(cursor.getString(1));
+                sync.setLocalDateTime(LocalDateTime.parse(cursor.getString(2)));
+
+            }
+
+        }
+
+        return sync;
+
+    }
+
+    public void insertOrUpdateTable(String obsLink, LocalDateTime localDateTime){
+        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            String sql = updateSyncTableTemplate() +
+                    "('" + obsLink + "','" + localDateTime.toString() + "') ";
+
+            System.out.println("Sync update link: " + sql);
+            db.execSQL(sql);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
 
     public void insertAppointments(Map<String,List<AppointmentEntity>> appointments) {
 
         if(appointments.isEmpty()){
-            Log.d(Thread.currentThread().getName() + ": DbService: ", "no records!");
+            Log.d(Thread.currentThread().getName() + ": DbService: ", "no appointments to update!");
             return;
         }
 
@@ -67,7 +107,7 @@ public class SyncDbService {
         try {
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
-                String sql = insertAppointmentTemplate();
+                String sql = updateAppointmentTemplate();
                 for (AppointmentEntity a : entry.getValue()) {
 
                     sql += "('" + a.getStartAt() + "','" + a.getEndAt() + "','" +
@@ -88,12 +128,15 @@ public class SyncDbService {
     // ================ Execute multiple insert statements once ===============
     public void insertModule(Set<ModuleEntity> moduleEntities){
 
-        if(moduleEntities.isEmpty()) return;
+        if(moduleEntities.isEmpty()){
+            Log.d(Thread.currentThread().getName() + ": DbService: ", " no modules to update!");
+            return;
+        }
 
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = insertModulesTemplate();
+            String sql = updateModulesTemplate();
 
             for (ModuleEntity m : moduleEntities) {
                 sql += "('" + m.getId() + "','" + m.getName() + "','" + m.getSemester() + "'),";
@@ -110,6 +153,8 @@ public class SyncDbService {
             db.close();
         }
     }
+
+
 
 
 
