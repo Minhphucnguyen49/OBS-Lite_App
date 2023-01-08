@@ -3,6 +3,7 @@ package com.hciws22.obslite.sync;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.jobs.ResponseService;
@@ -23,9 +24,15 @@ public class SyncController {
         syncDbService = new SyncDbService(sqLiteHelper);
     }
 
-    public void init(View sendbtn, EditText editText) {
+    public void init(View sendbtn, EditText editText, TextView syncTime) {
 
-        sendbtn.setOnClickListener(view -> manualSynchronize(editText.getText().toString()));
+        sendbtn.setOnClickListener(view -> {
+            manualSynchronize(editText.getText().toString());
+            String label = "Last sync: just now";
+            syncTime.setText(label);
+        }
+
+        );
     }
 
 
@@ -51,29 +58,30 @@ public class SyncController {
         String obsLink = syncDbService.selectSyncData().getObsLink();
 
         if(obsLink.isEmpty()){
+            Log.d("auto sync","No data for auto sync");
             return false;
         }
 
-        if(fetchDataFromOBS(obsLink)){
-            return true;
-        }
-
-        updateData();
-
-        return false;
+        return manualSynchronize(obsLink);
 
     }
-    public void manualSynchronize(String url){
+    public boolean manualSynchronize(String url){
 
-        responseService.checkUrl(url);
+        if(!responseService.checkUrl(url)){
+            Log.d("manual sync:", "not succeeded");
+            return false;
+        };
 
 
         if(fetchDataFromOBS(url)){
-            return;
+            Log.d("manual sync:", "fetch not succeeded");
+            return true;
+
         }
 
         syncDbService.insertOrUpdateTable(url, LocalDateTime.now());
         updateData();
+        return false;
 
     }
 

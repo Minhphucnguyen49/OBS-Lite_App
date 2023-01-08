@@ -33,8 +33,8 @@ public class SyncEntity {
         return Optional.ofNullable(id).orElseThrow(NoSuchFieldError::new);
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return Optional.ofNullable(localDateTime).orElseThrow(NullPointerException::new);
+    public Optional<LocalDateTime> getLocalDateTime() {
+        return Optional.ofNullable(localDateTime);
     }
 
     public String getObsLink() {

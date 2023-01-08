@@ -38,7 +38,7 @@ public class ResponseService implements Callback {
     }
 
     @Override
-    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+    public void onResponse(@NonNull Call call, @NonNull Response response){
         lock = true;
         var bufferedReader = new BufferedReader(new InputStreamReader(response.body().source().inputStream()));
 

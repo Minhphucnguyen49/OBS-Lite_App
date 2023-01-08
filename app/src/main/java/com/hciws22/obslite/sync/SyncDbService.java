@@ -47,7 +47,7 @@ public class SyncDbService {
     }
 
     private String selectLastSyncRecordTemplate(){
-        return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1";
+        return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1;";
     }
 
 

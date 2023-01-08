@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static String mode = "de";
 
     SyncController syncController = new SyncController(new SqLiteHelper(SettingsActivity.this));
-    SettingController settingcontroller = new SettingController(syncController, new SettingsModel());
+    SettingController settingcontroller = new SettingController(syncController, new SqLiteHelper(SettingsActivity.this), new SettingsModel());
     //SharedPreferences sharedPreferences = getSharedPreferences("Mode", SettingsActivity.MODE_PRIVATE);
 
     @Override
@@ -31,8 +31,10 @@ public class SettingsActivity extends AppCompatActivity {
         Button toggleBtn = findViewById(R.id.button_toggle);
         TextView title = findViewById(R.id.title_SETTING);
         EditText editText = findViewById(R.id.obs_link);
+        TextView syncTime = findViewById(R.id.sync_time);
 
-        settingcontroller.init(sendButton,title, toggleBtn, editText,this );
+
+        settingcontroller.init(sendButton,title, toggleBtn, editText, syncTime, this );
         settingcontroller.applyChanges(title, sendButton, this);
     }
 
