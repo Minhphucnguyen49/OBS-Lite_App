@@ -33,6 +33,11 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+    <style name="sync_button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:iconTint">#FFFFFF</item>
+    </style>
 
 
 </resources>
