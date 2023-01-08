@@ -3,6 +3,7 @@ package com.hciws22.obslite.setting;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hciws22.obslite.sync.SyncController;
@@ -40,7 +41,6 @@ public class SettingController {
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
         ( (Button)sendBtn ).setText( Translation.getTranslation( Translation.SEND_BTN, settingsModel.loadMode(context) ));
     }
-
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));
 
 }

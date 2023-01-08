@@ -22,7 +22,7 @@ public class SyncController {
 
     public void init(View sendbtn) {
 
-        fetchDataFromOBS();
+        //fetchDataFromOBS();
         sendbtn.setOnClickListener(view -> manualSynchronize());
 
     }
