@@ -67,6 +67,7 @@ public class SyncController {
     }
     public boolean manualSynchronize(String url){
 
+        //SEHR WICHTIG: IF CHECKURL FALSE -> RETURN FALSE
         if(!responseService.checkUrl(url)){
             Log.d("manual sync:", "not succeeded");
             return false;
