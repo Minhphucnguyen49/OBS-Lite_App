@@ -19,9 +19,9 @@ public class SettingController {
     }
 
 
-    public void init(View sendBtn, TextView title, Button toggle, Context context){
+    public void init(View sendBtn, TextView title, Button toggle, EditText editText, Context context){
 
-        syncController.init(sendBtn);
+        syncController.init(sendBtn, editText);
         toggle.setOnClickListener(view -> {
             toggleLanguage(context);
             applyChanges(title, sendBtn, context);

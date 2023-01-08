@@ -7,15 +7,25 @@ import java.util.Optional;
 
 public class SyncEntity {
 
-    private final Integer id;
+    private  Integer id;
 
-    private final String obsLink ;
+    private  String obsLink ;
 
-    private final LocalDateTime localDateTime;
+    private  LocalDateTime localDateTime;
 
-    public SyncEntity(Integer id, String obsLink, LocalDateTime localDateTime) {
+    public SyncEntity() {
+
+    }
+
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setObsLink(String obsLink) {
         this.obsLink = obsLink;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
     }
 
@@ -28,7 +38,7 @@ public class SyncEntity {
     }
 
     public String getObsLink() {
-        return Optional.ofNullable(obsLink).orElseThrow(NullPointerException::new);
+        return Optional.ofNullable(obsLink).orElse("");
     }
 
 }

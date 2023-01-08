@@ -50,7 +50,7 @@ public class SyncController {
 
         String obsLink = syncDbService.selectSyncData().getObsLink();
 
-        if(obsLink == null || obsLink.isEmpty()){
+        if(obsLink.isEmpty()){
             return false;
         }
 
@@ -63,19 +63,17 @@ public class SyncController {
         return false;
 
     }
-    public boolean manualSynchronize(String url){
+    public void manualSynchronize(String url){
 
         responseService.checkUrl(url);
 
 
         if(fetchDataFromOBS(url)){
-            return true;
+            return;
         }
 
         syncDbService.insertOrUpdateTable(url, LocalDateTime.now());
         updateData();
-
-        return false;
 
     }
 

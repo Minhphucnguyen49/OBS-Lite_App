@@ -6,11 +6,8 @@ import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
-import com.hciws22.obslite.entities.ExtraInfoEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.entities.SyncEntity;
-import com.hciws22.obslite.todo.Todo;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -62,16 +59,18 @@ public class SyncDbService {
     public SyncEntity selectSyncData(){
 
         String queryString = selectLastSyncRecordTemplate();
-        SyncEntity sync;
+        SyncEntity sync = new SyncEntity();
         try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery(queryString, null)) {
 
-            cursor.moveToFirst();
-            SyncEntity syncEntity = new SyncEntity(
-                        cursor.getInt(0),
-                        cursor.getString(1),
-                        LocalDateTime.parse(cursor.getString(2)));
-             sync = syncEntity;
+            if(cursor.moveToFirst()) {
+
+
+                sync.setId(cursor.getInt(0));
+                sync.setObsLink(cursor.getString(1));
+                sync.setLocalDateTime(LocalDateTime.parse(cursor.getString(2)));
+
+            }
 
         }
 

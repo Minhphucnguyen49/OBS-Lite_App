@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -29,8 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.send);
         Button toggleBtn = findViewById(R.id.button_toggle);
         TextView title = findViewById(R.id.title_SETTING);
+        EditText editText = findViewById(R.id.obs_link);
 
-        settingcontroller.init(sendButton,title, toggleBtn, this );
+        settingcontroller.init(sendButton,title, toggleBtn, editText,this );
         settingcontroller.applyChanges(title, sendButton, this);
     }
 
