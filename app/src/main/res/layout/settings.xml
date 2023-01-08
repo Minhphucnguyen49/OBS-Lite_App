@@ -30,13 +30,14 @@
 
     <Button
         android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="164dp"
-        android:layout_marginBottom="383dp"
-        android:text="send" />
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="554dp"
+        android:background="@drawable/ic_sync"
+        android:textAppearance="@style/sync_button" />
 
     <Button
         android:id="@+id/button_toggle"
@@ -47,5 +48,28 @@
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="456dp"
         android:text="toggle" />
+
+    <EditText
+        android:id="@+id/obs_link"
+        android:background="@color/white"
+        android:layout_width="167dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="550dp"
+        android:hint="insert OBS Link" />
+
+    <TextView
+        android:id="@+id/sync_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:textAppearance="@style/button"
+        android:layout_marginEnd="237dp"
+        android:layout_marginBottom="524dp"
+        android:text="TextView" />
+
 
 </RelativeLayout>
