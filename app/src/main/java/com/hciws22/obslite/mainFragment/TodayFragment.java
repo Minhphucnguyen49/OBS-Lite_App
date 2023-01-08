@@ -1,4 +1,4 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.mainFragment;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hciws22.obslite.R;
+import com.hciws22.obslite.WeekFragment;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
 import com.hciws22.obslite.today.TodayController;

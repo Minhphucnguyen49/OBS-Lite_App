@@ -9,14 +9,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
+import com.hciws22.obslite.mainFragment.SettingsFragment;
+import com.hciws22.obslite.mainFragment.TodayFragment;
+import com.hciws22.obslite.mainFragment.TodoFragment;
 
 
 public class MainActivity extends AppCompatActivity {

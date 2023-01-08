@@ -1,4 +1,4 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.mainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.todo.ModuleRecViewAdapter;
