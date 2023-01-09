@@ -40,11 +40,10 @@ public class WeekDbService {
                     COLUMNS_FOR_APPOINTMENT[3] + "," +
                     COLUMNS_FOR_APPOINTMENT[4] + "," +
                     COLUMNS_FOR_APPOINTMENT[5] +
-                    " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                    //TODO: How to get all days of week in SQLite while just having days T_T
-                    COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY))+ "%'" +
-                    " AND " +
-                    COLUMNS_FOR_APPOINTMENT[1] + " LIKE '" + LocalDate.now().with(nextOrSame(DayOfWeek.SUNDAY))+ "%';";
+                    " FROM " + TABLE_APPOINTMENT +
+                    " WHERE " + COLUMNS_FOR_APPOINTMENT[0] +
+                    " BETWEEN '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY))+ "'" +
+                    " AND '" + LocalDate.now().with(nextOrSame(DayOfWeek.SUNDAY))+ "';";
         }
 
         public List<Week> selectWeekAppointments() {
@@ -71,6 +70,29 @@ public class WeekDbService {
             return weekList;
         }
 
+    public ArrayList<Week> selectWeekAppointmentsArray() {
+        ArrayList<Week> weekList = new ArrayList<>();
+        String queryString = selectWeekPattern();
+
+        // close both cursor and the db.
+        // Try-with-resources will always close all kinds of connection
+        // after the Try-block has reached his end
+        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null)) {
+
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Week week = new Week(
+                        getName(cursor.getString(5)),
+                        cursor.getString(3),
+                        cursor.getString(2),
+                        getDate(cursor.getString(0)),
+                        getTimePeriod(cursor.getString(0), cursor.getString(1)));
+                weekList.add(week);
+            }
+        }
+        return weekList;
+    }
 
         private String getName(String name){
             return name.substring(0,name.lastIndexOf(' '));

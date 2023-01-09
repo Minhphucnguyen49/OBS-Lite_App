@@ -40,10 +40,12 @@ public class TodoDbService {
                 COLUMNS_FOR_EXTRA_INFO[2] + " ) values ";
     }
 
-    private String updateExtraInfoTemplate() {
-        return "UPDATE " +
-                TABLE_EXTRA_INFO + " SET ";
+    private String updateExtraInfoTemplate(String percentage, String name){
+        return " UPDATE " + TABLE_EXTRA_INFO
+                + " SET " + COLUMNS_FOR_EXTRA_INFO[1] + " = '" + percentage
+                + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + name + "';";
     }
+
     private final Set<ExtraInfoEntity> extraInfo = new HashSet<>();
 
     public TodoDbService(SqLiteHelper sqLiteHelper) {
@@ -63,8 +65,8 @@ public class TodoDbService {
                 " OR type = '" + TO_DO[1] +  "'" +
                 " OR type = '" + TO_DO[2] +  "'" +
                 " OR type = '" + TO_DO[3] +  "'" +
-                " OR type = '" + TO_DO[4] +  "';";
-
+                " OR type = '" + TO_DO[4] +  "'" +
+                " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
     public List<Todo> selectTodoAppointments() {
@@ -143,9 +145,7 @@ public class TodoDbService {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = " UPDATE " + TABLE_EXTRA_INFO
-                    + " SET " + COLUMNS_FOR_EXTRA_INFO[1] + " = '" + module.getPercentage()
-                    + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + module.getPercentage() + "';";
+            String sql = updateExtraInfoTemplate(module.getPercentage(), module.getName());
 
             db.execSQL(sql);
             db.setTransactionSuccessful();

@@ -2,6 +2,8 @@ package com.hciws22.obslite.today;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.time.LocalDate;
@@ -32,7 +34,7 @@ public class TodayDbService {
                 COLUMNS_FOR_APPOINTMENT[4] + "," +
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now() + "%';";
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now().plusDays(1) + "%';";
     }
 
     @Deprecated(since=
@@ -52,9 +54,9 @@ public class TodayDbService {
 
     public List<Today> selectToDayAppointments() {
         List<Today> todayList = new ArrayList<>();
-        String queryString = selectPattern();
         //TODO: String queryString = selectTodayPattern();
-
+        String queryString = selectTodayPattern();
+        Log.d("SQL TODAY: ", queryString);
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection
         // after the Try-block has reached his end

@@ -58,7 +58,6 @@ public class SettingController {
     }
     public void applyChanges (TextView title, View sendBtn, Context context){
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
-        ( (Button)sendBtn ).setText( Translation.getTranslation( Translation.SEND_BTN, settingsModel.loadMode(context) ));
     }
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));
 

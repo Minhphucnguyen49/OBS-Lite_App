@@ -12,5 +12,8 @@
     <color name = "colorActive">#FF6200EE</color>
     <color name = "colorInactive">#FFFFFFFF</color>
 
+    <color name = "colorLecture">#6CB5EB</color>
+    <color name = "colorLab">#9FF491</color>
+
 
 </resources>

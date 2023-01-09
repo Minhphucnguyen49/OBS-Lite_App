@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.mainFragment.TodayFragment;
 import com.hciws22.obslite.week.Week;
 import com.hciws22.obslite.week.WeekController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WeekFragment extends Fragment {
     private ListView modulesList;
@@ -39,11 +43,11 @@ public class WeekFragment extends Fragment {
 
         modulesList = view.findViewById(R.id.modulesListView);
 
-        ArrayAdapter<Week> modulesAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
                 mContext,
                 R.layout.list_item_week,
                 R.id.text_view,
-                weekController.getWeekList()
+                weekController.getWeekString(weekController.getWeekArrayList())
         );
 
         //Change to Week Screen
