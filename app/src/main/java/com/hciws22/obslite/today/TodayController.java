@@ -30,18 +30,6 @@ public class TodayController {
         dateToday.setText(getFormattedDate(dateToDay));
     }
 
-    private String getDate(String dateToString) {
-        LocalDateTime localDateTime = parseFormat(dateToString);
-
-        return localDateTime
-                .getDayOfWeek()
-                .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-",".");
-    }
-
-    private LocalDateTime parseFormat(String dateToString){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDateTime.parse(dateToString, formatter);
-    }
     private String getFormattedDate(String dateString) {
         // Parse the date string to create a LocalDate object
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

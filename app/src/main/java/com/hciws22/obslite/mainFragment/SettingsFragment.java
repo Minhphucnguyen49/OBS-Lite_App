@@ -1,4 +1,4 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.mainFragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.SettingController;
 import com.hciws22.obslite.setting.SettingsModel;

@@ -1,7 +1,7 @@
 package com.hciws22.obslite.setting;
 
 public enum Translation {
-    SEND_BTN("schicken", "send"),
+
     TITLE_SETTINGS("Einstellungen", "Settings"),
     DARK_MODE("dunkel", "dark"),
     LIGHT_MODE("hell", "light"),

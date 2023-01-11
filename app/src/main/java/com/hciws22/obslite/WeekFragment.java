@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +15,23 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.today.TodayController;
+import com.hciws22.obslite.mainFragment.TodayFragment;
 import com.hciws22.obslite.week.Week;
+import com.hciws22.obslite.week.WeekController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeekFragment extends Fragment {
     private ListView modulesList;
     private Context mContext;
+    WeekController weekController;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext=context;
+        weekController = new WeekController(new SqLiteHelper(mContext));
     }
 
     @Override
@@ -38,29 +43,11 @@ public class WeekFragment extends Fragment {
 
         modulesList = view.findViewById(R.id.modulesListView);
 
-        ArrayList<Week> modules = new ArrayList<>();
-
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-
-        ArrayAdapter<Week> modulesAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
                 mContext,
                 R.layout.list_item_week,
                 R.id.text_view,
-                modules
+                weekController.getWeekString(weekController.getWeekArrayList())
         );
 
         //Change to Week Screen

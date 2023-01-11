@@ -1,21 +1,27 @@
 package com.hciws22.obslite;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.mainFragment.TodayFragment;
 import com.hciws22.obslite.week.Week;
+import com.hciws22.obslite.week.WeekController;
 
 import java.util.ArrayList;
 
 public class WeekActivity extends AppCompatActivity {
 
     private ListView modulesList;
-
+    WeekController weekController = new WeekController(new SqLiteHelper(this));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,39 +29,34 @@ public class WeekActivity extends AppCompatActivity {
 
         modulesList = findViewById(R.id.modulesListView);
 
-        ArrayList<Week> modules = new ArrayList<>();
-
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-        modules.add(new Week("HCI",  "P", "C:12/04.01", "02.12.23", "12:30 - 15:00"));
-
-        ArrayAdapter<Week> modulesAdapter = new ArrayAdapter<>(
+        ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.list_item_week,
                 R.id.text_view,
-                modules
+                weekController.getWeekString(weekController.getWeekArrayList())
         );
+
+        //Change to Week Screen
+        Button weekBtn = findViewById(R.id.button_to_today);
+
+        weekBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(WeekActivity.this, MainActivity.class);
+            startActivity(intent);
+            this.overridePendingTransition(0, 0);
+            /*
+            Fragment todayFragment = new TodayFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.activity_main, todayFragment).commit();
+            finish();
+            this.overridePendingTransition(0, 0);
+            ft.setCustomAnimations(0,0);
+
+             */
+        });
+
         modulesList.setAdapter(modulesAdapter);
 
-        moveToday(findViewById(R.id.button_to_today));
     }
 
-    public void moveToday(View moveBtn) {
-        moveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(WeekActivity.this, TodayActivity.class);
-            startActivity(intent);
-        });
-    }
+
 }
