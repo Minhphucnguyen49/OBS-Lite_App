@@ -4,7 +4,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hciws22.obslite.R;
+import com.hciws22.obslite.TodayActivity;
+import com.hciws22.obslite.WeekActivity;
 import com.hciws22.obslite.WeekFragment;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
@@ -54,19 +58,21 @@ public class TodayFragment extends Fragment {
 
         //Change to Week Screen
         Button weekBtn = view.findViewById(R.id.button_to_week);
-        weekBtn.setOnClickListener(view1 -> {
-            Fragment weekFragment = new WeekFragment();
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.activity_main, weekFragment).commit();
-        });
-
-
         adapter.setModules(todayController.getToDay());
-
+        moveWeek(weekBtn);
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);
         modulesRecView.addItemDecoration(itemDecorator);
 
         return view;
+    }
+
+
+    public void moveWeek(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, WeekActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(0, 0);
+        });
     }
 }
