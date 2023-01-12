@@ -18,11 +18,11 @@ import java.util.List;
 
 public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAdapter.ViewHolder> {
 
-    public List<Today> getModules() {
+    public List<Agenda> getModules() {
         return modules;
     }
 
-    private List<Today> modules = new ArrayList<>();
+    private List<Agenda> modules = new ArrayList<>();
     private Context contextToShowImage;
 
     public LectureRecViewAdapter(Context contextToShowImage) {
@@ -73,7 +73,7 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
         return modules.size();
     }
 
-    public void setModules(List<Today> modules) {
+    public void setModules(List<Agenda> modules) {
         this.modules = modules;
         /*
         indicates that the data set has changed

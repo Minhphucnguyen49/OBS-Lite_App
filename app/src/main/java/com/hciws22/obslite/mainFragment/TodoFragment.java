@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.todo.ModuleRecViewAdapter;
 import com.hciws22.obslite.todo.TodoController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;

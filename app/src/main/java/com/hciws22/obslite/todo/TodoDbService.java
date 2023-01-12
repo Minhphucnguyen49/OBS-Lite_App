@@ -1,28 +1,19 @@
 package com.hciws22.obslite.todo;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import androidx.annotation.Nullable;
-
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ExtraInfoEntity;
-import com.hciws22.obslite.sync.FileService;
-import com.hciws22.obslite.today.Today;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;

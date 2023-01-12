@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.today);
+        bottomNavigationView.setSelectedItemId(R.id.agenda);
 
         /**
          *  Auto Synchronisation
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.todo:
                     replaceFragment(new TodoFragment());
                     break;
-                case R.id.today:
+                case R.id.agenda:
                     replaceFragment(new TodayFragment());
                     break;
                 case R.id.settings:

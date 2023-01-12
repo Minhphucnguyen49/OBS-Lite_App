@@ -1,7 +1,6 @@
 package com.hciws22.obslite.week;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.today.TodayDbService;
 
 import java.util.ArrayList;
 import java.util.List;
