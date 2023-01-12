@@ -16,7 +16,8 @@ import okhttp3.Response;
 
 public class ResponseService implements Callback {
 
-    private final String WEB_ADDRESS = "https://obs.fbi.h-da.de/obs/";
+    private static final String WEB_ADDRESS = "https://obs.fbi.h-da.de/obs/";
+    private static final String[] REQUEST_PARAM = {"action=", "lfkey="};
 
     private final String SERVER_URI = "https://obs.fbi.h-da.de/obs/service.php?action=getPersPlanAbo&lfkey=a52b599e4590ef0dcebd9cb3cce4c069fb14723adb31161445ce8d31de3942cd998ef01c09f5ffac";
     private final OkHttpClient client = new OkHttpClient().newBuilder().build();
@@ -33,8 +34,9 @@ public class ResponseService implements Callback {
 
     @Override
     public void onFailure(@NonNull Call call, @NonNull IOException e) {
+       String errorMsg = call.request().body().toString();
+       Log.d("Response Error: ", errorMsg);
 
-        e.printStackTrace();
     }
 
     @Override
@@ -77,6 +79,6 @@ public class ResponseService implements Callback {
     }
 
     public boolean checkUrl(String url) {
-        return url.contains(WEB_ADDRESS);
+        return url.contains(WEB_ADDRESS) && url.contains(REQUEST_PARAM[0]) && url.contains(REQUEST_PARAM[1]);
     }
 }

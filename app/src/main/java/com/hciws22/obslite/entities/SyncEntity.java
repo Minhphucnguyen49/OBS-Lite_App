@@ -3,6 +3,7 @@ package com.hciws22.obslite.entities;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SyncEntity {
@@ -11,7 +12,7 @@ public class SyncEntity {
 
     private  String obsLink ;
 
-    private  LocalDateTime localDateTime;
+    private ZonedDateTime localDateTime;
 
     public SyncEntity() {
 
@@ -25,7 +26,7 @@ public class SyncEntity {
         this.obsLink = obsLink;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
+    public void setLocalDateTime(ZonedDateTime localDateTime) {
         this.localDateTime = localDateTime;
     }
 
@@ -33,7 +34,7 @@ public class SyncEntity {
         return Optional.ofNullable(id).orElseThrow(NoSuchFieldError::new);
     }
 
-    public Optional<LocalDateTime> getLocalDateTime() {
+    public Optional<ZonedDateTime> getLocalDateTime() {
         return Optional.ofNullable(localDateTime);
     }
 

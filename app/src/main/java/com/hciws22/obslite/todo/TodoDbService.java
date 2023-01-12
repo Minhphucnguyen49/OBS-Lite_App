@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -106,24 +107,23 @@ public class TodoDbService {
     }
 
     private String getTimePeriod(String startAt, String endAt) {
-        LocalDateTime localDateTime1 = parseFormat(startAt);
-        LocalDateTime localDateTime2 = parseFormat(endAt);
+        ZonedDateTime localDateTime1 = parseFormat(startAt);
+        ZonedDateTime localDateTime2 = parseFormat(endAt);
 
         return localDateTime1.toLocalTime() + " - " + localDateTime2.toLocalTime();
 
     }
 
     private String getDate(String dateToString) {
-        LocalDateTime localDateTime = parseFormat(dateToString);
+        ZonedDateTime localDateTime = parseFormat(dateToString);
 
         return localDateTime
                 .getDayOfWeek()
                 .getDisplayName(TextStyle.FULL, Locale.getDefault()).substring(0,3) + " " + localDateTime.toLocalDate().toString().replace("-",".");
     }
 
-    private LocalDateTime parseFormat(String dateToString){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        return LocalDateTime.parse(dateToString, formatter);
+    private ZonedDateTime parseFormat(String dateToString){
+        return ZonedDateTime.parse(dateToString);
     }
 
     //================ Execute multiple insert statements once ===============
@@ -149,6 +149,7 @@ public class TodoDbService {
             db.close();
         }
     }
+
     public void updateExtra(Todo module){
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {

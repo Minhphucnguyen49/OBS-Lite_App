@@ -8,6 +8,7 @@ import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -84,24 +85,24 @@ public class TodayDbService {
     }
 
     private String getTimePeriod(String startAt, String endAt) {
-        LocalDateTime localDateTime1 = parseFormat(startAt);
-        LocalDateTime localDateTime2 = parseFormat(endAt);
+        ZonedDateTime localDateTime1 = parseFormat(startAt);
+        ZonedDateTime localDateTime2 = parseFormat(endAt);
 
-        return localDateTime1.toLocalTime() + " - " + localDateTime2.toLocalTime();
+        return localDateTime1.toLocalTime().plusSeconds(localDateTime1.getOffset().getTotalSeconds()) + " - " + localDateTime2.toLocalTime().plusSeconds(localDateTime2.getOffset().getTotalSeconds());
 
     }
 
     private String getDate(String dateToString) {
-        LocalDateTime localDateTime = parseFormat(dateToString);
+        ZonedDateTime localDateTime = parseFormat(dateToString);
 
         return localDateTime
                 .getDayOfWeek()
                 .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-",".");
     }
 
-    private LocalDateTime parseFormat(String dateToString){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        return LocalDateTime.parse(dateToString, formatter);
+    private ZonedDateTime parseFormat(String dateToString){
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return ZonedDateTime.parse(dateToString);
     }
 
 

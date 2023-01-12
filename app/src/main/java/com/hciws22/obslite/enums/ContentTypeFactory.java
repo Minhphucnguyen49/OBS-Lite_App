@@ -5,6 +5,9 @@ import com.hciws22.obslite.sync.OBSItem;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public enum ContentTypeFactory {
@@ -60,10 +63,13 @@ public enum ContentTypeFactory {
         return false;
     }
 
-    private static LocalDateTime dateFormat(String s){
-        return LocalDateTime.of(
+    private static ZonedDateTime dateFormat(String s){
+
+        return ZonedDateTime.of(
                 LocalDate.of(Integer.parseInt(s.substring(0,4)), Integer.parseInt(s.substring(4,6)), Integer.parseInt(s.substring(6,8))),
-                LocalTime.of(Integer.parseInt(s.substring(9, 11)),Integer.parseInt(s.substring(11,13)),0)
+                LocalTime.of(Integer.parseInt(s.substring(9, 11)),Integer.parseInt(s.substring(11,13)),0),
+                ZoneId.of("Europe/Berlin")
+
         );
     }
 

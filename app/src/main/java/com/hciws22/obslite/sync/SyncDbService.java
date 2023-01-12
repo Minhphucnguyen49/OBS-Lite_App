@@ -9,6 +9,9 @@ import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.entities.SyncEntity;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,10 +53,17 @@ public class SyncDbService {
         return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1;";
     }
 
-
     private String updateSyncTableTemplate(){
         return "insert or replace into " +
                 TABLE_SYNC +" ("+ COLUMNS_FOR_SYNC[1]  +", "+ COLUMNS_FOR_SYNC[2] + " ) values ";
+    }
+
+    private String truncateAppointmentTemplate(){
+        return "DELETE FROM " + TABLE_APPOINTMENT + ";";
+    }
+
+    private String resetSequenceTemplate(){
+        return "UPDATE 'sqlite_sequence' SET 'seq' = 0 WHERE 'name' = '" + TABLE_APPOINTMENT +  "'";
     }
 
     public SyncEntity selectSyncData(){
@@ -68,7 +78,7 @@ public class SyncDbService {
 
                 sync.setId(cursor.getInt(0));
                 sync.setObsLink(cursor.getString(1));
-                sync.setLocalDateTime(LocalDateTime.parse(cursor.getString(2)));
+                sync.setLocalDateTime(ZonedDateTime.parse(cursor.getString(2)));
 
             }
 
@@ -78,10 +88,11 @@ public class SyncDbService {
 
     }
 
-    public void insertOrUpdateTable(String obsLink, LocalDateTime localDateTime){
+    public void insertOrUpdateTable(String obsLink, ZonedDateTime localDateTime){
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
         try {
+
 
             String sql = updateSyncTableTemplate() +
                     "('" + obsLink + "','" + localDateTime.toString() + "') ";
@@ -155,8 +166,9 @@ public class SyncDbService {
     }
 
 
+    public void resetAppointments() {
+    }
 
-
-
-
+    public void truncateAppointments() {
+    }
 }

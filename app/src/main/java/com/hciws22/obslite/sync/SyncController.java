@@ -10,6 +10,7 @@ import com.hciws22.obslite.jobs.ResponseService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class SyncController {
@@ -24,18 +25,15 @@ public class SyncController {
         syncDbService = new SyncDbService(sqLiteHelper);
     }
 
-    public void init(View sendbtn, EditText editText, TextView syncTime) {
 
-        sendbtn.setOnClickListener(view -> {
-            manualSynchronize(editText.getText().toString());
-            String label = "Last sync: just now";
-            syncTime.setText(label);
-        }
+    public String updateSyncLabel(String editText){
 
-        );
+        boolean hasFailed = manualSynchronize(editText);
+
+        return hasFailed ? "could not update obs link.\nCheck your internet connection" : "Last sync: just now";
+
+
     }
-
-
 
 
     public boolean fetchDataFromOBS(String obsLink)  {
@@ -65,12 +63,17 @@ public class SyncController {
         return manualSynchronize(obsLink);
 
     }
+
+    public boolean checkUrlForm(String url){
+        return responseService.checkUrl(url);
+    }
+
     public boolean manualSynchronize(String url){
 
-        //SEHR WICHTIG: IF CHECKURL FALSE -> RETURN FALSE
-        if(!responseService.checkUrl(url)){
+        //IF CHECKURL FALSE -> RETURN FALSE
+        if(!checkUrlForm(url)){
             Log.d("manual sync:", "not succeeded");
-            return false;
+            return true;
         };
 
 
@@ -80,7 +83,9 @@ public class SyncController {
 
         }
 
-        syncDbService.insertOrUpdateTable(url, LocalDateTime.now());
+
+        syncDbService.resetAppointments();
+        syncDbService.insertOrUpdateTable(url, ZonedDateTime.now());
         updateData();
         return false;
 

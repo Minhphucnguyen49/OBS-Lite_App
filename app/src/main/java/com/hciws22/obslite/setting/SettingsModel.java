@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class SettingsModel {
     private static final String PREFERENCES_NAME = "com.hciws22.obslite";
@@ -20,7 +21,7 @@ public class SettingsModel {
         return pref.getBoolean(PREF_KEY, true);//true is german
     }
 
-    public String generateCurrentDate(LocalDateTime date){
+    public String generateCurrentDate(ZonedDateTime date){
         return  "Last sync: " +
                 date.getDayOfMonth() + "." + date.getMonthValue() + "." + date.getYear() + ", " +
                 date.getHour() + ":"  + date.getMinute();

@@ -12,6 +12,7 @@ import com.hciws22.obslite.entities.SyncEntity;
 import com.hciws22.obslite.sync.SyncController;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SettingController {
@@ -27,12 +28,14 @@ public class SettingController {
     }
 
 
-    public void init(View sendBtn, TextView title, Button toggle, EditText editText, TextView synctime, Context context){
+    public void init(Button sendBtn, TextView title, Button toggle, EditText editText, TextView synctime, Context context){
 
-        syncController.init(sendBtn, editText, synctime);
+        //syncController.init(sendBtn, editText, synctime);
+
+        sendBtn.setOnClickListener(view -> updateSyncTime(synctime, editText));
 
         SyncEntity sync = settingsDbService.selectSyncData();
-        Optional<LocalDateTime> date = sync.getLocalDateTime();
+        Optional<ZonedDateTime> date = sync.getLocalDateTime();
 
         if (date.isPresent()){
             editText.setText(sync.getObsLink());
@@ -46,15 +49,25 @@ public class SettingController {
             //applyChanges(title, sendBtn, context);
         });
     }
+
+    private void updateSyncTime(TextView syncTime, EditText editText) {
+        boolean isValidUrl = syncController.checkUrlForm(editText.getText().toString());
+
+        if(!isValidUrl){
+            String errorMsg = "Please Provide a valid url";
+            syncTime.setText(errorMsg);
+            return;
+        }
+        syncTime.setText(syncController.updateSyncLabel(editText.getText().toString()));
+
+
+    }
+
     public void toggleLanguage(Context context){
         //TODO: Check current mode
 
-        if (settingsModel.loadMode(context)){
-            //toggle auf english
-            settingsModel.saveMode(context,false);
-        } else {
-            settingsModel.saveMode(context,true);
-        }
+        //toggle auf english
+        settingsModel.saveMode(context, !settingsModel.loadMode(context));
     }
     public void applyChanges (TextView title, Context context){
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));

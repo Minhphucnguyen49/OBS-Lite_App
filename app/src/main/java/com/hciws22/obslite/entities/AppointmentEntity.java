@@ -5,13 +5,14 @@ import com.hciws22.obslite.sync.Appointment;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class AppointmentEntity {
 
     private Integer id;
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
+    private ZonedDateTime startAt;
+    private ZonedDateTime endAt;
     private String location;
     private String type;
     private String nr;
@@ -52,19 +53,19 @@ public class AppointmentEntity {
         return Optional.ofNullable(type).orElse("");
     }
 
-    public LocalDateTime getStartAt() {
+    public ZonedDateTime getStartAt() {
         return startAt;
     }
 
-    public void setStartAt(LocalDateTime startAt) {
+    public void setStartAt(ZonedDateTime startAt) {
         this.startAt = startAt;
     }
 
-    public LocalDateTime getEndAt() {
+    public ZonedDateTime getEndAt() {
         return endAt;
     }
 
-    public void setEndAt(LocalDateTime endAt) {
+    public void setEndAt(ZonedDateTime endAt) {
         this.endAt = endAt;
     }
 
