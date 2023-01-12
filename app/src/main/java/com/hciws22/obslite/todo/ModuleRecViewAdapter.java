@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.slider.Slider.OnChangeListener;
@@ -92,17 +93,22 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         });
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
+        setVisibilityView(holder, position);
+
+
+    }
+
+    private void setVisibilityView(@NonNull ViewHolder holder, int position) {
         if (modules.get(position).isExpanded()){
-            TransitionManager.beginDelayedTransition(holder.module);
+            TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
             holder.downArrow.setVisibility(View.GONE);
         }else{
-            TransitionManager.beginDelayedTransition(holder.module);
+            TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.GONE);
-            holder.downArrow.setVisibility(View.VISIBLE);
+            //holder.downArrow.setVisibility(View.VISIBLE);
             holder.upArrow.setVisibility(View.GONE);
         }
-
     }
 
     @Override
@@ -123,6 +129,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         private CardView module;//name of CardView Material
         private TextView moduleInfor;
         private ImageView downArrow, upArrow;
+        private RelativeLayout collapsedRelLayout;
         private RelativeLayout expandedRelLayout;
         private TextView time_location;
         private Slider slider;
@@ -134,9 +141,16 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);
             expandedRelLayout = itemView.findViewById(R.id.expandedRelLayout);
+            collapsedRelLayout = itemView.findViewById(R.id.collapsedRellayout);
             time_location = itemView.findViewById(R.id.time_location);
             slider = itemView.findViewById(R.id.slider);
 
+            collapsedRelLayout.setOnClickListener(view -> {
+                Todo module = modules.get(getAdapterPosition());
+                module.setExpanded( !module.isExpanded() );//toggle
+                notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
+            });
+            /*
             downArrow.setOnClickListener(view -> {
                 Todo module = modules.get(getAdapterPosition());
                 module.setExpanded( !module.isExpanded() );//toggle
@@ -148,6 +162,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
                 module.setExpanded( !module.isExpanded() );//toggle
                 notifyItemChanged(getAdapterPosition());
             });
+
+             */
 
             slider.addOnChangeListener((slider, value, fromUser) -> {
                 Todo module = modules.get(getAdapterPosition());

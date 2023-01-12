@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.mainFragment.TodayFragment;
 import com.hciws22.obslite.week.Week;
@@ -22,6 +23,7 @@ public class WeekActivity extends AppCompatActivity {
 
     private ListView modulesList;
     WeekController weekController = new WeekController(new SqLiteHelper(this));
+    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         settingcontroller.init(sendButton,title, toggleBtn, editText, syncTime, this );
-        settingcontroller.applyChanges(title, sendButton, this);
+        settingcontroller.applyChanges(title, this);
     }
 
 

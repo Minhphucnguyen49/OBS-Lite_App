@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hciws22.obslite.R;
@@ -46,8 +47,9 @@ public class SettingsFragment extends Fragment {
         EditText editText = view.findViewById(R.id.obs_link);
         TextView syncTime = view.findViewById(R.id.sync_time);
 
-        settingcontroller.init(sendButton,title, toggleBtn, editText,syncTime, mContext);
-        settingcontroller.applyChanges(title, sendButton, mContext);
+        settingcontroller.init(sendButton, title, toggleBtn, editText,syncTime, mContext);
+        settingcontroller.applyChanges(title, mContext);
+
         // Inflate the layout for this fragment
         return view;
     }
