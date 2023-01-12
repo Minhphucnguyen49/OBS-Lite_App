@@ -43,20 +43,6 @@ public class AgendaDbService {
                 + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
-    private String selectWeekPattern() {
-        return "SELECT " +
-                COLUMNS_FOR_APPOINTMENT[0] + "," +
-                COLUMNS_FOR_APPOINTMENT[1] + "," +
-                COLUMNS_FOR_APPOINTMENT[2] + "," +
-                COLUMNS_FOR_APPOINTMENT[3] + "," +
-                COLUMNS_FOR_APPOINTMENT[4] + "," +
-                COLUMNS_FOR_APPOINTMENT[5] +
-                " FROM " + TABLE_APPOINTMENT +
-                " WHERE " + COLUMNS_FOR_APPOINTMENT[0] +
-                " BETWEEN '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY)) + "'" +
-                " AND '" + LocalDate.now().with(nextOrSame(DayOfWeek.SUNDAY)) + "';";
-    }
-
     public List<Agenda> selectToDayAppointments() {
         List<Agenda> agendaList = new ArrayList<>();
         //TODO: String queryString = selectTodayPattern();
@@ -82,29 +68,6 @@ public class AgendaDbService {
         return agendaList;
     }
 
-    public ArrayList<Week> selectWeekAppointmentsArray() {
-        ArrayList<Week> weekList = new ArrayList<>();
-        String queryString = selectWeekPattern();
-
-        // close both cursor and the db.
-        // Try-with-resources will always close all kinds of connection
-        // after the Try-block has reached his end
-        try (SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
-             Cursor cursor = db.rawQuery(queryString, null)) {
-
-
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                Week week = new Week(
-                        getName(cursor.getString(5)),
-                        cursor.getString(3),
-                        cursor.getString(2),
-                        getDate(cursor.getString(0)),
-                        getTimePeriod(cursor.getString(0), cursor.getString(1)));
-                weekList.add(week);
-            }
-        }
-        return weekList;
-    }
 
     private String getName(String name) {
         return name.substring(0, name.lastIndexOf(' '));

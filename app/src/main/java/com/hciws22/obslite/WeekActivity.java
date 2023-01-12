@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -38,6 +39,8 @@ public class WeekActivity extends AppCompatActivity {
                 weekController.getWeekString(weekController.getWeekArrayList())
         );
 
+        TextView dateToday = findViewById(R.id.date_today_week);
+        weekController.showDate(dateToday);
         //Change to Week Screen
         Button weekBtn = findViewById(R.id.button_to_today);
 

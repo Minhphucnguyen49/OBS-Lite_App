@@ -45,8 +45,6 @@ public class AgendaController {
         return dayName + " - " + formattedDate;
     }
 
-    public ArrayList<Week> getWeekArrayList() {return agendaDbService.selectWeekAppointmentsArray(); }
-
     public String shortenName(String fullName){
         String moduleInitials = "";
         if(fullName.contains(" ")) {
@@ -66,14 +64,6 @@ public class AgendaController {
 
         return fullName;
     }
-    public ArrayList<String> getWeekString (ArrayList<Week> weekArrayList){
-        ArrayList<String> weekString = new ArrayList<>();
 
-        weekArrayList.forEach(s -> {
-            weekString.add(s.getModuleType()+":"+shortenName(s.getName())+" "+s.getLocation()+" "+s.getTime());
-        });
-
-        return weekString;
-    }
 
 }
