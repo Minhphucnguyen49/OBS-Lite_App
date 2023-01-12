@@ -1,5 +1,8 @@
 package com.hciws22.obslite.todo;
 
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -13,6 +16,8 @@ import com.hciws22.obslite.today.Today;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -61,11 +66,14 @@ public class TodoDbService {
                 COLUMNS_FOR_APPOINTMENT[4] +
 
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                " type = '" + TO_DO[0] + "'" +
+                "( type = '" + TO_DO[0] + "'" +
                 " OR type = '" + TO_DO[1] +  "'" +
                 " OR type = '" + TO_DO[2] +  "'" +
                 " OR type = '" + TO_DO[3] +  "'" +
-                " OR type = '" + TO_DO[4] +  "'" +
+                " OR type = '" + TO_DO[4] +  "')" + " AND " +
+                COLUMNS_FOR_APPOINTMENT[0] +
+                " BETWEEN '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY)) + "'" +
+                " AND '" + LocalDate.now().plusDays(14) + "'" +
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 

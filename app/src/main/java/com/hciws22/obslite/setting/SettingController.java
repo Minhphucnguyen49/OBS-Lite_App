@@ -39,11 +39,11 @@ public class SettingController {
             synctime.setText(settingsModel.generateCurrentDate(date.get()));
         }
 
-
         //TODO: synctime needs to be translated
         toggle.setOnClickListener(view -> {
             toggleLanguage(context);
-            applyChanges(title, sendBtn, context);
+            applyChanges(title, context);
+            //applyChanges(title, sendBtn, context);
         });
     }
     public void toggleLanguage(Context context){
@@ -56,7 +56,7 @@ public class SettingController {
             settingsModel.saveMode(context,true);
         }
     }
-    public void applyChanges (TextView title, View sendBtn, Context context){
+    public void applyChanges (TextView title, Context context){
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
     }
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));

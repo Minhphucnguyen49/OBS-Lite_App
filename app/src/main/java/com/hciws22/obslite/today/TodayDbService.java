@@ -34,7 +34,7 @@ public class TodayDbService {
                 COLUMNS_FOR_APPOINTMENT[4] + "," +
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now().plusDays(0) + "%'"
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now() + "%'"
                 + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 

@@ -43,10 +43,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_sync"
-            android:textAppearance="@style/sync_button"
+            app:backgroundTint="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.808"
+            app:layout_constraintHorizontal_bias="0.811"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.205" />
@@ -60,29 +60,29 @@
             android:hint="insert OBS Link"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/send"
-            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintHorizontal_bias="0.898"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.211" />
+            app:layout_constraintVertical_bias="0.183" />
 
         <TextView
             android:id="@+id/sync_time"
-            android:layout_width="107dp"
-            android:layout_height="43dp"
-            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.289"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/obs_link"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.062" />
 
         <Button
             android:id="@+id/button_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="toggle"
+            android:text="language"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
