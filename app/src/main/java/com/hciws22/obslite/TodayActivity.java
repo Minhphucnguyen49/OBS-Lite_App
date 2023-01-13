@@ -11,14 +11,14 @@ import android.view.View;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
-import com.hciws22.obslite.today.AgendaController;
+import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 
 public class TodayActivity extends AppCompatActivity {
 
     private RecyclerView modulesRecView;
     private LectureRecViewAdapter adapter;
-    AgendaController agendaController = new AgendaController(new SqLiteHelper(TodayActivity.this));
+    TodayController todayController = new TodayController(new SqLiteHelper(TodayActivity.this));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +30,7 @@ public class TodayActivity extends AppCompatActivity {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter.setModules(agendaController.getToDay());
+        adapter.setModules(todayController.getToDay());
 
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);

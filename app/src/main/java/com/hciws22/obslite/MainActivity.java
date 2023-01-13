@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     public int setUpScheduler(){
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);
         JobInfo jobInfo = new JobInfo.Builder(123, componentName)

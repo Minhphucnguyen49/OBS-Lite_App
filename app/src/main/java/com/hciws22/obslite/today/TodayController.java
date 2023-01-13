@@ -3,25 +3,26 @@ package com.hciws22.obslite.today;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.week.Week;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AgendaController {
+public class TodayController {
 
-    private final AgendaDbService agendaDbService;
+    private final TodayDbService todayDbService;
 
-    public AgendaController(SqLiteHelper sqLiteHelper) {
-        this.agendaDbService = new AgendaDbService(sqLiteHelper);
+    public TodayController(SqLiteHelper sqLiteHelper) {
+        this.todayDbService = new TodayDbService(sqLiteHelper);
     }
 
-    public List<Agenda> getToDay(){
-        return agendaDbService.selectToDayAppointments();
+    public List<Today> getToDay(){
+        return todayDbService.selectToDayAppointments();
+    }
+    public List<Today> getTomorrow(){
+        return todayDbService.selectTomorrowAppointments();
     }
 
     public void showDate(TextView dateToday){

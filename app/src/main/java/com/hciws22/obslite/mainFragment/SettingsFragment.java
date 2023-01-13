@@ -18,7 +18,6 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.SettingController;
 import com.hciws22.obslite.setting.SettingsModel;
 import com.hciws22.obslite.sync.SyncController;
-import com.hciws22.obslite.todo.TodoController;
 
 public class SettingsFragment extends Fragment {
     private Context mContext;

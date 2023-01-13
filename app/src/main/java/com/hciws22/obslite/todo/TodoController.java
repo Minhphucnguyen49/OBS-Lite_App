@@ -14,11 +14,14 @@ public class TodoController {
         this.todoDbService = new TodoDbService(sqLiteHelper);
     }
 
-    public List<Todo> getToDo(){
-        return todoDbService.selectTodoAppointments();
+    public List<Todo> getToDoNextWeek(){
+        return todoDbService.selectTodoTwoWeek();
     }
-
+    public List<Todo> getToDoOneWeek() {
+        return todoDbService.selectTodoOneWeek();
+    }
+    public List<Todo> getExams(){return todoDbService.selectExams();}
     public void getExtraInfo(){
-        todoDbService.insertExtraInfo(getToDo());
+        //todoDbService.insertExtraInfo(//TODO: Return all);
     }
 }

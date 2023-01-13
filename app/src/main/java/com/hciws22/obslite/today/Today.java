@@ -1,13 +1,13 @@
 package com.hciws22.obslite.today;
 
-public class Agenda {
+public class Today {
     private String date;// on top of TODAY Screen
     private String name;//name
     private String moduleType;
     private String time;
     private String location;
 
-    public Agenda(String name, String moduleType, String location, String date, String time) {
+    public Today(String name, String moduleType, String location, String date, String time) {
         this.name = name;
         this.moduleType = moduleType;
         this.date = date;

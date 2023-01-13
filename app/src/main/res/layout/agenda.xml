@@ -37,7 +37,8 @@
             app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -47,12 +48,13 @@
         android:gravity="center_horizontal|center_vertical"
         android:text="Today place holder"
         android:textAppearance="@style/date" />
-    <androidx.constraintlayout.widget.ConstraintLayout
 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark"
-        tools:context=".TodayActivity">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <include
             layout="@layout/choice_chips"
@@ -62,7 +64,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </include>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
 

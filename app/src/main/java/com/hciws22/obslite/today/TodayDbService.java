@@ -1,16 +1,11 @@
 package com.hciws22.obslite.today;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
-import static java.time.temporal.TemporalAdjusters.previousOrSame;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.week.Week;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,18 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AgendaDbService {
+public class TodayDbService {
 
     private static final String TABLE_APPOINTMENT = "Appointment";
     private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
     private final SqLiteHelper sqLiteHelper;
 
-    public AgendaDbService(SqLiteHelper sqLiteHelper) {
+    public TodayDbService(SqLiteHelper sqLiteHelper) {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-
-    private String selectTodayPattern() {
+    private String selectTodayPattern(LocalDate time) {
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
                 COLUMNS_FOR_APPOINTMENT[1] + "," +
@@ -39,14 +33,21 @@ public class AgendaDbService {
                 COLUMNS_FOR_APPOINTMENT[4] + "," +
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now() + "%'"
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + time + "%'"
                 + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
-    public List<Agenda> selectToDayAppointments() {
-        List<Agenda> agendaList = new ArrayList<>();
+    public List<Today> selectToDayAppointments(){
+        return selectFunctionPattern(selectTodayPattern(LocalDate.now()));
+    }
+
+    public List<Today> selectTomorrowAppointments(){
+        return selectFunctionPattern(selectTodayPattern(LocalDate.now().plusDays(4)));
+    }
+
+    public List<Today> selectFunctionPattern(String queryString) {
+        List<Today> todayList = new ArrayList<>();
         //TODO: String queryString = selectTodayPattern();
-        String queryString = selectTodayPattern();
         Log.d("SQL TODAY: ", queryString);
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection
@@ -56,18 +57,17 @@ public class AgendaDbService {
 
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                Agenda agenda = new Agenda(
+                Today today = new Today(
                         getName(cursor.getString(5)),
                         cursor.getString(3),
                         cursor.getString(2),
                         getDate(cursor.getString(0)),
                         getTimePeriod(cursor.getString(0), cursor.getString(1)));
-                agendaList.add(agenda);
+                todayList.add(today);
             }
         }
-        return agendaList;
+        return todayList;
     }
-
 
     private String getName(String name) {
         return name.substring(0, name.lastIndexOf(' '));

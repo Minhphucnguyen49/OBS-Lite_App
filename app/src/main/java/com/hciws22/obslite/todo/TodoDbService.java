@@ -42,13 +42,25 @@ public class TodoDbService {
                 + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + name + "';";
     }
 
+    public String selectExamsPattern(){
+        return "SELECT " +
+                COLUMNS_FOR_APPOINTMENT[0] + "," +
+                COLUMNS_FOR_APPOINTMENT[1] + "," +
+                COLUMNS_FOR_APPOINTMENT[2] + "," +
+                COLUMNS_FOR_APPOINTMENT[3] + "," +
+                COLUMNS_FOR_APPOINTMENT[4] +
+
+                " FROM " + TABLE_APPOINTMENT + " WHERE " +
+                "( type = '" + TO_DO[2] + "'" +
+                " OR type = '" + TO_DO[3] +  "' )" + ";";
+    }
     private final Set<ExtraInfoEntity> extraInfo = new HashSet<>();
 
     public TodoDbService(SqLiteHelper sqLiteHelper) {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    public String selectTodoPattern(){
+    public String selectTodoPattern(LocalDate future){
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
                 COLUMNS_FOR_APPOINTMENT[1] + "," +
@@ -64,14 +76,24 @@ public class TodoDbService {
                 " OR type = '" + TO_DO[4] +  "')" + " AND " +
                 COLUMNS_FOR_APPOINTMENT[0] +
                 " BETWEEN '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY)) + "'" +
-                " AND '" + LocalDate.now().plusDays(14) + "'" +
+                " AND '" + future + "'" +
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
+    public List<Todo> selectTodoTwoWeek(){
+        String queryString = selectTodoPattern(LocalDate.now().plusDays(14));
+        return selectTodoAppointmentsPattern(queryString);
+    }
 
-    public List<Todo> selectTodoAppointments() {
+    public List<Todo> selectTodoOneWeek(){
+        String queryString = selectTodoPattern(LocalDate.now().plusDays(7));
+        return selectTodoAppointmentsPattern(queryString);
+    }
+    public List<Todo> selectExams(){
+        return selectTodoAppointmentsPattern(selectExamsPattern());
+    }
+
+    public List<Todo> selectTodoAppointmentsPattern(String queryString) {
         List<Todo> todoList = new ArrayList<>();
-        String queryString = selectTodoPattern();
-
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection
         // after the Try-block has reached his end

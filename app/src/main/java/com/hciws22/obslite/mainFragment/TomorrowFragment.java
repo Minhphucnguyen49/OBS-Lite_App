@@ -18,7 +18,7 @@ import com.hciws22.obslite.today.LectureRecViewAdapter;
 import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 
-public class TodayFragment extends Fragment {
+public class TomorrowFragment extends Fragment {
     private Context mContext;
     private RecyclerView modulesRecView;
     private LectureRecViewAdapter adapter;
@@ -45,7 +45,7 @@ public class TodayFragment extends Fragment {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        adapter.setModules(todayController.getToDay());
+        adapter.setModules(todayController.getTomorrow());
 
         //Add space between cards
         addSpaceBetweenCards();
