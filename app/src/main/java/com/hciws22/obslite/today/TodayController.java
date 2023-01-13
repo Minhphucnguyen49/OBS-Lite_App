@@ -2,11 +2,9 @@ package com.hciws22.obslite.today;
 
 import android.widget.TextView;
 
-import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.List;
@@ -22,6 +20,9 @@ public class TodayController {
 
     public List<Today> getToDay(){
         return todayDbService.selectToDayAppointments();
+    }
+    public List<Today> getTomorrow(){
+        return todayDbService.selectTomorrowAppointments();
     }
 
     public void showDate(TextView dateToday){
@@ -44,5 +45,26 @@ public class TodayController {
         // Return the full name of the day of the week and the formatted date
         return dayName + " - " + formattedDate;
     }
+
+    public String shortenName(String fullName){
+        String moduleInitials = "";
+        if(fullName.contains(" ")) {
+            //mehr als ein Wort
+            for (String s : fullName.split(" ")) {
+                moduleInitials += s.charAt(0);
+            }
+            return moduleInitials;
+        }
+        if(fullName.contains("Datenbanken")){
+            return "DB";
+        }
+        if(fullName.contains("Betriebssysteme")){
+            return "BS";
+        }
+
+
+        return fullName;
+    }
+
 
 }

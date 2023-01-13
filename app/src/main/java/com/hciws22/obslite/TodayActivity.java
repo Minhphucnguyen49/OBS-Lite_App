@@ -22,7 +22,7 @@ public class TodayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.today);
+        setContentView(R.layout.agenda);
 
         adapter = new LectureRecViewAdapter(this);
 

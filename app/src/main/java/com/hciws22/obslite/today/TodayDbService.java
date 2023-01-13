@@ -24,8 +24,7 @@ public class TodayDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-
-    private String selectTodayPattern(){
+    private String selectTodayPattern(LocalDate time) {
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
                 COLUMNS_FOR_APPOINTMENT[1] + "," +
@@ -34,35 +33,27 @@ public class TodayDbService {
                 COLUMNS_FOR_APPOINTMENT[4] + "," +
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + LocalDate.now() + "%'"
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + time + "%'"
                 + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
-    @Deprecated(since=
-            "Only for development purpose " +
-            "(in vacation we don't have today objects). " +
-            "delete function if not needed anymore")
-    private String selectPattern(){
-        return "SELECT " +
-                COLUMNS_FOR_APPOINTMENT[0] + "," +
-                COLUMNS_FOR_APPOINTMENT[1] + "," +
-                COLUMNS_FOR_APPOINTMENT[2] + "," +
-                COLUMNS_FOR_APPOINTMENT[3] + "," +
-                COLUMNS_FOR_APPOINTMENT[4] + "," +
-                COLUMNS_FOR_APPOINTMENT[5] +
-                " FROM " + TABLE_APPOINTMENT + ";";
+    public List<Today> selectToDayAppointments(){
+        return selectFunctionPattern(selectTodayPattern(LocalDate.now()));
     }
 
-    public List<Today> selectToDayAppointments() {
+    public List<Today> selectTomorrowAppointments(){
+        return selectFunctionPattern(selectTodayPattern(LocalDate.now().plusDays(4)));
+    }
+
+    public List<Today> selectFunctionPattern(String queryString) {
         List<Today> todayList = new ArrayList<>();
         //TODO: String queryString = selectTodayPattern();
-        String queryString = selectTodayPattern();
         Log.d("SQL TODAY: ", queryString);
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection
         // after the Try-block has reached his end
-        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery(queryString, null)) {
+        try (SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+             Cursor cursor = db.rawQuery(queryString, null)) {
 
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
@@ -78,9 +69,8 @@ public class TodayDbService {
         return todayList;
     }
 
-
-    private String getName(String name){
-        return name.substring(0,name.lastIndexOf(' '));
+    private String getName(String name) {
+        return name.substring(0, name.lastIndexOf(' '));
     }
 
     private String getTimePeriod(String startAt, String endAt) {
@@ -96,14 +86,13 @@ public class TodayDbService {
 
         return localDateTime
                 .getDayOfWeek()
-                .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-",".");
+                .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-", ".");
     }
 
-    private LocalDateTime parseFormat(String dateToString){
+    private LocalDateTime parseFormat(String dateToString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         return LocalDateTime.parse(dateToString, formatter);
     }
-
 
 
 }

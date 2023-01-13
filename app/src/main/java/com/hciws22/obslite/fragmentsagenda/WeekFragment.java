@@ -1,26 +1,20 @@
-package com.hciws22.obslite;
+package com.hciws22.obslite.fragmentsagenda;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
+import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.mainFragment.TodayFragment;
-import com.hciws22.obslite.week.Week;
 import com.hciws22.obslite.week.WeekController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WeekFragment extends Fragment {
     private ListView modulesList;
@@ -38,7 +32,7 @@ public class WeekFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.week, container, false);
+        View view = inflater.inflate(R.layout.choice_week, container, false);
         super.onViewCreated(view, savedInstanceState);
 
         modulesList = view.findViewById(R.id.modulesListView);
@@ -50,6 +44,11 @@ public class WeekFragment extends Fragment {
                 weekController.getWeekString(weekController.getWeekArrayList())
         );
 
+        modulesList.setAdapter(modulesAdapter);
+        return view;
+    }
+}
+/*
         //Change to Week Screen
         Button weekBtn = view.findViewById(R.id.button_to_today);
         weekBtn.setOnClickListener(view1 -> {
@@ -57,8 +56,4 @@ public class WeekFragment extends Fragment {
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.activity_main, todayFragment).commit();
         });
-
-        modulesList.setAdapter(modulesAdapter);
-        return view;
-    }
-}
+ */

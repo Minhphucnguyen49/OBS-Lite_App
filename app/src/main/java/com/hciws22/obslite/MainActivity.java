@@ -10,14 +10,13 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
-import com.hciws22.obslite.mainFragment.SettingsFragment;
-import com.hciws22.obslite.mainFragment.TodayFragment;
-import com.hciws22.obslite.mainFragment.TodoFragment;
+import com.hciws22.obslite.fragmentsmainactivity.AgendaFragment;
+import com.hciws22.obslite.fragmentsmainactivity.SettingsFragment;
+import com.hciws22.obslite.fragmentsmainactivity.TodoFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new TodayFragment()); //default screen when app starts
+        replaceFragment(new AgendaFragment()); //default screen when app starts
 
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.today);
+        bottomNavigationView.setSelectedItemId(R.id.agenda);
 
         /**
          *  Auto Synchronisation
@@ -45,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.todo:
                     replaceFragment(new TodoFragment());
                     break;
-                case R.id.today:
-                    replaceFragment(new TodayFragment());
+                case R.id.agenda:
+                    replaceFragment(new AgendaFragment());
                     break;
                 case R.id.settings:
                     replaceFragment(new SettingsFragment());
@@ -55,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
-
-
 
     public int setUpScheduler(){
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);

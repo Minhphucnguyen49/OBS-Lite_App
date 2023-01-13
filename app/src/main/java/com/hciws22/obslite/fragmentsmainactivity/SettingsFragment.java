@@ -1,4 +1,4 @@
-package com.hciws22.obslite.mainFragment;
+package com.hciws22.obslite.fragmentsmainactivity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hciws22.obslite.R;
@@ -18,7 +17,6 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.SettingController;
 import com.hciws22.obslite.setting.SettingsModel;
 import com.hciws22.obslite.sync.SyncController;
-import com.hciws22.obslite.todo.TodoController;
 
 public class SettingsFragment extends Fragment {
     private Context mContext;

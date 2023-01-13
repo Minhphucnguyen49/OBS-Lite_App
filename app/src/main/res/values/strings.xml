@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">OBS-Lite</string>
-    <string name="TODAY">TODAY</string>
+    <string name="AGENDA">AGENDA</string>
     <string name="TODO">TODO</string>
     <string name="WEEK">WEEK</string>
     <string name="pg2_p1_20_m">PG2  P1  100%\nMon 26.11.22</string>
