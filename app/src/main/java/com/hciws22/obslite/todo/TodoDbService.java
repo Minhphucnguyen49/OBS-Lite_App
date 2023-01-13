@@ -11,6 +11,7 @@ import com.hciws22.obslite.entities.ExtraInfoEntity;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -61,7 +62,7 @@ public class TodoDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    public String selectTodoPattern(LocalDate future){
+    public String selectTodoPattern(ZonedDateTime future){
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
                 COLUMNS_FOR_APPOINTMENT[1] + "," +
@@ -76,17 +77,17 @@ public class TodoDbService {
                 " OR type = '" + TO_DO[3] +  "'" +
                 " OR type = '" + TO_DO[4] +  "')" + " AND " +
                 COLUMNS_FOR_APPOINTMENT[0] +
-                " BETWEEN '" + LocalDate.now().with(previousOrSame(DayOfWeek.MONDAY)) + "'" +
-                " AND '" + future + "'" +
+                " BETWEEN '" + ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(previousOrSame(DayOfWeek.MONDAY)) + "'" +
+                " AND '" + future.toLocalDate() + "'" +
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
     public List<Todo> selectTodoTwoWeek(){
-        String queryString = selectTodoPattern(LocalDate.now().plusDays(14));
+        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(14));
         return selectTodoAppointmentsPattern(queryString);
     }
 
     public List<Todo> selectTodoOneWeek(){
-        String queryString = selectTodoPattern(LocalDate.now().plusDays(7));
+        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(7));
         return selectTodoAppointmentsPattern(queryString);
     }
     public List<Todo> selectExams(){
@@ -123,7 +124,7 @@ public class TodoDbService {
         ZonedDateTime localDateTime1 = parseFormat(startAt);
         ZonedDateTime localDateTime2 = parseFormat(endAt);
 
-        return localDateTime1.toLocalTime() + " - " + localDateTime2.toLocalTime();
+        return localDateTime1.toLocalTime().plusSeconds(localDateTime1.getOffset().getTotalSeconds()) + " - " + localDateTime2.toLocalTime().plusSeconds(localDateTime2.getOffset().getTotalSeconds());
 
     }
 
