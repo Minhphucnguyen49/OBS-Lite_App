@@ -69,9 +69,13 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         String createNotification = "" +
                 "CREATE TABLE Notification(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "type TEXT," +
+                "location TEXT," +
+                "moduleTitle TEXT," +
                 "newAdded INTEGER DEFAULT 0," +
                 "oldDeleted INTEGER DEFAULT 0," +
                 "oldChanged INTEGER DEFAULT 0," +
+                "isDisabled INTEGER DEFAULT 1," +
                 "message TEXT);";
 
 

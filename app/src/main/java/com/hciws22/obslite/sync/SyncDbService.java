@@ -118,7 +118,7 @@ public class SyncDbService {
         db.beginTransaction();
         try {
 
-            int id = 1;
+            int id = 0;
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
                 String sql2 = updateAppointmentTemplate();
