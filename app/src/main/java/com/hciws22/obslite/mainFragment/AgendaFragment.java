@@ -1,5 +1,12 @@
 package com.hciws22.obslite.mainFragment;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,60 +14,97 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
+import com.hciws22.obslite.WeekActivity;
+import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.today.LectureRecViewAdapter;
+import com.hciws22.obslite.today.AgendaController;
+import com.hciws22.obslite.utils.SpacingItemDecorator;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AgendaFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
 public class AgendaFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AgendaFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AgendaFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AgendaFragment newInstance(String param1, String param2) {
-        AgendaFragment fragment = new AgendaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Context mContext;
+    private RecyclerView modulesRecView;
+    private LectureRecViewAdapter adapter;
+    AgendaController agendaController;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+        agendaController = new AgendaController(new SqLiteHelper(mContext));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_agenda, container, false);
+
+        View view = inflater.inflate(R.layout.agenda, container, false);
+        super.onViewCreated(view, savedInstanceState);
+
+        TextView dateToday = view.findViewById(R.id.date_today);
+        agendaController.showDate(dateToday);
+
+        ChipGroup chipGroup = view.findViewById(R.id.chip_group);
+        Chip weekChoice = view.findViewById(R.id.chip_2);
+        Chip todayChoice = view.findViewById(R.id.chip_1);
+        //Chip tommorrowChoice = view.findViewById(R.id.chip_3);
+
+        setTodayChip(todayChoice);
+        setWeekChip(weekChoice);
+
+        //Change to Week Screen
+        Button weekBtn = view.findViewById(R.id.button_to_week);
+        moveWeek(weekBtn);
+
+        return view;
+    }
+
+    private void setWeekChip(Chip weekChoice) {
+        String weekText = "WEEK";
+        weekChoice.setText(weekText);
+        weekChoice.setOnClickListener(v -> {
+            //TODO: selectWeekView
+            Fragment weekFragment = new WeekFragment();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.agenda_scrollable, weekFragment).commit();
+
+        });
+    }
+
+    private void setTodayChip(Chip todayChoice) {
+        String todayText = "TODAY";
+        todayChoice.setText(todayText);
+        todayChoice.setOnClickListener(v -> {
+            //TODO: selectWeekView
+            Fragment todayFragment = new TodayFragment();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.agenda_scrollable, todayFragment).commit();
+
+        });
+    }
+
+    public void moveWeek(View moveBtn) {
+        moveBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, WeekActivity.class);
+            startActivity(intent);
+            getActivity().overridePendingTransition(0, 0);
+        });
     }
 }
+/*
+        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (group.findViewById(R.id.chip_2) != null){
+                setWeekChip(group.findViewById(R.id.chip_2));
+            }
+            if (group.findViewById(R.id.chip_1) != null){
+                setTodayChip(group.findViewById(R.id.chip_1));
+            }
+        });
+ */

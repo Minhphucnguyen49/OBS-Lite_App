@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
+import com.hciws22.obslite.mainFragment.AgendaFragment;
 import com.hciws22.obslite.mainFragment.SettingsFragment;
 import com.hciws22.obslite.mainFragment.TodayFragment;
 import com.hciws22.obslite.mainFragment.TodoFragment;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new TodayFragment()); //default screen when app starts
+        replaceFragment(new AgendaFragment()); //default screen when app starts
 
         BottomNavigationView bottomNavigationView;
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new TodoFragment());
                     break;
                 case R.id.agenda:
-                    replaceFragment(new TodayFragment());
+                    replaceFragment(new AgendaFragment());
                     break;
                 case R.id.settings:
                     replaceFragment(new SettingsFragment());

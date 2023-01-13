@@ -49,16 +49,16 @@
         android:textAppearance="@style/date" />
     <androidx.constraintlayout.widget.ConstraintLayout
 
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark"
         tools:context=".TodayActivity">
 
         <include
-            layout="@layout/filter_appointments"
+            layout="@layout/choice_chips"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         </include>
@@ -69,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dark"
+        android:id="@+id/agenda_scrollable"
         tools:context=".TodayActivity">
 
         <androidx.recyclerview.widget.RecyclerView
