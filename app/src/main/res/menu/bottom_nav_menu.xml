@@ -6,8 +6,8 @@
         android:icon="@drawable/ic_baseline_checklist_24" />
 
     <item
-        android:id="@+id/today"
-        android:title="Today"
+        android:id="@+id/agenda"
+        android:title="Agenda"
         android:icon="@drawable/ic_baseline_today_24" />
 
     <item

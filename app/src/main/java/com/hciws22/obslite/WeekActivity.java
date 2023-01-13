@@ -1,23 +1,17 @@
 package com.hciws22.obslite;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.mainFragment.TodayFragment;
-import com.hciws22.obslite.week.Week;
 import com.hciws22.obslite.week.WeekController;
-
-import java.util.ArrayList;
 
 public class WeekActivity extends AppCompatActivity {
 
@@ -38,6 +32,8 @@ public class WeekActivity extends AppCompatActivity {
                 weekController.getWeekString(weekController.getWeekArrayList())
         );
 
+        TextView dateToday = findViewById(R.id.date_today_week);
+        weekController.showDate(dateToday);
         //Change to Week Screen
         Button weekBtn = findViewById(R.id.button_to_today);
 

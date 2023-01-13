@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
 
     <style name="module">
@@ -25,7 +26,7 @@
     </style>
 
     <style name="date">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">25sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
