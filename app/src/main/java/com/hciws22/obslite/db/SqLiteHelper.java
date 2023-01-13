@@ -20,7 +20,7 @@ import java.util.Locale;
 public class SqLiteHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "obslite.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     public SqLiteHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -42,7 +42,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
        String createAppointmentStatement = "" +
                "CREATE TABLE Appointment (" +
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+               "id INTEGER PRIMARY KEY, " +
                "startAt TEXT, " +
                "endAt TEXT, " +
                "location TEXT, " +
@@ -66,10 +66,24 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                 "obslink TEXT NOT NULL UNIQUE," +
                 "synctime TEXT NOT NULL);";
 
+        String createNotification = "" +
+                "CREATE TABLE Notification(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "type TEXT," +
+                "location TEXT," +
+                "moduleTitle TEXT," +
+                "newAdded INTEGER DEFAULT 0," +
+                "oldDeleted INTEGER DEFAULT 0," +
+                "oldChanged INTEGER DEFAULT 0," +
+                "isDisabled INTEGER DEFAULT 1," +
+                "message TEXT);";
+
+
        db.execSQL(createModuleStatement);
        db.execSQL(createAppointmentStatement);
        db.execSQL(createExtraInfoStatement);
        db.execSQL(createSyncStatement);
+       db.execSQL(createNotification);
     }
 
     // this is called if the database version changes. It will automatically update the schema

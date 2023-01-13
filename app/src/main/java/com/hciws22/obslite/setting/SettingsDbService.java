@@ -7,13 +7,13 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.SyncEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class SettingsDbService {
 
     private static final String TABLE_SYNC = "Sync";
     private static final String[] COLUMNS_FOR_SYNC = { "id", "obsLink", "syncTime" };
-
 
     public SqLiteHelper sqLiteHelper;
 
@@ -37,7 +37,7 @@ public class SettingsDbService {
 
                 sync.setId(cursor.getInt(0));
                 sync.setObsLink(cursor.getString(1));
-                sync.setLocalDateTime(LocalDateTime.parse(cursor.getString(2)));
+                sync.setLocalDateTime(ZonedDateTime.parse(cursor.getString(2)));
 
             }
 

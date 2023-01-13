@@ -6,9 +6,8 @@ import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class TodayDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    private String selectTodayPattern(LocalDate time) {
+    private String selectTodayPattern(ZonedDateTime time) {
         return "SELECT " +
                 COLUMNS_FOR_APPOINTMENT[0] + "," +
                 COLUMNS_FOR_APPOINTMENT[1] + "," +
@@ -33,16 +32,16 @@ public class TodayDbService {
                 COLUMNS_FOR_APPOINTMENT[4] + "," +
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
-                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + time + "%'"
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + time.toLocalDate() + "%'"
                 + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
     public List<Today> selectToDayAppointments(){
-        return selectFunctionPattern(selectTodayPattern(LocalDate.now()));
+        return selectFunctionPattern(selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin"))));
     }
 
     public List<Today> selectTomorrowAppointments(){
-        return selectFunctionPattern(selectTodayPattern(LocalDate.now().plusDays(4)));
+        return selectFunctionPattern(selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(4)));
     }
 
     public List<Today> selectFunctionPattern(String queryString) {
@@ -74,24 +73,24 @@ public class TodayDbService {
     }
 
     private String getTimePeriod(String startAt, String endAt) {
-        LocalDateTime localDateTime1 = parseFormat(startAt);
-        LocalDateTime localDateTime2 = parseFormat(endAt);
+        ZonedDateTime localDateTime1 = parseFormat(startAt);
+        ZonedDateTime localDateTime2 = parseFormat(endAt);
 
-        return localDateTime1.toLocalTime() + " - " + localDateTime2.toLocalTime();
+        return localDateTime1.toLocalTime().plusSeconds(localDateTime1.getOffset().getTotalSeconds()) + " - " + localDateTime2.toLocalTime().plusSeconds(localDateTime2.getOffset().getTotalSeconds());
 
     }
 
     private String getDate(String dateToString) {
-        LocalDateTime localDateTime = parseFormat(dateToString);
+        ZonedDateTime localDateTime = parseFormat(dateToString);
 
         return localDateTime
                 .getDayOfWeek()
                 .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-", ".");
     }
 
-    private LocalDateTime parseFormat(String dateToString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        return LocalDateTime.parse(dateToString, formatter);
+    private ZonedDateTime parseFormat(String dateToString){
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return ZonedDateTime.parse(dateToString);
     }
 
 
