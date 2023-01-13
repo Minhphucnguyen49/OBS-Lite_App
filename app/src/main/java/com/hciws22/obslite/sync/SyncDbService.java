@@ -22,7 +22,7 @@ public class SyncDbService {
     private static final String[] COLUMNS_FOR_MODULE = {"id", "name", "semester"};
 
     private static final String TABLE_APPOINTMENT = "Appointment";
-    private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
+    private static final String[] COLUMNS_FOR_APPOINTMENT = {"id", "startAt", "endAt", "location", "type", "nr", "moduleID"};
 
     private static final String TABLE_SYNC = "Sync";
     private static final String[] COLUMNS_FOR_SYNC = {"id", "obsLink", "syncTime"};
@@ -43,10 +43,10 @@ public class SyncDbService {
 
     private String updateAppointmentTemplate(){
         return "insert or replace into " +
-                TABLE_APPOINTMENT +" ("+
-                COLUMNS_FOR_APPOINTMENT[0] + ", "+ COLUMNS_FOR_APPOINTMENT[1]  +", "+
-                COLUMNS_FOR_APPOINTMENT[2] + ", "+ COLUMNS_FOR_APPOINTMENT[3] + ", "+
-                COLUMNS_FOR_APPOINTMENT[4] +", "+ COLUMNS_FOR_APPOINTMENT[5] +" ) values ";
+                TABLE_APPOINTMENT +" ("+  COLUMNS_FOR_APPOINTMENT[0] + ", " +
+                COLUMNS_FOR_APPOINTMENT[1] + ", "+ COLUMNS_FOR_APPOINTMENT[2]  +", "+
+                COLUMNS_FOR_APPOINTMENT[3] + ", "+ COLUMNS_FOR_APPOINTMENT[4] + ", "+
+                COLUMNS_FOR_APPOINTMENT[5] +", "+ COLUMNS_FOR_APPOINTMENT[6] +" ) values ";
     }
 
     private String selectLastSyncRecordTemplate(){
@@ -62,8 +62,8 @@ public class SyncDbService {
         return "DELETE FROM " + TABLE_APPOINTMENT + ";";
     }
 
-    private String resetSequenceTemplate(){
-        return "UPDATE 'sqlite_sequence' SET 'seq' = 0 WHERE 'name' = '" + TABLE_APPOINTMENT +  "'";
+    private String resetSequenceTemplate(String tableName){
+        return "UPDATE sqlite_sequence SET seq = 0 WHERE name = '" + tableName +  "';";
     }
 
     public SyncEntity selectSyncData(){
@@ -113,23 +113,28 @@ public class SyncDbService {
             return;
         }
 
+
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
         try {
+
+            int id = 1;
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
-                String sql = updateAppointmentTemplate();
+                String sql2 = updateAppointmentTemplate();
                 for (AppointmentEntity a : entry.getValue()) {
 
-                    sql += "('" + a.getStartAt() + "','" + a.getEndAt() + "','" +
+                    sql2 += "('" + id + "','" + a.getStartAt() + "','" + a.getEndAt() + "','" +
                             a.getLocation() + "','" + a.getType() + "','" +
                             a.getNr() + "','" + a.getModuleID() + "'),";
+                    id++;
                 }
                 // execute set of insert for each module
-                sql = sql.substring(0,sql.length()-1) + ";";
-                db.execSQL(sql);
+                sql2 = sql2.substring(0,sql2.length()-1) + ";";
+                db.execSQL(sql2);
 
             }
+
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
@@ -166,9 +171,19 @@ public class SyncDbService {
     }
 
 
-    public void resetAppointments() {
-    }
-
     public void truncateAppointments() {
+
+        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+
+            String sql = truncateAppointmentTemplate();
+            db.execSQL(sql);
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 }

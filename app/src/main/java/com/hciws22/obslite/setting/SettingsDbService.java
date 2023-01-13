@@ -15,7 +15,6 @@ public class SettingsDbService {
     private static final String TABLE_SYNC = "Sync";
     private static final String[] COLUMNS_FOR_SYNC = { "id", "obsLink", "syncTime" };
 
-
     public SqLiteHelper sqLiteHelper;
 
     public SettingsDbService(SqLiteHelper sqLiteHelper) {

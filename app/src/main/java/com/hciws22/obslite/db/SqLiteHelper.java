@@ -42,7 +42,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
        String createAppointmentStatement = "" +
                "CREATE TABLE Appointment (" +
-               "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+               "id INTEGER PRIMARY KEY, " +
                "startAt TEXT, " +
                "endAt TEXT, " +
                "location TEXT, " +
@@ -66,10 +66,20 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                 "obslink TEXT NOT NULL UNIQUE," +
                 "synctime TEXT NOT NULL);";
 
+        String createNotification = "" +
+                "CREATE TABLE Notification(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "newAdded INTEGER DEFAULT 0," +
+                "oldDeleted INTEGER DEFAULT 0," +
+                "oldChanged INTEGER DEFAULT 0," +
+                "message TEXT);";
+
+
        db.execSQL(createModuleStatement);
        db.execSQL(createAppointmentStatement);
        db.execSQL(createExtraInfoStatement);
        db.execSQL(createSyncStatement);
+       db.execSQL(createNotification);
     }
 
     // this is called if the database version changes. It will automatically update the schema
