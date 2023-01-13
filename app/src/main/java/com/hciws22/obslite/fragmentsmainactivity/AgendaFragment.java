@@ -1,4 +1,4 @@
-package com.hciws22.obslite.mainFragment;
+package com.hciws22.obslite.fragmentsmainactivity;
 
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
+import com.hciws22.obslite.fragmentsagenda.TodayFragment;
+import com.hciws22.obslite.fragmentsagenda.TomorrowFragment;
+import com.hciws22.obslite.fragmentsagenda.WeekFragment;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.TodayController;
 

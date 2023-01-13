@@ -1,4 +1,4 @@
-package com.hciws22.obslite.mainFragment;
+package com.hciws22.obslite.fragmentsagenda;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

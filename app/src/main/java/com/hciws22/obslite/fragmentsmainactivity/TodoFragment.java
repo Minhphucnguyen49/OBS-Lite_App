@@ -1,12 +1,10 @@
-package com.hciws22.obslite.mainFragment;
+package com.hciws22.obslite.fragmentsmainactivity;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,10 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.todo.ModuleRecViewAdapter;
+import com.hciws22.obslite.fragmentstodo.ToDoThisWeekFragment;
+import com.hciws22.obslite.fragmentstodo.TodoExamsFragment;
+import com.hciws22.obslite.fragmentstodo.TodoNextWeekFragment;
 import com.hciws22.obslite.todo.TodoController;
-import com.hciws22.obslite.utils.SpacingItemDecorator;
 
 public class TodoFragment extends Fragment {
     private Context mContext;

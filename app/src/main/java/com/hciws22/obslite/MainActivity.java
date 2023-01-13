@@ -10,15 +10,13 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
-import com.hciws22.obslite.mainFragment.AgendaFragment;
-import com.hciws22.obslite.mainFragment.SettingsFragment;
-import com.hciws22.obslite.mainFragment.TodayFragment;
-import com.hciws22.obslite.mainFragment.TodoFragment;
+import com.hciws22.obslite.fragmentsmainactivity.AgendaFragment;
+import com.hciws22.obslite.fragmentsmainactivity.SettingsFragment;
+import com.hciws22.obslite.fragmentsmainactivity.TodoFragment;
 
 
 public class MainActivity extends AppCompatActivity {

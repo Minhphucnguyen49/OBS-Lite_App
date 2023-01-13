@@ -1,14 +1,15 @@
-package com.hciws22.obslite.mainFragment;
+package com.hciws22.obslite.fragmentstodo;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -16,7 +17,7 @@ import com.hciws22.obslite.todo.ModuleRecViewAdapter;
 import com.hciws22.obslite.todo.TodoController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 
-public class ToDoThisWeekFragment extends Fragment {
+public class TodoNextWeekFragment extends Fragment {
     private Context mContext;
     private RecyclerView modulesRecView;
     private ModuleRecViewAdapter adapter;
@@ -44,7 +45,7 @@ public class ToDoThisWeekFragment extends Fragment {
 
 
         todoController.getExtraInfo();
-        adapter.setModules(todoController.getToDoOneWeek());
+        adapter.setModules(todoController.getToDoNextWeek());
         todoController.getExtraInfo();
 
         //Add space between cards
@@ -54,5 +55,4 @@ public class ToDoThisWeekFragment extends Fragment {
         return view;
 
     }
-
 }
