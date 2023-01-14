@@ -1,5 +1,8 @@
 package com.hciws22.obslite.setting;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public enum Translation {
 
     // Settings
@@ -7,6 +10,20 @@ public enum Translation {
     TITLE_SETTINGS("Einstellungen", "Settings"),
     DARK_MODE("dunkel", "dark"),
     LIGHT_MODE("hell", "light"),
+    // Notifications
+    NOTIFICATION_SUB_TITLE_NEW_APP("Neuer Termin", "New Appointment"),
+    NOTIFICATION_SUB_TITLE_CHANGED_APP("Terminänderung", "Appointment chnaged"),
+    NOTIFICATION_SUB_TITLE_DELETED_APP("Termin gelöscht", "Appointment deleted"),
+    NOTIFICATION_LOCATION("\nOrt: ", "\nLocation: "),
+    NOTIFICATION_DATE("Datum: ","Date: "),
+    // Sync
+    ERROR_OBS_LINK_UPDATE("OBS link konnte nicht aktualisiert werden.\nPrüfe deine Internet Verbindung","Could not update obs link.\nCheck your internet connection"),
+    ERROR_INVALID_OBS_LINK("Ungültiges Url Format.\nBitte gebe eine gültige Url ein ", "Please Provide a valid url"),
+    SYNC_DATE_FORMAT("Zuletzt aktualisert: ", "Last sync: "),
+    RIGHT_NOW_SUCCESS_MSG("gerade jetzt", "just now"),
+
+
+    // Default
     NO_TRANSLATION_PROVIDED("keine Übersetzung", "no translation");
 
     private String de;//true
@@ -19,6 +36,10 @@ public enum Translation {
         return language ? de : en;
     }
 
+    public static boolean loadMode(Context context){
+        SharedPreferences pref = context.getSharedPreferences("com.hciws22.obslite", Context.MODE_PRIVATE);
+        return pref.getBoolean("mode", true);//true is german
+    }
     Translation(String de, String en) {
         this.de = de;
         this.en = en;
