@@ -1,5 +1,6 @@
 package com.hciws22.obslite.sync;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.jobs.ResponseService;
 import com.hciws22.obslite.jobs.SocketConnectionService;
+import com.hciws22.obslite.notification.NotificationController;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -16,14 +18,16 @@ import java.util.List;
 
 public class SyncController {
 
-    ResponseService responseService;
-    FileService fileService;
-    SyncDbService syncDbService;
+    private final ResponseService responseService;
+    private final FileService fileService;
+    private final SyncDbService syncDbService;
+    private final NotificationController notificationController;
 
-    public SyncController(SqLiteHelper sqLiteHelper) {
+    public SyncController(SqLiteHelper sqLiteHelper, Context context) {
         responseService = new ResponseService();
         fileService = new FileService();
         syncDbService = new SyncDbService(sqLiteHelper);
+        notificationController = new NotificationController(sqLiteHelper, context);
     }
 
 

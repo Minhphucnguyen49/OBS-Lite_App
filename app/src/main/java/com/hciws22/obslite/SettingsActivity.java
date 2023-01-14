@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static String mode = "de";
 
-    SyncController syncController = new SyncController(new SqLiteHelper(SettingsActivity.this));
+    SyncController syncController = new SyncController(new SqLiteHelper(SettingsActivity.this), SettingsActivity.this);
     SettingController settingcontroller = new SettingController(syncController, new SqLiteHelper(SettingsActivity.this), new SettingsModel());
     //SharedPreferences sharedPreferences = getSharedPreferences("Mode", SettingsActivity.MODE_PRIVATE);
 
