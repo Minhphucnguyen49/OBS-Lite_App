@@ -29,8 +29,8 @@ public class SettingsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        syncController = new SyncController(new SqLiteHelper(mContext));
-        settingcontroller = new SettingController(syncController, new SqLiteHelper(mContext), new SettingsModel());
+        syncController = new SyncController(mContext);
+        settingcontroller = new SettingController(syncController, mContext);
     }
 
     @Override

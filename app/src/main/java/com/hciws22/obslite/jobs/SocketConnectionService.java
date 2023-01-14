@@ -9,11 +9,7 @@ import java.net.SocketAddress;
 
 public class SocketConnectionService {
 
-
-
     public static boolean hasInternet = false;
-
-
 
     public static boolean isConnected(){
 
@@ -21,8 +17,6 @@ public class SocketConnectionService {
 
         return hasInternet;
     }
-
-
 
     public static void checkNetworkState(){
 

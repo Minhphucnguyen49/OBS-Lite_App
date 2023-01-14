@@ -6,6 +6,7 @@
     <string name="pg2_p1_20_m">PG2  P1  100%\nMon 26.11.22</string>
     <string name="time_location">14:15-15:45\tD15/01.07.</string>
     <string name="notes">Notes</string>
+    <string name="default_notification_channel_id">myChannel</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- TODO: Remove or change this placeholder text -->

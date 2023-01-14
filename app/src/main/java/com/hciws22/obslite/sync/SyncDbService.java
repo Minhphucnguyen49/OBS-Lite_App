@@ -119,21 +119,22 @@ public class SyncDbService {
         try {
 
             int id = 0;
+
+
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
-                String sql2 = updateAppointmentTemplate();
+                StringBuilder sql2 = new StringBuilder(updateAppointmentTemplate());
                 for (AppointmentEntity a : entry.getValue()) {
-
-                    sql2 += "('" + id + "','" + a.getStartAt() + "','" + a.getEndAt() + "','" +
-                            a.getLocation() + "','" + a.getType() + "','" +
-                            a.getNr() + "','" + a.getModuleID() + "'),";
-                    id++;
+                    sql2.append("('").append(id++).append("','").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
                 }
                 // execute set of insert for each module
-                sql2 = sql2.substring(0,sql2.length()-1) + ";";
-                db.execSQL(sql2);
 
+                sql2 = new StringBuilder(sql2.substring(0, sql2.length() - 1) + ";");
+                db.execSQL(sql2.toString());
+
+                System.out.println("Appointment: " + sql2);
             }
+
 
             db.setTransactionSuccessful();
         } finally {

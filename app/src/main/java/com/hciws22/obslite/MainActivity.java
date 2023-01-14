@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -73,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         //fragmentTransaction.addToBackStack(null); //for back arrow to go back one fragment, but navbar indicator isnt changing
         fragmentTransaction.commit();
+
+    }
+
+
+    public void sendNotification(Context context) {
+        NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = context.getSystemService(NotificationManager.class);
+
+        manager.createNotificationChannel(channel);
 
     }
 

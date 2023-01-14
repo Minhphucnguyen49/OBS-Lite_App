@@ -25,6 +25,30 @@ public class SettingsDbService {
         return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1";
     }
 
+    private String resetTableTemplate(String tableName){
+        return "DELETE FROM " + tableName + ";";
+    }
+
+    public void resetDatabaseTemplate(){
+        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        try {
+            db.beginTransaction();
+
+            String[] tablesToReset = {"Sync", "Appointment", "Notification", "Module"};
+
+            for (String s : tablesToReset) {
+                String sql = resetTableTemplate(s);
+                db.execSQL(sql);
+            }
+
+            db.setTransactionSuccessful();
+
+        }finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
     public SyncEntity selectSyncData() {
 
         String queryString = selectLastSyncRecordTemplate();
