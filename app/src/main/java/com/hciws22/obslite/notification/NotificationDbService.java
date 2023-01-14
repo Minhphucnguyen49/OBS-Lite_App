@@ -3,8 +3,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.todo.Todo;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -101,7 +99,8 @@ public class NotificationDbService {
                         convertIntToBool(cursor.getInt(4)),
                         convertIntToBool(cursor.getInt(5)),
                         convertIntToBool(cursor.getInt(6)),
-                        convertIntToBool(cursor.getInt(7))
+                        convertIntToBool(cursor.getInt(7)),
+                        cursor.getString(8)
                 );
 
                 notifications.add(notification);

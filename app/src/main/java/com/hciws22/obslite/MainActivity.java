@@ -59,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int setUpScheduler(){
+
+        AutoSyncService.setContext(this);
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);
+
         JobInfo jobInfo = new JobInfo.Builder(123, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true)

@@ -22,8 +22,10 @@ public class SettingController {
     private final NotificationController notificationController;
     private final SettingsDbService settingsDbService;
     private final SettingsModel settingsModel;
+    private final Context context;
 
     public SettingController(SyncController syncController, Context context) {
+        this.context = context;
         SqLiteHelper sqLiteHelper = new SqLiteHelper(context);
         this.syncController = syncController;
         this.settingsModel = new SettingsModel();
@@ -48,8 +50,8 @@ public class SettingController {
 
         //TODO: synctime needs to be translated
         toggle.setOnClickListener(view -> {
-            toggleLanguage(context);
-            applyChanges(title, context);
+            toggleLanguage();
+            applyChanges(title);
             //applyChanges(title, sendBtn, context);
         });
     }
@@ -58,7 +60,7 @@ public class SettingController {
         boolean isValidUrl = syncController.checkUrlForm(editText.getText().toString());
 
         if(!isValidUrl){
-            String errorMsg = "Please Provide a valid url";
+            String errorMsg =  Translation.getTranslation( Translation.ERROR_INVALID_OBS_LINK, Translation.loadMode(context));
             syncTime.setText(errorMsg);
             return;
         }
@@ -70,13 +72,13 @@ public class SettingController {
 
     }
 
-    public void toggleLanguage(Context context){
+    public void toggleLanguage(){
         //TODO: Check current mode
 
         //toggle auf english
         settingsModel.saveMode(context, !settingsModel.loadMode(context));
     }
-    public void applyChanges (TextView title, Context context){
+    public void applyChanges (TextView title){
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
     }
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));

@@ -46,7 +46,7 @@ public class SettingsFragment extends Fragment {
         TextView syncTime = view.findViewById(R.id.sync_time);
 
         settingcontroller.init(sendButton, title, toggleBtn, editText,syncTime, mContext);
-        settingcontroller.applyChanges(title, mContext);
+        settingcontroller.applyChanges(title);
 
         // Inflate the layout for this fragment
         return view;

@@ -17,7 +17,7 @@ public class NotificationController {
 
     public NotificationController(SqLiteHelper sqLiteHelper, Context context) {
         this.notificationDbService = new NotificationDbService(sqLiteHelper);
-        this.notificationModel = new NotificationModel(new NotificationCompat.Builder(context, "my Notifikation"));
+        this.notificationModel = new NotificationModel(context);
 
         this.context = context;
     }
@@ -30,8 +30,10 @@ public class NotificationController {
              return;
          }
 
-         //notificationModel.sendNotification(context);
-         notificationModel.buildNotification(context);
+         notificationModel.buildChannel();
+
+         notificationModel.buildNotification(notifications);
+
 
          notificationDbService.removeNotifications(true,false,false);
     }

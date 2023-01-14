@@ -7,6 +7,8 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
+
+import com.hciws22.obslite.MainActivity;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
 
@@ -15,9 +17,14 @@ public class AutoSyncService extends JobService {
     private static final String TAG = "AutoSyncService";
     private boolean jobCancelled = false;
     private final SyncController syncController;
+    private static Context context;
 
     public AutoSyncService() {
-        this.syncController =  new SyncController(this);
+        this.syncController =  new SyncController(context);
+    }
+
+    public static void setContext(Context m_context) {
+        context = m_context;
     }
 
 

@@ -10,6 +10,7 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.jobs.ResponseService;
 import com.hciws22.obslite.jobs.SocketConnectionService;
 import com.hciws22.obslite.notification.NotificationController;
+import com.hciws22.obslite.setting.Translation;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -23,7 +24,9 @@ public class SyncController {
     private final SyncDbService syncDbService;
     private final NotificationController notificationController;
 
+    private final Context context;
     public SyncController(Context context) {
+        this.context = context;
 
         SqLiteHelper sqLiteHelper = new SqLiteHelper(context);
         responseService = new ResponseService();
@@ -37,7 +40,12 @@ public class SyncController {
 
         boolean hasFailed = manualSynchronize(editText, true);
 
-        return hasFailed ? "could not update obs link.\nCheck your internet connection" : "Last sync: just now";
+        String errorMsg = Translation.getTranslation( Translation.ERROR_OBS_LINK_UPDATE, Translation.loadMode(context));
+        String success =
+                Translation.getTranslation( Translation.SYNC_DATE_FORMAT, Translation.loadMode(context)) +
+                Translation.getTranslation( Translation.RIGHT_NOW_SUCCESS_MSG, Translation.loadMode(context));
+
+        return hasFailed ? errorMsg : success;
 
 
     }
