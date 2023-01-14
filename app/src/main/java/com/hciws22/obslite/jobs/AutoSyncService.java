@@ -17,7 +17,7 @@ public class AutoSyncService extends JobService {
     private final SyncController syncController;
 
     public AutoSyncService() {
-        this.syncController =  new SyncController(new SqLiteHelper(this));
+        this.syncController =  new SyncController(this);
     }
 
 

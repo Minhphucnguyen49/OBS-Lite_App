@@ -6,6 +6,7 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.todo.Todo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NotificationDbService {
@@ -25,9 +26,9 @@ public class NotificationDbService {
     }
 
     private String whereCondition(int newAdded, int oldChanged,int oldDeleted){
-        return " n WHERE n." + COLUMNS_FOR_NOTIFICATION[2] + " = " + newAdded + " " +
-                "OR " + " n WHERE n." + COLUMNS_FOR_NOTIFICATION[3] + " = " + oldChanged + " " +
-                "OR " + " n WHERE n." + COLUMNS_FOR_NOTIFICATION[4] + " = " + oldDeleted + ";";
+        return " WHERE " + COLUMNS_FOR_NOTIFICATION[2] + " = " + newAdded + " " +
+                "OR " + COLUMNS_FOR_NOTIFICATION[3] + " = " + oldChanged + " " +
+                "OR " + COLUMNS_FOR_NOTIFICATION[4] + " = " + oldDeleted + ";";
     }
 
     private String deleteFromNotificationTableTemplate(int newAdded, int oldChanged,int oldDeleted ){
@@ -86,14 +87,21 @@ public class NotificationDbService {
         try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery(sql, null)) {
 
+
+            if(!cursor.moveToFirst()){
+                return Collections.emptyList();
+            }
+
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 Notification notification = new Notification(
                         cursor.getInt(0),
-                        getName(cursor.getString(1)),
-                        convertIntToBool(cursor.getInt(2)),
-                        convertIntToBool(cursor.getInt(3)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        getName(cursor.getString(3)),
                         convertIntToBool(cursor.getInt(4)),
-                        convertIntToBool(cursor.getInt(5))
+                        convertIntToBool(cursor.getInt(5)),
+                        convertIntToBool(cursor.getInt(6)),
+                        convertIntToBool(cursor.getInt(7))
                 );
 
                 notifications.add(notification);

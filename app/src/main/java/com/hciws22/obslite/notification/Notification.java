@@ -3,6 +3,8 @@ package com.hciws22.obslite.notification;
 public class Notification {
 
     private final Integer id;
+    private String type;
+    private String location;
     private final String moduleTitle;
     private final boolean newAdded;
     private final boolean oldChanged;
@@ -11,13 +13,23 @@ public class Notification {
     private String message;
 
 
-    public Notification(Integer id, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, boolean isDisabled) {
+    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, boolean isDisabled) {
         this.id = id;
+        this.type = type;
+        this.location = location;
         this.moduleTitle = moduleTitle;
         this.newAdded = newAdded;
         this.oldChanged = oldChanged;
         this.oldDeleted = oldDeleted;
         this.isDisabled = isDisabled;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public Integer getId() {

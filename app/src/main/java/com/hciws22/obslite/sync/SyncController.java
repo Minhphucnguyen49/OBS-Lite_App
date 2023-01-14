@@ -23,7 +23,9 @@ public class SyncController {
     private final SyncDbService syncDbService;
     private final NotificationController notificationController;
 
-    public SyncController(SqLiteHelper sqLiteHelper, Context context) {
+    public SyncController(Context context) {
+
+        SqLiteHelper sqLiteHelper = new SqLiteHelper(context);
         responseService = new ResponseService();
         fileService = new FileService();
         syncDbService = new SyncDbService(sqLiteHelper);

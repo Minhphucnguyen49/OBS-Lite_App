@@ -30,8 +30,9 @@ public class NotificationController {
              return;
          }
 
+         //notificationModel.sendNotification(context);
          notificationModel.buildNotification(context);
-         notificationModel.sendNotification(context);
+
          notificationDbService.removeNotifications(true,false,false);
     }
 }
