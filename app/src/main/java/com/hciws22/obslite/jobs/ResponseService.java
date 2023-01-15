@@ -18,7 +18,7 @@ public class ResponseService implements Callback {
 
     private static final String WEB_ADDRESS = "https://obs.fbi.h-da.de/obs/";
     private static final String[] REQUEST_PARAM = {"action=", "lfkey="};
-    private final String SERVER_URI = "https://obs.fbi.h-da.de/obs/service.php?action=getPersPlanAbo&lfkey=a52b599e4590ef0dcebd9cb3cce4c069fb14723adb31161445ce8d31de3942cd998ef01c09f5ffac";
+    private final String SERVER_URI = "https://obs.fbi.h-da.de/obs/service.php?action=getPersPlanAbo&lfkey=ebf5317528799bfe687bd3203b724586082bce6c920044f15a7184abcdb7cd6460d39333528ff026";
     private final OkHttpClient client = new OkHttpClient().newBuilder().build();
     private static final List<String> filteredList = new ArrayList<>();
     private static boolean lock = true;

@@ -75,7 +75,11 @@ public class SyncController {
             return false;
         }
 
-        return manualSynchronize(obsLink, false);
+        boolean errorOccurred = manualSynchronize(obsLink, false);
+
+        notificationController.createNotification();
+
+        return errorOccurred;
 
     }
 

@@ -13,7 +13,7 @@ public class Notification {
     private String message;
 
 
-    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, boolean isDisabled, String message) {
+    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldDeleted, boolean oldChanged, boolean isDisabled, String message) {
         this.id = id;
         this.type = type;
         this.location = location;

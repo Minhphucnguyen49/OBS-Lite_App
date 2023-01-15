@@ -13,13 +13,10 @@ public class NotificationController {
 
     private final NotificationDbService notificationDbService;
     private final NotificationModel notificationModel;
-    private final Context context;
 
     public NotificationController(SqLiteHelper sqLiteHelper, Context context) {
         this.notificationDbService = new NotificationDbService(sqLiteHelper);
         this.notificationModel = new NotificationModel(context);
-
-        this.context = context;
     }
 
     public void createNotification(){
@@ -34,7 +31,10 @@ public class NotificationController {
 
          notificationModel.buildNotification(notifications);
 
+         notificationDbService.removeNotifications(notifications);
+    }
 
-         notificationDbService.removeNotifications(true,false,false);
+    public void clear() {
+        notificationDbService.truncateNotifications();
     }
 }

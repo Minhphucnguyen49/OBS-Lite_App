@@ -33,6 +33,10 @@ public class NotificationDbService {
         return "DELETE FROM " + TABLE_NOTIFICATION + whereCondition(newAdded,oldChanged,oldDeleted);
     }
 
+    private String deleteFromNotificationTableWhereTemplate( Notification notification ){
+        return "DELETE FROM " + TABLE_NOTIFICATION + " WHERE id = " + notification.getId() + ";";
+    }
+
     private String selectNotificationTableTemplate(int newAdded, int oldChanged,int oldDeleted ) {
         return "SELECT * FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
     }
@@ -64,12 +68,15 @@ public class NotificationDbService {
             db.close();
         }
     }
-    public void removeNotifications(boolean newAdded, boolean oldChanged, boolean oldDeleted){
+    public void removeNotifications(List<Notification> notifications){
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = deleteFromNotificationTableTemplate(convertBoolToInt(newAdded),convertBoolToInt(oldChanged),convertBoolToInt(oldDeleted));
-            db.execSQL(sql);
+
+            for (Notification notification : notifications){
+               String sql = deleteFromNotificationTableWhereTemplate(notification);
+                db.execSQL(sql);
+            }
             db.setTransactionSuccessful();
 
         }finally {
@@ -90,7 +97,8 @@ public class NotificationDbService {
                 return Collections.emptyList();
             }
 
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            int i = 0;
+            for (cursor.moveToFirst(); !cursor.isAfterLast() && i < 3; cursor.moveToNext()) {
                 Notification notification = new Notification(
                         cursor.getInt(0),
                         cursor.getString(1),
@@ -104,6 +112,7 @@ public class NotificationDbService {
                 );
 
                 notifications.add(notification);
+                i++;
             }
         }
 
