@@ -31,10 +31,12 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<Week>> expandableListDetail;
+    //private HashMap<String, List<Week>> expandableListDetail;
+    private HashMap<String, List<String>> expandableListDetail;
 
     public WeekListAdapter(Context context, List<String> expandableListTitle,
-                           HashMap<String, List<Week>> expandableListDetail) {
+                           //HashMap<String, List<Week>> expandableListDetail) {
+        HashMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -42,7 +44,8 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListDetail
+                .get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
 
@@ -54,7 +57,7 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final String expandedListText = (String) getChild(listPosition, expandedListPosition);
+        final String expandedListText =  (String)getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,7 +70,8 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListDetail
+                .get(this.expandableListTitle.get(listPosition))
                 .size();
     }
 

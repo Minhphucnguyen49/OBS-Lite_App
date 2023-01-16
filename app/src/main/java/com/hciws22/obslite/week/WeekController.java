@@ -38,6 +38,24 @@ public class WeekController {
 
         return expandableListDetail;
     }
+
+    public HashMap<String, List<String>> getDataString(){
+        HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+
+        List<String> monday = getWeekString(getListDetailOf(0));
+        List<String> tuesday = getWeekString(getListDetailOf(1));
+        List<String> wednesday = getWeekString(getListDetailOf(2));
+        List<String> thursday = getWeekString(getListDetailOf(3));
+        List<String> friday = getWeekString(getListDetailOf(4));
+
+        expandableListDetail.put("MONDAY",monday);
+        expandableListDetail.put("TUESDAY",tuesday);
+        expandableListDetail.put("WEDNESDAY",wednesday);
+        expandableListDetail.put("THURSDAY",thursday);
+        expandableListDetail.put("FRIDAY",friday);
+
+        return expandableListDetail;
+    }
     public String shortenName(String fullName){
         String moduleInitials = "";
         if(fullName.contains(" ")) {
@@ -55,11 +73,11 @@ public class WeekController {
         }
         return fullName;
     }
-    public ArrayList<String> getWeekString (ArrayList<Week> weekArrayList){
-        ArrayList<String> weekString = new ArrayList<>();
-
+    public List<String> getWeekString (List<Week> weekArrayList){
+        List<String> weekString = new ArrayList<>();
+        String tab = "\t \t \t \t \t \t \t \t \t";
         weekArrayList.forEach(s -> {
-            weekString.add(s.getModuleType()+":"+shortenName(s.getName())+" "+s.getLocation()+" "+s.getTime());
+            weekString.add(s.getModuleType() + ":" + shortenName(s.getName())+ tab + s.getLocation() + tab + s.getTime());
         });
 
         return weekString;

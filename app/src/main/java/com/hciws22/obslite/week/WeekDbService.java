@@ -53,7 +53,7 @@ public class WeekDbService {
                 COLUMNS_FOR_APPOINTMENT[5] +
                 " FROM " + TABLE_APPOINTMENT + " WHERE " +
                 COLUMNS_FOR_APPOINTMENT[0] +
-                " LIKE '" + ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(previousOrSame(DayOfWeek.MONDAY)).plusDays(dayOfWeek) + "%'" +
+                " LIKE '" + ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(previousOrSame(DayOfWeek.MONDAY)).plusDays(dayOfWeek).toLocalDate() + "%'" +
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
 
