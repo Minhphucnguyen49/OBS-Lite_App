@@ -94,6 +94,9 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
         setVisibilityView(holder, position);
+        holder.downArrow.setOnClickListener(view -> {
+            holder.downArrow.animate().rotation(holder.downArrow.getRotation()-180).start();
+        });
 
 
     }
@@ -102,12 +105,10 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         if (modules.get(position).isExpanded()){
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
-            holder.downArrow.setVisibility(View.GONE);
+
         }else{
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.GONE);
-            //holder.downArrow.setVisibility(View.VISIBLE);
-            holder.upArrow.setVisibility(View.GONE);
         }
     }
 
