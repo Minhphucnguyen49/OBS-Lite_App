@@ -10,7 +10,7 @@ import java.util.List;
 public class NotificationDbService {
 
     private static final String TABLE_NOTIFICATION = "Notification";
-    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "isDisabled", "message"};
+    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
 
     public SqLiteHelper sqLiteHelper;
 
@@ -107,8 +107,7 @@ public class NotificationDbService {
                         convertIntToBool(cursor.getInt(4)),
                         convertIntToBool(cursor.getInt(5)),
                         convertIntToBool(cursor.getInt(6)),
-                        convertIntToBool(cursor.getInt(7)),
-                        cursor.getString(8)
+                        cursor.getString(7)
                 );
 
                 notifications.add(notification);

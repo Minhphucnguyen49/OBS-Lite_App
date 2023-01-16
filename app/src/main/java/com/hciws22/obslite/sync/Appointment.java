@@ -1,11 +1,11 @@
 package com.hciws22.obslite.sync;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public class Appointment {
 
+    private String id;
     private ZonedDateTime startAt;
     private ZonedDateTime endAt;
     private String location;
@@ -58,4 +58,11 @@ public class Appointment {
         this.location = location;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getID(){
+        return id;
+    }
 }

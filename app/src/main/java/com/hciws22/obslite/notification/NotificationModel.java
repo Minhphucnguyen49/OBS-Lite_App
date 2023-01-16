@@ -84,9 +84,10 @@ public class NotificationModel {
     private String getContentType(Notification notification){
 
         String message = "";
-        if(notification.isOldChanged())
 
-            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_CHANGED_APP, Translation.loadMode(context));
+        if(notification.isOldDeleted())
+            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_APP, Translation.loadMode(context));
+
 
         if(notification.isNewAdded())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_NEW_APP, Translation.loadMode(context));

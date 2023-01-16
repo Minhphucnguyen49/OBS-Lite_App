@@ -42,13 +42,14 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
        String createAppointmentStatement = "" +
                "CREATE TABLE Appointment (" +
-               "id INTEGER PRIMARY KEY, " +
+               "id TEXT PRIMARY KEY, " +
                "startAt TEXT, " +
                "endAt TEXT, " +
                "location TEXT, " +
                "type TEXT, " +
                "nr TEXT, " +
                "moduleID TEXT NOT NULL, " +
+               "CONSTRAINT unique_appointment UNIQUE (startAt,endAt,moduleID), "+
                "FOREIGN KEY (moduleID) REFERENCES Module(id) " +
                "ON UPDATE CASCADE ON DELETE CASCADE" +
                ");";
@@ -72,26 +73,15 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                "location TEXT," +
                "moduleTitle TEXT," +
                "newAdded INTEGER DEFAULT 0," +
-               "oldDeleted INTEGER DEFAULT 0," +
                "oldChanged INTEGER DEFAULT 0," +
-               "isDisabled INTEGER DEFAULT 1," +
-               "message TEXT);";
+               "oldDeleted INTEGER DEFAULT 0," +
+               "message TEXT NOT NULL);";
 
-       String createTriggerUpdateAppointment = "" +
-               "CREATE TRIGGER IF NOT EXISTS notification_appointments_changed_trigger "+
-               "BEFORE INSERT ON Appointment FOR EACH ROW " +
-               "WHEN NEW.id IN (SELECT id FROM Appointment) " +
-               "AND " +
-               "(NEW.startAt NOT IN (SELECT a.startAt FROM Appointment a WHERE NEW.id = a.id ) " +
-               "OR NEW.endAt NOT IN (SELECT a.endAt FROM Appointment a WHERE NEW.id = a.id ) ) " +
-               "BEGIN " +
-               "INSERT INTO Notification ( type, location, moduleTitle, oldChanged, message ) " +
-               "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
-               "END;";
 
-       String createTriggerDeleteAppointment = "" +
-               "CREATE TRIGGER IF NOT EXISTS notification_appointment_deleted " +
-               "AFTER DELETE ON Appointment FOR EACH ROW " +
+       String createTriggerDeletedAppointment = "" +
+               "CREATE TRIGGER IF NOT EXISTS notification_appointment_deleted_trigger BEFORE DELETE ON Appointment " +
+               "FOR EACH ROW " +
+               "WHEN OLD.id IN (SELECT id FROM Appointment ) " +
                "BEGIN " +
                "INSERT INTO Notification ( type, location, moduleTitle, oldDeleted, message ) " +
                "VALUES (OLD.type, OLD.location, OLD.moduleID, 1, (OLD.startAt || ' ' || OLD.endAt)); " +
@@ -99,13 +89,20 @@ public class SqLiteHelper extends SQLiteOpenHelper {
 
        String createTriggerAddedAppointment = "" +
                "CREATE TRIGGER IF NOT EXISTS notification_appointments_added_trigger " +
-               "BEFORE INSERT ON Appointment FOR EACH ROW " +
-               "WHEN NEW.id NOT IN (SELECT id FROM Appointment) " +
+               "AFTER INSERT ON Appointment FOR EACH ROW " +
                "BEGIN " +
                "INSERT INTO Notification ( type, location, moduleTitle, newAdded, message ) " +
                "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
                "END;";
 
+        String createTriggerChangedAppointment = "" +
+                "CREATE TRIGGER IF NOT EXISTS notification_appointments_changed_trigger " +
+                "AFTER UPDATE ON Appointment " +
+                "WHEN (NEW.startAt || NEW.endAt || NEW.moduleID) <> (OLD.startAt || OLD.endAt || OLD.moduleID) " +
+                "BEGIN " +
+                "INSERT INTO Notification ( type, location, moduleTitle, oldChanged, message ) " +
+                "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
+                "END;";
 
         db.execSQL(createModuleStatement);
         db.execSQL(createAppointmentStatement);
@@ -113,10 +110,11 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         db.execSQL(createSyncStatement);
         db.execSQL(createNotification);
 
-        // trigger for filling notification table
-        db.execSQL(createTriggerUpdateAppointment);
         db.execSQL(createTriggerAddedAppointment);
-        db.execSQL(createTriggerDeleteAppointment);
+        db.execSQL(createTriggerDeletedAppointment);
+        db.execSQL(createTriggerChangedAppointment);
+
+
 
     }
 
