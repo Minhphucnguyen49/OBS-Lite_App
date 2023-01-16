@@ -104,6 +104,16 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                 "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
                 "END;";
 
+        String createInsertTrigger = "" +
+                "CREATE TRIGGER IF NOT EXISTS notification_appointments_insert_trigger " +
+                "BEFORE INSERT ON Appointment FOR EACH ROW " +
+                "WHEN (NEW.id)  IN (SELECT id FROM Appointment) " +
+                "BEGIN " +
+                "UPDATE Appointment SET " +
+                "startAt = NEW.startAt, endAt = NEW.endAt, location = NEW.location, type = NEW.type, moduleID = NEW.moduleID " +
+                "WHERE id = NEW.id; " +
+                "END;";
+
         db.execSQL(createModuleStatement);
         db.execSQL(createAppointmentStatement);
         db.execSQL(createExtraInfoStatement);
@@ -113,6 +123,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         db.execSQL(createTriggerAddedAppointment);
         db.execSQL(createTriggerDeletedAppointment);
         db.execSQL(createTriggerChangedAppointment);
+        db.execSQL(createInsertTrigger);
 
 
 

@@ -48,8 +48,8 @@ public class SyncDbService {
                 COLUMNS_FOR_MODULE[2] + ") values ";
     }
 
-    private String updateAppointmentTemplate(){
-        return "insert into " +
+    private String insertAppointmentTemplate(){
+        return "insert into ignore" +
                 TABLE_APPOINTMENT +" ("+ COLUMNS_FOR_APPOINTMENT[0] + ", " +
                 COLUMNS_FOR_APPOINTMENT[1] + ", "+ COLUMNS_FOR_APPOINTMENT[2]  +", "+
                 COLUMNS_FOR_APPOINTMENT[3] + ", "+ COLUMNS_FOR_APPOINTMENT[4] + ", "+
@@ -157,39 +157,17 @@ public class SyncDbService {
 
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
+
+                StringBuilder sql = new StringBuilder(insertAppointmentTemplate());
                 for (AppointmentEntity a : entry.getValue()) {
 
-                   /* String sql = updateAppointmentTemplate();
-                    SQLiteStatement statement = db.compileStatement(sql);
-
-                    statement.bindString(1, a.getId()); // 1-based: matches first '?' in sql string
-                    statement.bindString(2, a.getStartAt().toString());
-                    statement.bindString(3, a.getEndAt().toString()); // 1-based: matches first '?' in sql string
-                    statement.bindString(4, a.getLocation().toString());
-                    statement.bindString(5, a.getType()); // 1-based: matches first '?' in sql string
-                    statement.bindString(6, a.getNr());
-                    statement.bindString(7, a.getModuleID());*/
-
-                    ContentValues args = new ContentValues();
-
-                    args.put(COLUMNS_FOR_APPOINTMENT[0], a.getId());
-                    args.put(COLUMNS_FOR_APPOINTMENT[1], a.getStartAt().toString());
-                    args.put(COLUMNS_FOR_APPOINTMENT[2], a.getEndAt().toString());
-                    args.put(COLUMNS_FOR_APPOINTMENT[3], a.getLocation());
-                    args.put(COLUMNS_FOR_APPOINTMENT[4], a.getType());
-                    args.put(COLUMNS_FOR_APPOINTMENT[5], a.getNr());
-                    args.put(COLUMNS_FOR_APPOINTMENT[6], a.getModuleID());
-
-
-                    long returnValue = db.insertWithOnConflict(TABLE_APPOINTMENT, COLUMNS_FOR_APPOINTMENT[0], args, SQLiteDatabase.CONFLICT_REPLACE);
-
-
-
+                    sql.append("('").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
                 }
                 // execute set of insert for each module
+                sql = new StringBuilder(sql.substring(0, sql.length() - 1) + ";");
+                db.execSQL(sql.toString());
+
             }
-
-
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
