@@ -49,11 +49,11 @@ public class SyncDbService {
     }
 
     private String insertAppointmentTemplate(){
-        return "insert into ignore" +
+        return "INSERT OR IGNORE INTO " +
                 TABLE_APPOINTMENT +" ("+ COLUMNS_FOR_APPOINTMENT[0] + ", " +
                 COLUMNS_FOR_APPOINTMENT[1] + ", "+ COLUMNS_FOR_APPOINTMENT[2]  +", "+
                 COLUMNS_FOR_APPOINTMENT[3] + ", "+ COLUMNS_FOR_APPOINTMENT[4] + ", "+
-                COLUMNS_FOR_APPOINTMENT[5] +", "+ COLUMNS_FOR_APPOINTMENT[6] +" ) values (?,?,?,?,?,?) ";
+                COLUMNS_FOR_APPOINTMENT[5] +", "+ COLUMNS_FOR_APPOINTMENT[6] +" ) values ";
     }
 
     private String updateAppointmentOnConflictTemplate(){
@@ -161,10 +161,12 @@ public class SyncDbService {
                 StringBuilder sql = new StringBuilder(insertAppointmentTemplate());
                 for (AppointmentEntity a : entry.getValue()) {
 
-                    sql.append("('").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
+                    sql.append("('").append(a.getId()).append("','").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
                 }
                 // execute set of insert for each module
+
                 sql = new StringBuilder(sql.substring(0, sql.length() - 1) + ";");
+                Log.d("Synchronize: ", sql.toString());
                 db.execSQL(sql.toString());
 
             }
