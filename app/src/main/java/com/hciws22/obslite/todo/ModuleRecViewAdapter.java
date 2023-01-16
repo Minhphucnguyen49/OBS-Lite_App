@@ -45,6 +45,36 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         return fullName;
     }
+    public String shortenNameSimon(String fullName){
+        String LabNumber = " #0";
+        String actualName = fullName;
+        String shortName = "";
+
+        if(fullName.contains("#")) {
+            LabNumber = fullName.substring(fullName.length() - 3);
+            actualName = fullName.substring(0, fullName.length() - 3);
+        }
+        String moduleInitials = "";
+        if(actualName.contains(" ")) {
+            //mehr als ein Wort
+            for (String s : actualName.split(" ")) {
+                moduleInitials += s.charAt(0);
+            }
+            if(fullName.contains("#")) {
+                shortName=moduleInitials+LabNumber;
+            }else{
+                shortName=moduleInitials;
+            }
+            return shortName;
+        }
+
+        if(fullName.contains("#")) {
+            shortName =actualName+=LabNumber;
+        }
+
+        return shortName;
+    }
+
 
     @NonNull
     @Override
@@ -59,13 +89,16 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * CollapsedLayout
          */
-        //float percentage = holder.slider.getValue();
-        //modules.get(position).setPercentage(Float.toString(percentage));
+        String cardPercentage="";
+        final String cardName = shortenName(modules.get(position).getName()) + "\n" ;
+        final String cardDate = modules.get(position).getDate()+ "\n";
+        if (modules.get(position).getPercentage().isEmpty()){
+            cardPercentage = " 0%";
+        }else {
+            cardPercentage = modules.get(position).getPercentage() + " %";
+        }
+        holder.moduleInfor.setText(cardDate + cardName + cardPercentage );
 
-        final String upRow = shortenName(modules.get(position).getName()) + " " ;
-        final String downRow = "\n" + modules.get(position).getDate();
-        final String sliderValue = modules.get(position).getPercentage() + " %";
-        holder.moduleInfor.setText(upRow + sliderValue + downRow);
 
         holder.module.setOnClickListener(v -> {
             //TODO: Navigate to MODULE Screen
@@ -74,7 +107,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * ExpandedLayout
          */
-
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
             //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
             value = slider.getValue();
@@ -89,8 +121,9 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
              * no data will be shown except for the
              * default value PG2 P1 100% assigned in xml
              */
-            holder.moduleInfor.setText(upRow + Integer.toString(valueInt) + " %" + downRow);
+            holder.moduleInfor.setText(cardDate + cardName + Integer.toString(valueInt) + " %");
         });
+
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
         setVisibilityView(holder, position);

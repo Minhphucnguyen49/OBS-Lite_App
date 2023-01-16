@@ -62,8 +62,11 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
 
         if( modules.get(position).getModuleType().contains("V")){
             holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLecture));
-        }else if(modules.get(position).getModuleType().contains("P")){
+        }else if(modules.get(position).getModuleType().contains("P") || modules.get(position).getModuleType().contains("Ü")){
             holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLab));
+        }
+        if ( modules.get(position).getModuleType().isEmpty()){
+
         }
 
     }

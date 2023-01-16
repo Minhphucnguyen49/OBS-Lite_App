@@ -133,7 +133,7 @@ public class TodoDbService {
 
         return localDateTime
                 .getDayOfWeek()
-                .getDisplayName(TextStyle.FULL, Locale.getDefault()).substring(0,3) + " " + localDateTime.toLocalDate().toString().replace("-",".");
+                .getDisplayName(TextStyle.FULL, Locale.getDefault()).substring(0,2) + " " + localDateTime.toLocalDate().toString().replace("-",".");
     }
 
     private ZonedDateTime parseFormat(String dateToString){

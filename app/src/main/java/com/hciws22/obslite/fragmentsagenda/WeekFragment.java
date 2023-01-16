@@ -29,7 +29,8 @@ public class WeekFragment extends Fragment {
     private ExpandableListView expandableListView;
     private ExpandableListAdapter adapter;
     List<String> expandableListTitle;
-    HashMap<String, List<Week>> expandableListDetail;
+    //HashMap<String, List<Week>> expandableListDetail;
+    HashMap<String, List<String>> expandableListDetail;
     private Context mContext;
     WeekController weekController;
 
@@ -48,7 +49,8 @@ public class WeekFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         expandableListView = view.findViewById(R.id.expandableListView);
-        expandableListDetail = weekController.getData();
+        //expandableListDetail = weekController.getData();
+        expandableListDetail = weekController.getDataString();
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
 
         adapter = new WeekListAdapter(mContext, expandableListTitle, expandableListDetail);
@@ -66,7 +68,7 @@ public class WeekFragment extends Fragment {
                     expandableListTitle.get(groupPosition) + " List Collapsed.",
                     Toast.LENGTH_SHORT).show();
         });
-
+/*
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
             Toast.makeText(
                     mContext,
@@ -78,6 +80,7 @@ public class WeekFragment extends Fragment {
             ).show();
             return false;
         });
+ */
         return view;
     }
 }

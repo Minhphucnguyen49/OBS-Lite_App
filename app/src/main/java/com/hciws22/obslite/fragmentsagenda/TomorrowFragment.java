@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -45,12 +46,19 @@ public class TomorrowFragment extends Fragment {
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
 
+        exceptionsHandling();
         adapter.setModules(todayController.getTomorrow());
 
         //Add space between cards
         addSpaceBetweenCards();
 
         return view;
+    }
+
+    private void exceptionsHandling() {
+        if (todayController.getTomorrow().isEmpty()){
+            Toast.makeText(mContext, "You are free tomorrow Yoo-hoo!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addSpaceBetweenCards() {
