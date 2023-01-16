@@ -41,7 +41,7 @@ public class TodayDbService {
     }
 
     public List<Today> selectTomorrowAppointments(){
-        return selectFunctionPattern(selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(4)));
+        return selectFunctionPattern(selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(1)));
     }
 
     public List<Today> selectFunctionPattern(String queryString) {
