@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.week.WeekController;
-/*
+
 public class WeekActivity extends AppCompatActivity {
 
     private ListView modulesList;
@@ -24,7 +24,7 @@ public class WeekActivity extends AppCompatActivity {
         setContentView(R.layout.week);
 
         modulesList = findViewById(R.id.modulesListView);
-
+/*
         ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.list_item_week_listview,
@@ -42,7 +42,7 @@ public class WeekActivity extends AppCompatActivity {
             startActivity(intent);
             this.overridePendingTransition(0, 0);
 
-            Fragment todayFragment = new TodayFragment();
+         Fragment todayFragment = new TodayFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.activity_main, todayFragment).commit();
             finish();
@@ -50,13 +50,15 @@ public class WeekActivity extends AppCompatActivity {
             ft.setCustomAnimations(0,0);
 
 
+
+
         });
 
         modulesList.setAdapter(modulesAdapter);
+        */
 
     }
 
 
 }
 
- */
