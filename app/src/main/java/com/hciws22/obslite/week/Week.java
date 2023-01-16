@@ -9,6 +9,8 @@ public class Week {
     private String time;
     private String location;
 
+    private boolean isExpanded;
+
     public Week (String name, String moduleType, String location, String date, String time) {
         this.name = name;
         this.moduleType = moduleType;

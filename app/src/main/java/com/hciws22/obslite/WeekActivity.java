@@ -24,11 +24,11 @@ public class WeekActivity extends AppCompatActivity {
         setContentView(R.layout.week);
 
         modulesList = findViewById(R.id.modulesListView);
-
+/*
         ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
                 this,
-                R.layout.list_item_week,
-                R.id.text_view,
+                R.layout.list_item_week_listview,
+                R.id.expanded_list_item,
                 weekController.getWeekString(weekController.getWeekArrayList())
         );
 
@@ -41,20 +41,24 @@ public class WeekActivity extends AppCompatActivity {
             Intent intent = new Intent(WeekActivity.this, MainActivity.class);
             startActivity(intent);
             this.overridePendingTransition(0, 0);
-            /*
-            Fragment todayFragment = new TodayFragment();
+
+         Fragment todayFragment = new TodayFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.activity_main, todayFragment).commit();
             finish();
             this.overridePendingTransition(0, 0);
             ft.setCustomAnimations(0,0);
 
-             */
+
+
+
         });
 
         modulesList.setAdapter(modulesAdapter);
+        */
 
     }
 
 
 }
+

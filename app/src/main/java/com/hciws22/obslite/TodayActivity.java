@@ -40,8 +40,8 @@ public class TodayActivity extends AppCompatActivity {
     }
     public void moveWeek(View moveBtn) {
         moveBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(TodayActivity.this, WeekActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(TodayActivity.this, WeekActivity.class);
+            //startActivity(intent);
         });
     }
 }

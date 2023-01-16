@@ -15,8 +15,8 @@
         android:background="@color/dark"
         tools:context=".WeekActivity">
 
-        <ExpandableListView
-            android:id="@+id/expandableListView"
+        <ListView
+            android:id="@+id/modulesListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"

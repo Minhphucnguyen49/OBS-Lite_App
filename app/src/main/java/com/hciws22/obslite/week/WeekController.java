@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,9 +19,25 @@ public class WeekController {
         this.weekDbService = new WeekDbService(sqLiteHelper);
     }
 
-    public List<Week> getWeekList() { return weekDbService.selectWeekAppointments(); }
-    public ArrayList<Week> getWeekArrayList() {return weekDbService.selectWeekAppointmentsArray(); }
+    public List<Week> getListDetailOf(int day) { return weekDbService.selectTodayAppointment(day); }
 
+    public HashMap<String, List<Week>> getData(){
+        HashMap<String, List<Week>> expandableListDetail = new HashMap<String, List<Week>>();
+
+        List<Week> monday = new ArrayList<Week>(getListDetailOf(0));
+        List<Week> tuesday = new ArrayList<Week>(getListDetailOf(1));
+        List<Week> wednesday = new ArrayList<Week>(getListDetailOf(2));
+        List<Week> thursday = new ArrayList<Week>(getListDetailOf(3));
+        List<Week> friday = new ArrayList<Week>(getListDetailOf(4));
+
+        expandableListDetail.put("MONDAY",monday);
+        expandableListDetail.put("TUESDAY",tuesday);
+        expandableListDetail.put("WEDNESDAY",wednesday);
+        expandableListDetail.put("THURSDAY",thursday);
+        expandableListDetail.put("FRIDAY",friday);
+
+        return expandableListDetail;
+    }
     public String shortenName(String fullName){
         String moduleInitials = "";
         if(fullName.contains(" ")) {
@@ -36,8 +53,6 @@ public class WeekController {
         if(fullName.contains("Betriebssysteme")){
             return "BS";
         }
-
-
         return fullName;
     }
     public ArrayList<String> getWeekString (ArrayList<Week> weekArrayList){
