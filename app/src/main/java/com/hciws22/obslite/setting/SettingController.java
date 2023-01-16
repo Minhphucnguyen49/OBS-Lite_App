@@ -67,7 +67,7 @@ public class SettingController {
 
         settingsDbService.resetDatabaseTemplate();
         syncTime.setText(syncController.updateSyncLabel(editText.getText().toString()));
-       // notificationController.createNotification();
+        //notificationController.createNotification();
         notificationController.clear();
 
 

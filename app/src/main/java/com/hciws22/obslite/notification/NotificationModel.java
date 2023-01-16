@@ -76,7 +76,7 @@ public class NotificationModel {
 
         }
         builder.setContentText(content.toString())
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
@@ -85,8 +85,8 @@ public class NotificationModel {
 
         String message = "";
 
-        if(notification.isOldDeleted())
-            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_APP, Translation.loadMode(context));
+        if(notification.isOldChanged())
+            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_CHANGED_APP, Translation.loadMode(context));
 
 
         if(notification.isNewAdded())

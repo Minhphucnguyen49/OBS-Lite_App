@@ -10,7 +10,7 @@ import java.util.List;
 public class NotificationDbService {
 
     private static final String TABLE_NOTIFICATION = "Notification";
-    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
+    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
 
     public SqLiteHelper sqLiteHelper;
 
@@ -37,8 +37,17 @@ public class NotificationDbService {
         return "DELETE FROM " + TABLE_NOTIFICATION + " WHERE id = " + notification.getId() + ";";
     }
 
+
+
     private String selectNotificationTableTemplate(int newAdded, int oldChanged,int oldDeleted ) {
-        return "SELECT * FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
+        return "SELECT " + COLUMNS_FOR_NOTIFICATION[0] + ", "
+                + COLUMNS_FOR_NOTIFICATION[1] + ", "
+                + COLUMNS_FOR_NOTIFICATION[2] + ", "
+                + COLUMNS_FOR_NOTIFICATION[3] + ", "
+                + COLUMNS_FOR_NOTIFICATION[4] + ", "
+                + COLUMNS_FOR_NOTIFICATION[5] + ", "
+                + COLUMNS_FOR_NOTIFICATION[6] + ", "
+                + COLUMNS_FOR_NOTIFICATION[7] + " FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
     }
 
     private int convertBoolToInt(Boolean bool){
@@ -97,8 +106,7 @@ public class NotificationDbService {
                 return Collections.emptyList();
             }
 
-            int i = 0;
-            for (cursor.moveToFirst(); !cursor.isAfterLast() && i < 3; cursor.moveToNext()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast() ; cursor.moveToNext()) {
                 Notification notification = new Notification(
                         cursor.getInt(0),
                         cursor.getString(1),
@@ -111,7 +119,6 @@ public class NotificationDbService {
                 );
 
                 notifications.add(notification);
-                i++;
             }
         }
 

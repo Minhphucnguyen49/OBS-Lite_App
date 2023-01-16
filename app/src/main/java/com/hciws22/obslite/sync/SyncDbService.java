@@ -49,7 +49,7 @@ public class SyncDbService {
     }
 
     private String insertAppointmentTemplate(){
-        return "INSERT OR IGNORE INTO " +
+        return "INSERT INTO " +
                 TABLE_APPOINTMENT +" ("+ COLUMNS_FOR_APPOINTMENT[0] + ", " +
                 COLUMNS_FOR_APPOINTMENT[1] + ", "+ COLUMNS_FOR_APPOINTMENT[2]  +", "+
                 COLUMNS_FOR_APPOINTMENT[3] + ", "+ COLUMNS_FOR_APPOINTMENT[4] + ", "+
@@ -62,14 +62,14 @@ public class SyncDbService {
 
 
     private String doUpdateOnConflictTemplate(){
-        return " DO ON CONFLICT (" + COLUMNS_FOR_APPOINTMENT[0] + ") DO UPDATE SET " +
-                COLUMNS_FOR_APPOINTMENT[1] + "=excluded." + COLUMNS_FOR_APPOINTMENT[1] +", " +
-                COLUMNS_FOR_APPOINTMENT[2] + "=excluded." + COLUMNS_FOR_APPOINTMENT[2] +", " +
-                COLUMNS_FOR_APPOINTMENT[3] + "=excluded." + COLUMNS_FOR_APPOINTMENT[3] +", " +
-                COLUMNS_FOR_APPOINTMENT[4] + "=excluded." + COLUMNS_FOR_APPOINTMENT[4] +", " +
-                COLUMNS_FOR_APPOINTMENT[5] + "=excluded." + COLUMNS_FOR_APPOINTMENT[5] +", " +
-                COLUMNS_FOR_APPOINTMENT[6] + "=excluded." + COLUMNS_FOR_APPOINTMENT[6] +
-                " WHERE excluded." + COLUMNS_FOR_APPOINTMENT[0] + " = Appointment." + COLUMNS_FOR_APPOINTMENT[0] + ";";
+        return " ON CONFLICT ( " + COLUMNS_FOR_APPOINTMENT[0] + " ) DO UPDATE SET " +
+                COLUMNS_FOR_APPOINTMENT[1] + " = excluded." + COLUMNS_FOR_APPOINTMENT[1] +", " +
+                COLUMNS_FOR_APPOINTMENT[2] + " = excluded." + COLUMNS_FOR_APPOINTMENT[2] +", " +
+                COLUMNS_FOR_APPOINTMENT[3] + " = excluded." + COLUMNS_FOR_APPOINTMENT[3] +", " +
+                COLUMNS_FOR_APPOINTMENT[4] + " = excluded." + COLUMNS_FOR_APPOINTMENT[4] +", " +
+                COLUMNS_FOR_APPOINTMENT[5] + " = excluded." + COLUMNS_FOR_APPOINTMENT[5] +", " +
+                COLUMNS_FOR_APPOINTMENT[6] + " = excluded." + COLUMNS_FOR_APPOINTMENT[6] +";";
+                //" WHERE " + COLUMNS_FOR_APPOINTMENT[0] + " = excluded." + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
     //private String upsertTemplate
 
@@ -158,16 +158,27 @@ public class SyncDbService {
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
 
-                StringBuilder sql = new StringBuilder(insertAppointmentTemplate());
                 for (AppointmentEntity a : entry.getValue()) {
 
-                    sql.append("('").append(a.getId()).append("','").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
+                    ContentValues initialValues = new ContentValues();
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[0], a.getId());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[1], a.getStartAt().toString());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[2], a.getEndAt().toString());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[3], a.getLocation());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[4], a.getType());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[5], a.getNr());
+                    initialValues.put(COLUMNS_FOR_APPOINTMENT[6], a.getModuleID());
+
+                    int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, initialValues, SQLiteDatabase.CONFLICT_IGNORE);
+
+                    if (id == -1) {
+                        db.update(TABLE_APPOINTMENT, initialValues, "id=?", new String[] {COLUMNS_FOR_APPOINTMENT[0]});  // number 1 is the _id here, update to variable for your code
+                    }
+
                 }
                 // execute set of insert for each module
 
-                sql = new StringBuilder(sql.substring(0, sql.length() - 1) + ";");
-                Log.d("Synchronize: ", sql.toString());
-                db.execSQL(sql.toString());
+
 
             }
             db.setTransactionSuccessful();

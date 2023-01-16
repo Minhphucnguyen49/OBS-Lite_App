@@ -78,52 +78,12 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                "message TEXT NOT NULL);";
 
 
-       String createTriggerDeletedAppointment = "" +
-               "CREATE TRIGGER IF NOT EXISTS notification_appointment_deleted_trigger BEFORE DELETE ON Appointment " +
-               "FOR EACH ROW " +
-               "WHEN OLD.id IN (SELECT id FROM Appointment ) " +
-               "BEGIN " +
-               "INSERT INTO Notification ( type, location, moduleTitle, oldDeleted, message ) " +
-               "VALUES (OLD.type, OLD.location, OLD.moduleID, 1, (OLD.startAt || ' ' || OLD.endAt)); " +
-               "END;";
-
-       String createTriggerAddedAppointment = "" +
-               "CREATE TRIGGER IF NOT EXISTS notification_appointments_added_trigger " +
-               "AFTER INSERT ON Appointment FOR EACH ROW " +
-               "BEGIN " +
-               "INSERT INTO Notification ( type, location, moduleTitle, newAdded, message ) " +
-               "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
-               "END;";
-
-        String createTriggerChangedAppointment = "" +
-                "CREATE TRIGGER IF NOT EXISTS notification_appointments_changed_trigger " +
-                "AFTER UPDATE ON Appointment " +
-                "WHEN (NEW.startAt || NEW.endAt || NEW.moduleID) <> (OLD.startAt || OLD.endAt || OLD.moduleID) " +
-                "BEGIN " +
-                "INSERT INTO Notification ( type, location, moduleTitle, oldChanged, message ) " +
-                "VALUES (NEW.type, NEW.location, NEW.moduleID, 1, (NEW.startAt || ' ' || NEW.endAt)); " +
-                "END;";
-
-        String createInsertTrigger = "" +
-                "CREATE TRIGGER IF NOT EXISTS notification_appointments_insert_trigger " +
-                "BEFORE INSERT ON Appointment FOR EACH ROW " +
-                "WHEN (NEW.id)  IN (SELECT id FROM Appointment) " +
-                "BEGIN " +
-                "UPDATE Appointment SET " +
-                "startAt = NEW.startAt, endAt = NEW.endAt, location = NEW.location, type = NEW.type, moduleID = NEW.moduleID " +
-                "WHERE id = NEW.id; " +
-                "END;";
 
         db.execSQL(createModuleStatement);
         db.execSQL(createAppointmentStatement);
         db.execSQL(createExtraInfoStatement);
         db.execSQL(createSyncStatement);
         db.execSQL(createNotification);
-
-        db.execSQL(createTriggerAddedAppointment);
-        db.execSQL(createTriggerDeletedAppointment);
-        db.execSQL(createTriggerChangedAppointment);
-        db.execSQL(createInsertTrigger);
 
 
 
