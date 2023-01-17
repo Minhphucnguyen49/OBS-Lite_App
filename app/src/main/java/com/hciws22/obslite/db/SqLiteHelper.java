@@ -85,8 +85,6 @@ public class SqLiteHelper extends SQLiteOpenHelper {
         db.execSQL(createSyncStatement);
         db.execSQL(createNotification);
 
-
-
     }
 
     // this is called if the database version changes. It will automatically update the schema
