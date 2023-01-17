@@ -11,11 +11,12 @@ public enum Translation {
     DARK_MODE("dunkel", "dark"),
     LIGHT_MODE("hell", "light"),
     // Notifications
-    NOTIFICATION_SUB_TITLE_NEW_APP("Neuer Termin", "New Appointment"),
-    NOTIFICATION_SUB_TITLE_CHANGED_APP("Terminänderung", "Appointment chnaged"),
-    NOTIFICATION_SUB_TITLE_DELETED_APP("Termin gelöscht", "Appointment deleted"),
-    NOTIFICATION_LOCATION("\nOrt: ", "\nLocation: "),
-    NOTIFICATION_DATE("Datum: ","Date: "),
+    NOTIFICATION_SUB_TITLE_NEW_APP("Neuer Termin:  ", "New Appointment:  "),
+    NOTIFICATION_SUB_TITLE_CHANGED_APP("Terminänderung:  ", "Appointment chnaged:  "),
+    NOTIFICATION_SUB_TITLE_DELETED_APP("Termin gelöscht:  ", "Appointment deleted:  "),
+    NOTIFICATION_LOCATION("\nOrt:                     ", "\nLocation:                   "),
+    NOTIFICATION_DATE("Datum:             ","Date:                         "),
+    NOTIFICATION_SUBTITLE("Hochschule Darmstadt, FBI", "University of applied science Darmstadt, FBI"),
     // Sync
     ERROR_OBS_LINK_UPDATE("OBS link konnte nicht aktualisiert werden.\nPrüfe deine Internet Verbindung","Could not update obs link.\nCheck your internet connection"),
     ERROR_INVALID_OBS_LINK("Ungültiges Url Format.\nBitte gebe eine gültige Url ein ", "Please Provide a valid url"),

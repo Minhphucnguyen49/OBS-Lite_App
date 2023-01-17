@@ -1,19 +1,27 @@
 package com.hciws22.obslite.sync;
 
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.entities.SyncEntity;
+import com.hciws22.obslite.notification.Notification;
+import com.hciws22.obslite.today.Today;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class SyncDbService {
@@ -26,6 +34,10 @@ public class SyncDbService {
 
     private static final String TABLE_SYNC = "Sync";
     private static final String[] COLUMNS_FOR_SYNC = {"id", "obsLink", "syncTime"};
+
+    private static final String TABLE_NOTIFICATION = "Notification";
+    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
+
 
     public SqLiteHelper sqLiteHelper;
 
@@ -41,12 +53,13 @@ public class SyncDbService {
                 COLUMNS_FOR_MODULE[2] + ") values ";
     }
 
-    private String updateAppointmentTemplate(){
-        return "insert or replace into " +
-                TABLE_APPOINTMENT +" ("+  COLUMNS_FOR_APPOINTMENT[0] + ", " +
-                COLUMNS_FOR_APPOINTMENT[1] + ", "+ COLUMNS_FOR_APPOINTMENT[2]  +", "+
-                COLUMNS_FOR_APPOINTMENT[3] + ", "+ COLUMNS_FOR_APPOINTMENT[4] + ", "+
-                COLUMNS_FOR_APPOINTMENT[5] +", "+ COLUMNS_FOR_APPOINTMENT[6] +" ) values ";
+    private String selectUnmodifiedAppointment(AppointmentEntity a){
+        return "SELECT count(*) FROM " + TABLE_APPOINTMENT + " where " + COLUMNS_FOR_APPOINTMENT[0]  + " = '" + a.getId() + "'" +
+                " AND " + COLUMNS_FOR_APPOINTMENT[1] + " = '" + a.getStartAt().toString() + "'" +
+                " AND " + COLUMNS_FOR_APPOINTMENT[2] + " = '" + a.getEndAt().toString() + "'" +
+                " AND " + COLUMNS_FOR_APPOINTMENT[3] + " = '" + a.getLocation() + "'" +
+                " AND " + COLUMNS_FOR_APPOINTMENT[4] + " = '" + a.getType() + "'" +
+                " AND " + COLUMNS_FOR_APPOINTMENT[5] + " = '" + a.getNr() + "';";
     }
 
     private String selectLastSyncRecordTemplate(){
@@ -54,7 +67,7 @@ public class SyncDbService {
     }
 
     private String updateSyncTableTemplate(){
-        return "insert or replace into " +
+        return "INSERT OR REPLACE INTO " +
                 TABLE_SYNC +" ("+ COLUMNS_FOR_SYNC[1]  +", "+ COLUMNS_FOR_SYNC[2] + " ) values ";
     }
 
@@ -62,9 +75,27 @@ public class SyncDbService {
         return "DELETE FROM " + TABLE_APPOINTMENT + ";";
     }
 
+
+    private String deleteFromAppointmentTableWhereTemplate(Appointment appointment){
+        return "DELETE FROM " + TABLE_APPOINTMENT + " WHERE "
+                + COLUMNS_FOR_APPOINTMENT[1] + " = " + appointment.getStartAt().toString() + " AND "
+                + COLUMNS_FOR_APPOINTMENT[2] + " = " + appointment.getEndAt().toString() + " AND "
+                + COLUMNS_FOR_APPOINTMENT[3] + " = " + appointment.getStartAt().toString() + ";";
+
+    }
+
+    private ContentValues generateKeyValues(Map<String, String> map){
+
+        ContentValues contentValues = new ContentValues();
+        map.forEach(contentValues::put);
+        return contentValues;
+
+    }
+
     private String resetSequenceTemplate(String tableName){
         return "UPDATE sqlite_sequence SET seq = 0 WHERE name = '" + tableName +  "';";
     }
+
 
     public SyncEntity selectSyncData(){
 
@@ -79,13 +110,11 @@ public class SyncDbService {
                 sync.setId(cursor.getInt(0));
                 sync.setObsLink(cursor.getString(1));
                 sync.setLocalDateTime(ZonedDateTime.parse(cursor.getString(2)));
-
             }
 
         }
 
         return sync;
-
     }
 
     public void insertOrUpdateTable(String obsLink, ZonedDateTime localDateTime){
@@ -113,35 +142,74 @@ public class SyncDbService {
             return;
         }
 
-
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
         try {
-
-            int id = 0;
-
-
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
-                StringBuilder sql2 = new StringBuilder(updateAppointmentTemplate());
+
                 for (AppointmentEntity a : entry.getValue()) {
-                    sql2.append("('").append(id++).append("','").append(a.getStartAt()).append("','").append(a.getEndAt()).append("','").append(a.getLocation()).append("','").append(a.getType()).append("','").append(a.getNr()).append("','").append(a.getModuleID()).append("'),");
+
+                    ContentValues insertValues = newAdded(a);
+                    int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
+
+                    if (id == -1 && isModifiable(a)) {
+
+                        db.insertWithOnConflict(TABLE_NOTIFICATION, null, notificationInfo(a, 0, 1,0), SQLiteDatabase.CONFLICT_IGNORE);
+                        db.update(TABLE_APPOINTMENT, insertValues, "id=?", new String[] {COLUMNS_FOR_APPOINTMENT[0]});
+                    } else if(id >= 1 ){
+                        ContentValues contentValues = notificationInfo(a, 1, 0,0);
+                        db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
+                    }
                 }
                 // execute set of insert for each module
-
-                sql2 = new StringBuilder(sql2.substring(0, sql2.length() - 1) + ";");
-                db.execSQL(sql2.toString());
-
-                System.out.println("Appointment: " + sql2);
             }
-
-
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
             db.close();
         }
     }
+
+    private ContentValues newAdded(AppointmentEntity a){
+
+        return generateKeyValues(Map.of(
+                COLUMNS_FOR_APPOINTMENT[0], a.getId(),
+                COLUMNS_FOR_APPOINTMENT[1], a.getStartAt().toString(),
+                COLUMNS_FOR_APPOINTMENT[2], a.getEndAt().toString(),
+                COLUMNS_FOR_APPOINTMENT[3], a.getLocation(),
+                COLUMNS_FOR_APPOINTMENT[4], a.getType(),
+                COLUMNS_FOR_APPOINTMENT[5], a.getNr(),
+                COLUMNS_FOR_APPOINTMENT[6], a.getModuleID()
+        ));
+    }
+
+    private boolean isModifiable(AppointmentEntity a){
+
+        String queryString = selectUnmodifiedAppointment(a);
+
+        SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null) ;
+
+
+        cursor.moveToFirst();
+        return cursor.getInt(0) <= 0;
+
+    }
+
+    private ContentValues notificationInfo(AppointmentEntity a, int newAdded, int oldChanged, int oldDeleted){
+        return generateKeyValues(Map.of(
+                COLUMNS_FOR_NOTIFICATION[1],a.getType(),
+                COLUMNS_FOR_NOTIFICATION[2],a.getLocation(),
+                COLUMNS_FOR_NOTIFICATION[3],a.getModuleID(),
+                COLUMNS_FOR_NOTIFICATION[4],String.valueOf(newAdded), // new Added
+                COLUMNS_FOR_NOTIFICATION[5],String.valueOf(oldChanged), // oldChanged
+                COLUMNS_FOR_NOTIFICATION[6],String.valueOf(oldDeleted), // oldDeleted
+                COLUMNS_FOR_NOTIFICATION[7],a.getStartAt().toString() + " " + a.getEndAt().toString())
+        );
+
+    }
+
     // ================ Execute multiple insert statements once ===============
     public void insertModule(Set<ModuleEntity> moduleEntities){
 

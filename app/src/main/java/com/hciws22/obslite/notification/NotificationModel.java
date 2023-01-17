@@ -24,8 +24,9 @@ public class NotificationModel {
 
     private final NotificationManager notificationManager;
     private static final String CHANNEL_ID = "appointment_notification";
-    private static final String name = "appointment_notification";
-    private static final String Description = "Appointment table has changed";
+    private static final String NAME = "appointment_notification";
+    private static final String OBS_TITLE = "OBS Sync Update";
+    private static final String DESCRIPTION = "Appointment table has changed";
     private static final int NOTIFICATION_ID = 234;
     private final Context context;
 
@@ -38,8 +39,8 @@ public class NotificationModel {
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
-        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
-        mChannel.setDescription(Description);
+        NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, NAME, importance);
+        mChannel.setDescription(DESCRIPTION);
         mChannel.enableLights(true);
         mChannel.setLightColor(Color.RED);
         mChannel.enableVibration(true);
@@ -52,32 +53,41 @@ public class NotificationModel {
     public void buildNotification(List<Notification> notifications){
 
         String date = Translation.getTranslation( Translation.NOTIFICATION_DATE, Translation.loadMode(context));
-        String location = Translation.getTranslation( Translation.NOTIFICATION_LOCATION, Translation.loadMode(context));
+        String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
-        for(Notification notification : notifications) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_sync)
+                .setContentTitle(OBS_TITLE)
+                .setSubText(organisation);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(notification.getType() + ": " + notification.getModuleTitle())
-                    .setContentText(
-                            date + getNotificationTime(notification) +
-                            getNotificationDate(notification) + "  " +
-                            location + notification.getLocation()
-                    ).setSubText(getContentType(notification))
-                    ;
+        StringBuilder content = new StringBuilder();
 
+        for(int i = 0; i < 3 && i < notifications.size(); i++) {
 
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
+            Notification notification = notifications.get(i);
+
+             content.append(getContentType(notification))
+                    .append(notification.getType()).append(": ")
+                    .append(notification.getModuleTitle()).append("\n")
+                    .append(date)
+                    .append(getNotificationTime(notification))
+                    .append(getNotificationDate(notification)).append("  ")
+                    .append(getLocation(notification)).append("\n\n");
 
         }
+        builder.setContentText(content.toString())
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private String getContentType(Notification notification){
 
         String message = "";
-        if(notification.isOldChanged())
 
+        if(notification.isOldChanged())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_CHANGED_APP, Translation.loadMode(context));
+
 
         if(notification.isNewAdded())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_NEW_APP, Translation.loadMode(context));
@@ -87,6 +97,14 @@ public class NotificationModel {
 
         return message;
 
+    }
+
+    private String getLocation(Notification notification){
+        if(notification.getLocation().isEmpty()) {
+            return "";
+        }
+
+        return Translation.getTranslation( Translation.NOTIFICATION_LOCATION, Translation.loadMode(context)) + notification.getLocation();
     }
 
     private String getNotificationTime(Notification notification){

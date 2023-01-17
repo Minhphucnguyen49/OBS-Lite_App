@@ -10,7 +10,7 @@ import java.util.List;
 public class NotificationDbService {
 
     private static final String TABLE_NOTIFICATION = "Notification";
-    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "isDisabled", "message"};
+    private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
 
     public SqLiteHelper sqLiteHelper;
 
@@ -33,8 +33,21 @@ public class NotificationDbService {
         return "DELETE FROM " + TABLE_NOTIFICATION + whereCondition(newAdded,oldChanged,oldDeleted);
     }
 
+    private String deleteFromNotificationTableWhereTemplate( Notification notification ){
+        return "DELETE FROM " + TABLE_NOTIFICATION + " WHERE id = " + notification.getId() + ";";
+    }
+
+
+
     private String selectNotificationTableTemplate(int newAdded, int oldChanged,int oldDeleted ) {
-        return "SELECT * FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
+        return "SELECT " + COLUMNS_FOR_NOTIFICATION[0] + ", "
+                + COLUMNS_FOR_NOTIFICATION[1] + ", "
+                + COLUMNS_FOR_NOTIFICATION[2] + ", "
+                + COLUMNS_FOR_NOTIFICATION[3] + ", "
+                + COLUMNS_FOR_NOTIFICATION[4] + ", "
+                + COLUMNS_FOR_NOTIFICATION[5] + ", "
+                + COLUMNS_FOR_NOTIFICATION[6] + ", "
+                + COLUMNS_FOR_NOTIFICATION[7] + " FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
     }
 
     private int convertBoolToInt(Boolean bool){
@@ -64,12 +77,15 @@ public class NotificationDbService {
             db.close();
         }
     }
-    public void removeNotifications(boolean newAdded, boolean oldChanged, boolean oldDeleted){
+    public void removeNotifications(List<Notification> notifications){
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = deleteFromNotificationTableTemplate(convertBoolToInt(newAdded),convertBoolToInt(oldChanged),convertBoolToInt(oldDeleted));
-            db.execSQL(sql);
+
+            for (Notification notification : notifications){
+               String sql = deleteFromNotificationTableWhereTemplate(notification);
+                db.execSQL(sql);
+            }
             db.setTransactionSuccessful();
 
         }finally {
@@ -90,7 +106,7 @@ public class NotificationDbService {
                 return Collections.emptyList();
             }
 
-            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast() ; cursor.moveToNext()) {
                 Notification notification = new Notification(
                         cursor.getInt(0),
                         cursor.getString(1),
@@ -99,8 +115,7 @@ public class NotificationDbService {
                         convertIntToBool(cursor.getInt(4)),
                         convertIntToBool(cursor.getInt(5)),
                         convertIntToBool(cursor.getInt(6)),
-                        convertIntToBool(cursor.getInt(7)),
-                        cursor.getString(8)
+                        cursor.getString(7)
                 );
 
                 notifications.add(notification);

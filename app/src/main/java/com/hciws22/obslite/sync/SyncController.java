@@ -75,7 +75,12 @@ public class SyncController {
             return false;
         }
 
-        return manualSynchronize(obsLink, false);
+        boolean errorOccurred = manualSynchronize(obsLink, false);
+
+        Thread t1 = new Thread(notificationController::createNotification);
+        t1.start();
+
+        return errorOccurred;
 
     }
 

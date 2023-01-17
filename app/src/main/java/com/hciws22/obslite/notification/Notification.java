@@ -7,13 +7,13 @@ public class Notification {
     private String location;
     private final String moduleTitle;
     private final boolean newAdded;
-    private final boolean oldChanged;
     private final boolean oldDeleted;
-    private final boolean isDisabled;
+    private final boolean oldChanged;
     private String message;
 
 
-    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, boolean isDisabled, String message) {
+
+    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, String message) {
         this.id = id;
         this.type = type;
         this.location = location;
@@ -21,7 +21,6 @@ public class Notification {
         this.newAdded = newAdded;
         this.oldChanged = oldChanged;
         this.oldDeleted = oldDeleted;
-        this.isDisabled = isDisabled;
         this.message = message;
     }
 
@@ -51,10 +50,6 @@ public class Notification {
 
     public boolean isOldDeleted() {
         return oldDeleted;
-    }
-
-    public boolean isDisabled() {
-        return isDisabled;
     }
 
     public String getMessage() {

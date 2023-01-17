@@ -11,11 +11,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public enum ContentTypeFactory {
-   SUMMARY, LOCATION, DTSTART, DTEND, CATEGORIES, VEVENT;
+   UID, SUMMARY, LOCATION, DTSTART, DTEND, CATEGORIES, VEVENT;
 
     public static boolean isValid(String s){
 
-        return  s.toUpperCase(Locale.ROOT).contains(LOCATION.name()) ||
+        return  s.toUpperCase(Locale.ROOT).contains(UID.name()) ||
+                s.toUpperCase(Locale.ROOT).contains(LOCATION.name()) ||
                 s.toUpperCase(Locale.ROOT).contains(DTSTART.name()) ||
                 s.toUpperCase(Locale.ROOT).contains(DTEND.name()) ||
                 s.toUpperCase(Locale.ROOT).contains(CATEGORIES.name()) ||
@@ -24,6 +25,11 @@ public enum ContentTypeFactory {
     }
 
     public static boolean cut(String s, OBSItem obsItem){
+
+        if(s.toUpperCase(Locale.ROOT).contains(UID.name())){
+            obsItem.getAppointment().setId(s.substring(4));
+            return false;
+        }
 
         if(s.toUpperCase(Locale.ROOT).contains(SUMMARY.name())){
             extractFileNameFromLine(obsItem,s);

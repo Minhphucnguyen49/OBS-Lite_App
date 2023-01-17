@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class AppointmentEntity {
 
-    private Integer id;
+    private String id;
     private ZonedDateTime startAt;
     private ZonedDateTime endAt;
     private String location;
@@ -21,11 +21,11 @@ public class AppointmentEntity {
     private String moduleID;
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,14 +78,28 @@ public class AppointmentEntity {
     }
 
 
-    public static AppointmentEntity build(Appointment a, String u_id, String type){
+    public static AppointmentEntity build(Appointment a, String moduleID, String type){
         AppointmentEntity appointmentEntity = new AppointmentEntity();
-        appointmentEntity.setModuleID(u_id);
+        appointmentEntity.setId(a.getID());
+        appointmentEntity.setModuleID(moduleID);
         appointmentEntity.setLocation(a.getLocation());
         appointmentEntity.setStartAt(a.getStartAt());
         appointmentEntity.setEndAt(a.getEndAt());
         appointmentEntity.setType(type);
         appointmentEntity.setNr(a.getNr());
         return appointmentEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppointmentEntity that = (AppointmentEntity) o;
+        return startAt.equals(that.startAt) && endAt.equals(that.endAt) && moduleID.equals(that.moduleID);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }
