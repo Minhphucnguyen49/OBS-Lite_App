@@ -54,7 +54,7 @@ public class SyncDbService {
     }
 
     private String selectUnmodifiedAppointment(AppointmentEntity a){
-        return "SELECT count(*) FROM " + TABLE_APPOINTMENT + " where " + COLUMNS_FOR_APPOINTMENT[0]  + " = '" + a.getId() + "'" +
+        return "SELECT COUNT(*) FROM " + TABLE_APPOINTMENT + " WHERE " + COLUMNS_FOR_APPOINTMENT[0]  + " = '" + a.getId() + "'" +
                 " AND " + COLUMNS_FOR_APPOINTMENT[1] + " = '" + a.getStartAt().toString() + "'" +
                 " AND " + COLUMNS_FOR_APPOINTMENT[2] + " = '" + a.getEndAt().toString() + "'" +
                 " AND " + COLUMNS_FOR_APPOINTMENT[3] + " = '" + a.getLocation() + "'" +
@@ -153,11 +153,14 @@ public class SyncDbService {
                     ContentValues insertValues = newAdded(a);
                     int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-                    if (id == -1 && isModifiable(a)) {
+                    if (id < 0 && isModifiable(a)) {
 
-                        db.insertWithOnConflict(TABLE_NOTIFICATION, null, notificationInfo(a, 0, 1,0), SQLiteDatabase.CONFLICT_IGNORE);
-                        db.update(TABLE_APPOINTMENT, insertValues, "id=?", new String[] {COLUMNS_FOR_APPOINTMENT[0]});
-                    } else if(id >= 1 ){
+                        int insertInfo = (int) db.insertWithOnConflict(TABLE_NOTIFICATION, null, notificationInfo(a, 0, 1,0), SQLiteDatabase.CONFLICT_IGNORE);
+                        int updateInfo = db.update(TABLE_APPOINTMENT, insertValues, "id=?", new String[] {COLUMNS_FOR_APPOINTMENT[0]});
+                        Log.d("Update Info: ", String.valueOf(updateInfo));
+                    }
+
+                    if(id >= 1 ){
                         ContentValues contentValues = notificationInfo(a, 1, 0,0);
                         db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
                     }
@@ -192,8 +195,12 @@ public class SyncDbService {
         Cursor cursor = db.rawQuery(queryString, null) ;
 
 
-        cursor.moveToFirst();
-        return cursor.getInt(0) <= 0;
+        if(null != cursor && cursor.moveToFirst() && cursor.getCount() > 0){
+            Log.d("AUTO SYNC UPDATE: ", String.valueOf(cursor.getCount()));
+            return false;
+        }
+
+        return true;
 
     }
 
