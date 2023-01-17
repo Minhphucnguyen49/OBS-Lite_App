@@ -1,4 +1,4 @@
-package com.hciws22.obslite.fragmentsmainactivity;
+package com.hciws22.obslite.fragments_mainactivity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.fragmentstodo.ToDoThisWeekFragment;
-import com.hciws22.obslite.fragmentstodo.TodoExamsFragment;
-import com.hciws22.obslite.fragmentstodo.TodoNextWeekFragment;
+import com.hciws22.obslite.fragments_todo.ToDoThisWeekFragment;
+import com.hciws22.obslite.fragments_todo.TodoExamsFragment;
+import com.hciws22.obslite.fragments_todo.TodoNextWeekFragment;
 import com.hciws22.obslite.todo.TodoController;
 
 public class TodoFragment extends Fragment {

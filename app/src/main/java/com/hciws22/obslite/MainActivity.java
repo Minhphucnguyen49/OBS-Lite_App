@@ -17,9 +17,9 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoSyncService;
-import com.hciws22.obslite.fragmentsmainactivity.AgendaFragment;
-import com.hciws22.obslite.fragmentsmainactivity.SettingsFragment;
-import com.hciws22.obslite.fragmentsmainactivity.TodoFragment;
+import com.hciws22.obslite.fragments_mainactivity.AgendaFragment;
+import com.hciws22.obslite.fragments_mainactivity.SettingsFragment;
+import com.hciws22.obslite.fragments_mainactivity.TodoFragment;
 
 
 public class MainActivity extends AppCompatActivity {
