@@ -1,5 +1,6 @@
 package com.hciws22.obslite.todo;
 
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 import android.database.Cursor;
@@ -82,12 +83,12 @@ public class TodoDbService {
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
     public List<Todo> selectTodoTwoWeek(){
-        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(14));
+        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(previousOrSame(DayOfWeek.MONDAY)).plusDays(14));
         return selectTodoAppointmentsPattern(queryString);
     }
 
     public List<Todo> selectTodoOneWeek(){
-        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(7));
+        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(nextOrSame(DayOfWeek.SUNDAY)));
         return selectTodoAppointmentsPattern(queryString);
     }
     public List<Todo> selectExams(){

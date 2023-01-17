@@ -23,6 +23,7 @@ import com.hciws22.obslite.week.WeekListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class WeekFragment extends Fragment {
@@ -30,7 +31,7 @@ public class WeekFragment extends Fragment {
     private ExpandableListAdapter adapter;
     List<String> expandableListTitle;
     //HashMap<String, List<Week>> expandableListDetail;
-    HashMap<String, List<String>> expandableListDetail;
+    LinkedHashMap<String, List<String>> expandableListDetail;
     private Context mContext;
     WeekController weekController;
 
@@ -58,17 +59,17 @@ public class WeekFragment extends Fragment {
 
         expandableListView.setOnGroupExpandListener(groupPosition -> {
             //Todo: if no modules -> Toast "you are free"
-            Toast.makeText(mContext,
-                    expandableListTitle.get(groupPosition) + " List Expanded.",
-                    Toast.LENGTH_SHORT).show();
+            if (adapter.getChildrenCount(groupPosition) == 0){
+                Toast.makeText(mContext,
+                        "You are free on " + expandableListTitle.get(groupPosition) +" Yoo-hoo!!!",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         expandableListView.setOnGroupCollapseListener(groupPosition -> {
-            Toast.makeText(mContext,
-                    expandableListTitle.get(groupPosition) + " List Collapsed.",
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext,expandableListTitle.get(groupPosition) + " List Collapsed.",Toast.LENGTH_SHORT).show();
         });
-/*
+
         expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
             Toast.makeText(
                     mContext,
@@ -80,7 +81,7 @@ public class WeekFragment extends Fragment {
             ).show();
             return false;
         });
- */
+
         return view;
     }
 }

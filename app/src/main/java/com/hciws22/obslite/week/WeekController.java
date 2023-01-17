@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +23,7 @@ public class WeekController {
     public List<Week> getListDetailOf(int day) { return weekDbService.selectTodayAppointment(day); }
 
     public HashMap<String, List<Week>> getData(){
-        HashMap<String, List<Week>> expandableListDetail = new HashMap<String, List<Week>>();
+        LinkedHashMap<String, List<Week>> expandableListDetail = new LinkedHashMap<String, List<Week>>();
 
         List<Week> monday = new ArrayList<Week>(getListDetailOf(0));
         List<Week> tuesday = new ArrayList<Week>(getListDetailOf(1));
@@ -39,8 +40,8 @@ public class WeekController {
         return expandableListDetail;
     }
 
-    public HashMap<String, List<String>> getDataString(){
-        HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+    public LinkedHashMap<String, List<String>> getDataString(){
+        LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<String, List<String>>();
 
         List<String> monday = getWeekString(getListDetailOf(0));
         List<String> tuesday = getWeekString(getListDetailOf(1));
