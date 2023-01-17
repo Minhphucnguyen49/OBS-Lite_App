@@ -4,6 +4,7 @@
     android:id="@+id/module"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
     app:cardCornerRadius="12dp">
 
     <RelativeLayout
@@ -18,11 +19,41 @@
 
             <TextView
                 android:id="@+id/module_infor"
-                android:layout_width="250dp"
-                android:layout_height="100dp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="55dp"
+                android:gravity="start|center_vertical"
+                android:text="TI #10"
+                android:textAppearance="@style/module_todo" />
+
+            <TextView
+                android:id="@+id/module_time"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="33dp"
+                android:gravity="start|center_vertical"
+                android:text="Di 17.01.2023"
+                android:textAppearance="@style/module_time" />
+
+            <TextView
+                android:id="@+id/module_progress"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="11dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@string/pg2_p1_20_m"
+                android:text="Progress 30%"
                 android:textAppearance="@style/module" />
 
             <ImageView
@@ -33,6 +64,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="0dp"
                 android:src="@drawable/ic_arrow_down">
 
             </ImageView>
@@ -44,7 +78,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:src="@drawable/ic_arrow_up">
+                android:src="@drawable/ic_arrow_up"
+                android:visibility="gone">
 
             </ImageView>
 

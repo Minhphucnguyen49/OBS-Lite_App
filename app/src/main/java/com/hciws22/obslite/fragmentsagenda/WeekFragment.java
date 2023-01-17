@@ -10,14 +10,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.week.Week;
 import com.hciws22.obslite.week.WeekController;
+import com.hciws22.obslite.week.WeekListAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public class WeekFragment extends Fragment {
-    private ListView modulesList;
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter adapter;
+    List<String> expandableListTitle;
+    //HashMap<String, List<Week>> expandableListDetail;
+    LinkedHashMap<String, List<String>> expandableListDetail;
     private Context mContext;
     WeekController weekController;
 
@@ -35,16 +49,39 @@ public class WeekFragment extends Fragment {
         View view = inflater.inflate(R.layout.choice_week, container, false);
         super.onViewCreated(view, savedInstanceState);
 
-        modulesList = view.findViewById(R.id.modulesListView);
+        expandableListView = view.findViewById(R.id.expandableListView);
+        //expandableListDetail = weekController.getData();
+        expandableListDetail = weekController.getDataString();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
 
-        ArrayAdapter<String> modulesAdapter = new ArrayAdapter<>(
-                mContext,
-                R.layout.list_item_week,
-                R.id.text_view,
-                weekController.getWeekString(weekController.getWeekArrayList())
-        );
+        adapter = new WeekListAdapter(mContext, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(adapter);
 
-        modulesList.setAdapter(modulesAdapter);
+        expandableListView.setOnGroupExpandListener(groupPosition -> {
+            //Todo: if no modules -> Toast "you are free"
+            if (adapter.getChildrenCount(groupPosition) == 0){
+                Toast.makeText(mContext,
+                        "You are free on " + expandableListTitle.get(groupPosition) +" Yoo-hoo!!!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupCollapseListener(groupPosition -> {
+            //Toast.makeText(mContext,expandableListTitle.get(groupPosition) + " List Collapsed.",Toast.LENGTH_SHORT).show();
+        });
+
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+            Toast.makeText(
+                    mContext,
+                    expandableListTitle.get(groupPosition)
+                            + " -> "
+                            + expandableListDetail
+                            .get(expandableListTitle.get(groupPosition))
+                            .get(childPosition), Toast.LENGTH_SHORT
+            ).show();
+            return false;
+        });
+
         return view;
     }
 }

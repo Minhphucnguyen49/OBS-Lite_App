@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -31,7 +32,6 @@ public class TodayFragment extends Fragment {
         todayController = new TodayController(new SqLiteHelper(mContext));
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,13 +44,19 @@ public class TodayFragment extends Fragment {
         modulesRecView = view.findViewById(R.id.modulesRecView_today);
         modulesRecView.setAdapter(adapter);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
-
+        exceptionsHandling();
         adapter.setModules(todayController.getToDay());
 
         //Add space between cards
         addSpaceBetweenCards();
 
         return view;
+    }
+
+    private void exceptionsHandling() {
+        if (todayController.getToDay().isEmpty()){
+            Toast.makeText(mContext, "You are free today Yoo-hoo!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void addSpaceBetweenCards() {

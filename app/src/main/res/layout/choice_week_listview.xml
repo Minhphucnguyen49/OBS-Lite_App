@@ -15,14 +15,12 @@
         android:background="@color/dark"
         tools:context=".WeekActivity">
 
-        <ExpandableListView
-            android:id="@+id/expandableListView"
+        <ListView
+            android:id="@+id/modulesListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/teal_200"
-            android:childDivider="@color/white"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

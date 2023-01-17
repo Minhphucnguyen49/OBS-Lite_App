@@ -45,6 +45,36 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         return fullName;
     }
+    public String shortenNameSimon(String fullName){
+        String LabNumber = " #0";
+        String actualName = fullName;
+        String shortName = "";
+
+        if(fullName.contains("#")) {
+            LabNumber = fullName.substring(fullName.length() - 3);
+            actualName = fullName.substring(0, fullName.length() - 3);
+        }
+        String moduleInitials = "";
+        if(actualName.contains(" ")) {
+            //mehr als ein Wort
+            for (String s : actualName.split(" ")) {
+                moduleInitials += s.charAt(0);
+            }
+            if(fullName.contains("#")) {
+                shortName=moduleInitials+LabNumber;
+            }else{
+                shortName=moduleInitials;
+            }
+            return shortName;
+        }
+
+        if(fullName.contains("#")) {
+            shortName =actualName+=LabNumber;
+        }
+
+        return shortName;
+    }
+
 
     @NonNull
     @Override
@@ -59,13 +89,19 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * CollapsedLayout
          */
-        //float percentage = holder.slider.getValue();
-        //modules.get(position).setPercentage(Float.toString(percentage));
+        String cardPercentage="";
+        final String cardName = shortenName(modules.get(position).getName()) + "\n" ;
+        final String cardDate = modules.get(position).getDate()+ "\n";
+        if (modules.get(position).getPercentage().isEmpty()){
+            cardPercentage = " 0%";
+        }else {
+            cardPercentage = modules.get(position).getPercentage() + " %";
+        }
 
-        final String upRow = shortenName(modules.get(position).getName()) + " " ;
-        final String downRow = "\n" + modules.get(position).getDate();
-        final String sliderValue = modules.get(position).getPercentage() + " %";
-        holder.moduleInfor.setText(upRow + sliderValue + downRow);
+        holder.moduleInfor.setText(cardName);
+        holder.moduleDate.setText(cardDate);
+        holder.moduleProgress.setText("Prozent " + cardPercentage);
+
 
         holder.module.setOnClickListener(v -> {
             //TODO: Navigate to MODULE Screen
@@ -74,7 +110,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * ExpandedLayout
          */
-
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
             //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
             value = slider.getValue();
@@ -89,11 +124,16 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
              * no data will be shown except for the
              * default value PG2 P1 100% assigned in xml
              */
-            holder.moduleInfor.setText(upRow + Integer.toString(valueInt) + " %" + downRow);
+           // the progress change will be displayed while sliding
+            holder.moduleProgress.setText("Prozent " + Integer.toString(valueInt) + " %");
         });
+
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
         setVisibilityView(holder, position);
+        holder.downArrow.setOnClickListener(view -> {
+            holder.downArrow.animate().rotation(holder.downArrow.getRotation()-180).start();
+        });
 
 
     }
@@ -102,12 +142,10 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         if (modules.get(position).isExpanded()){
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
-            holder.downArrow.setVisibility(View.GONE);
+
         }else{
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.GONE);
-            //holder.downArrow.setVisibility(View.VISIBLE);
-            holder.upArrow.setVisibility(View.GONE);
         }
     }
 
@@ -128,6 +166,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         private CardView module;//name of CardView Material
         private TextView moduleInfor;
+        private TextView moduleDate;
+        private TextView moduleProgress;
         private ImageView downArrow, upArrow;
         private RelativeLayout collapsedRelLayout;
         private RelativeLayout expandedRelLayout;
@@ -138,6 +178,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             super(itemView);
             module = itemView.findViewById(R.id.module);
             moduleInfor = itemView.findViewById(R.id.module_infor);
+            moduleDate = itemView.findViewById(R.id.module_time);
+            moduleProgress = itemView.findViewById(R.id.module_progress);
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);
             expandedRelLayout = itemView.findViewById(R.id.expandedRelLayout);

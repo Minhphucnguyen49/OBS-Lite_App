@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,9 +20,43 @@ public class WeekController {
         this.weekDbService = new WeekDbService(sqLiteHelper);
     }
 
-    public List<Week> getWeekList() { return weekDbService.selectWeekAppointments(); }
-    public ArrayList<Week> getWeekArrayList() {return weekDbService.selectWeekAppointmentsArray(); }
+    public List<Week> getListDetailOf(int day) { return weekDbService.selectTodayAppointment(day); }
 
+    public HashMap<String, List<Week>> getData(){
+        LinkedHashMap<String, List<Week>> expandableListDetail = new LinkedHashMap<String, List<Week>>();
+
+        List<Week> monday = new ArrayList<Week>(getListDetailOf(0));
+        List<Week> tuesday = new ArrayList<Week>(getListDetailOf(1));
+        List<Week> wednesday = new ArrayList<Week>(getListDetailOf(2));
+        List<Week> thursday = new ArrayList<Week>(getListDetailOf(3));
+        List<Week> friday = new ArrayList<Week>(getListDetailOf(4));
+
+        expandableListDetail.put("MONDAY",monday);
+        expandableListDetail.put("TUESDAY",tuesday);
+        expandableListDetail.put("WEDNESDAY",wednesday);
+        expandableListDetail.put("THURSDAY",thursday);
+        expandableListDetail.put("FRIDAY",friday);
+
+        return expandableListDetail;
+    }
+
+    public LinkedHashMap<String, List<String>> getDataString(){
+        LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<String, List<String>>();
+
+        List<String> monday = getWeekString(getListDetailOf(0));
+        List<String> tuesday = getWeekString(getListDetailOf(1));
+        List<String> wednesday = getWeekString(getListDetailOf(2));
+        List<String> thursday = getWeekString(getListDetailOf(3));
+        List<String> friday = getWeekString(getListDetailOf(4));
+
+        expandableListDetail.put("MONDAY",monday);
+        expandableListDetail.put("TUESDAY",tuesday);
+        expandableListDetail.put("WEDNESDAY",wednesday);
+        expandableListDetail.put("THURSDAY",thursday);
+        expandableListDetail.put("FRIDAY",friday);
+
+        return expandableListDetail;
+    }
     public String shortenName(String fullName){
         String moduleInitials = "";
         if(fullName.contains(" ")) {
@@ -36,15 +72,13 @@ public class WeekController {
         if(fullName.contains("Betriebssysteme")){
             return "BS";
         }
-
-
         return fullName;
     }
-    public ArrayList<String> getWeekString (ArrayList<Week> weekArrayList){
-        ArrayList<String> weekString = new ArrayList<>();
-
+    public List<String> getWeekString (List<Week> weekArrayList){
+        List<String> weekString = new ArrayList<>();
+        String tab = "\t \t \t \t \t \t \t \t \t";
         weekArrayList.forEach(s -> {
-            weekString.add(s.getModuleType()+":"+shortenName(s.getName())+" "+s.getLocation()+" "+s.getTime());
+            weekString.add(s.getModuleType() + ":" + shortenName(s.getName())+ tab + s.getLocation() + tab + s.getTime());
         });
 
         return weekString;
