@@ -46,10 +46,12 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         return fullName;
     }
     public String shortenNameSimon(String fullName){
-        String LabNumber = " #0";
+        //shorten name to initials
+        String LabNumber = "";
         String actualName = fullName;
         String shortName = "";
 
+        //keep lab-number if exists
         if(fullName.contains("#")) {
             LabNumber = fullName.substring(fullName.length() - 3);
             actualName = fullName.substring(0, fullName.length() - 3);
@@ -61,7 +63,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
                 moduleInitials += s.charAt(0);
             }
             if(fullName.contains("#")) {
-                shortName=moduleInitials+LabNumber;
+                shortName=moduleInitials+" "+LabNumber;
             }else{
                 shortName=moduleInitials;
             }
@@ -75,6 +77,23 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         return shortName;
     }
 
+    public String adaptDate(String originDate){
+        //rearange date --> DD.MM.YYYY
+        String[] words = originDate.split(" ");
+        String[] date = words[1].split("\\.");
+        String newDate =  words[0]+" "+date[2]+"."+date[1]+"."+date[0];
+
+        return newDate;
+    }
+
+    public String checkNameLength(String fullName){
+        //check if name has to be shortened
+        if(fullName.length()>20){
+            return shortenNameSimon(fullName);
+        }
+
+        return fullName;
+    }
 
     @NonNull
     @Override
@@ -90,8 +109,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
          * CollapsedLayout
          */
         String cardPercentage="";
-        final String cardName = shortenName(modules.get(position).getName()) + "\n" ;
-        final String cardDate = modules.get(position).getDate()+ "\n";
+        final String cardName = checkNameLength(modules.get(position).getName()) + "\n" ;
+        final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
         if (modules.get(position).getPercentage().isEmpty()){
             cardPercentage = " 0%";
         }else {
@@ -100,7 +119,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         holder.moduleInfor.setText(cardName);
         holder.moduleDate.setText(cardDate);
-        holder.moduleProgress.setText("Prozent " + cardPercentage);
+        holder.moduleProgress.setText("Progress " + cardPercentage);
 
 
         holder.module.setOnClickListener(v -> {
@@ -125,7 +144,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
              * default value PG2 P1 100% assigned in xml
              */
            // the progress change will be displayed while sliding
-            holder.moduleProgress.setText("Prozent " + Integer.toString(valueInt) + " %");
+            holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
         });
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());

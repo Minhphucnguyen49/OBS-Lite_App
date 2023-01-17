@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hciws22.obslite.TodayActivity;
 import com.hciws22.obslite.db.SqLiteHelper;
@@ -34,9 +36,9 @@ public class SettingController {
     }
 
 
-    public void init(Button sendBtn, TextView title, Button toggle, EditText editText, TextView synctime, Context context){
+    public void init(Button sendBtn, TextView title, Button toggle, EditText editText, TextView synctime, TextView warningNoLink, ImageView warningSign, Context context){
 
-        sendBtn.setOnClickListener(view -> updateSyncTime(synctime, editText));
+        sendBtn.setOnClickListener(view -> updateSyncTime(synctime, editText, warningNoLink, warningSign));
 
         SyncEntity sync = settingsDbService.selectSyncData();
         Optional<ZonedDateTime> date = sync.getLocalDateTime();
@@ -45,10 +47,12 @@ public class SettingController {
             editText.setText(sync.getObsLink());
             synctime.setText(settingsModel.generateCurrentDate(date.get()));
         }else{
-            editText.setText(Translation.getTranslation( Translation.ERROR_NO_SYNC_DATE_FOUND, settingsModel.loadMode(context) ));
+            //editText.setText(Translation.getTranslation( Translation.ERROR_NO_SYNC_DATE_FOUND, settingsModel.loadMode(context) ));
+            warningNoLink.setVisibility(View.VISIBLE);
+            warningSign.setVisibility(View.VISIBLE);
         }
 
-        //TODO: synctime needs to be translated
+        //TODO: sync_time needs to be translated
         toggle.setOnClickListener(view -> {
             toggleLanguage();
             applyChanges(title);
@@ -56,13 +60,19 @@ public class SettingController {
         });
     }
 
-    private void updateSyncTime(TextView syncTime, EditText editText) {
+    private void updateSyncTime(TextView syncTime, EditText editText, TextView warningNoLink, ImageView warningSign) {
         boolean isValidUrl = syncController.checkUrlForm(editText.getText().toString());
 
         if(!isValidUrl){
+            warningNoLink.setVisibility(View.VISIBLE);
+            warningSign.setVisibility(View.VISIBLE);
             String errorMsg =  Translation.getTranslation( Translation.ERROR_INVALID_OBS_LINK, Translation.loadMode(context));
             syncTime.setText(errorMsg);
             return;
+        } else {
+            warningNoLink.setVisibility(View.GONE);
+            warningSign.setVisibility(View.GONE);
+            Toast.makeText(context, "Lovely, you got the right one ^^", Toast.LENGTH_SHORT).show();
         }
 
         settingsDbService.resetDatabaseTemplate();

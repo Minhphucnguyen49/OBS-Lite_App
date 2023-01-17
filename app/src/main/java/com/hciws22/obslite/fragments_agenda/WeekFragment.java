@@ -1,4 +1,4 @@
-package com.hciws22.obslite.fragmentsagenda;
+package com.hciws22.obslite.fragments_agenda;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,20 +9,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.week.Week;
 import com.hciws22.obslite.week.WeekController;
 import com.hciws22.obslite.week.WeekListAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 

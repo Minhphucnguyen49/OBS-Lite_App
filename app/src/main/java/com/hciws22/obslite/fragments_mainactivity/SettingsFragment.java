@@ -1,4 +1,4 @@
-package com.hciws22.obslite.fragmentsmainactivity;
+package com.hciws22.obslite.fragments_mainactivity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hciws22.obslite.R;
-import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.SettingController;
-import com.hciws22.obslite.setting.SettingsModel;
 import com.hciws22.obslite.sync.SyncController;
 
 public class SettingsFragment extends Fragment {
@@ -44,8 +43,10 @@ public class SettingsFragment extends Fragment {
         TextView title = view.findViewById(R.id.title_SETTING);
         EditText editText = view.findViewById(R.id.obs_link);
         TextView syncTime = view.findViewById(R.id.sync_time);
+        TextView warningNoLink = view.findViewById(R.id.no_link_warning);
+        ImageView warningSign = view.findViewById(R.id.image_warning);
 
-        settingcontroller.init(sendButton, title, toggleBtn, editText,syncTime, mContext);
+        settingcontroller.init(sendButton, title, toggleBtn, editText,syncTime,warningNoLink,warningSign, mContext);
         settingcontroller.applyChanges(title);
 
         // Inflate the layout for this fragment
