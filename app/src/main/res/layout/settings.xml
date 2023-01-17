@@ -32,38 +32,50 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="225dp"
+        android:layout_height="388dp"
         android:background="@color/dark"
         tools:context=".TodayActivity"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-1dp">
 
+
         <Button
             android:id="@+id/send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:background="@drawable/ic_sync"
             app:backgroundTint="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/Sync_button_description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.811"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.205" />
+            app:layout_constraintTop_toBottomOf="@+id/obs_link"
+            app:layout_constraintVertical_bias="0.817" />
+
+        <TextView
+            android:id="@+id/OBS_link_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OBS-Link:"
+            android:textAppearance="@style/heading"
+            app:layout_constraintBottom_toTopOf="@+id/obs_link"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.342"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/obs_link"
             android:layout_width="202dp"
             android:layout_height="45dp"
             android:background="@color/white"
-
-            android:hint="insert OBS Link"
+            android:hint=" Insert OBS Link"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/send"
-            app:layout_constraintHorizontal_bias="0.898"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.183" />
+            app:layout_constraintVertical_bias="0.266" />
 
         <TextView
             android:id="@+id/sync_time"
@@ -83,10 +95,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="language"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sync_time" />
+
+        <TextView
+            android:id="@+id/Sync_button_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:text="Sync now"
+            android:textAppearance="@style/description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/no_link_warning"
+            app:layout_constraintHorizontal_bias="0.885"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/obs_link"
+            app:srcCompat="@drawable/ic_baseline_warning_24" />
+
+        <TextView
+            android:id="@+id/no_link_warning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="Get your OBS-Link from the OBS-Website.\nSchedule > Subscribe > Copy link"
+            android:textAppearance="@style/button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/obs_link" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

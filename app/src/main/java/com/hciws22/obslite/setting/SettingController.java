@@ -46,6 +46,8 @@ public class SettingController {
             synctime.setText(settingsModel.generateCurrentDate(date.get()));
         }else{
             editText.setText(Translation.getTranslation( Translation.ERROR_NO_SYNC_DATE_FOUND, settingsModel.loadMode(context) ));
+            //TextView warning = (TextView) getView().findViewById(R.id.no_link_warning);
+
         }
 
         //TODO: synctime needs to be translated
