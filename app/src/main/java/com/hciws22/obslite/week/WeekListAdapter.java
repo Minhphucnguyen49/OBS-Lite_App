@@ -25,6 +25,7 @@ import com.hciws22.obslite.todo.TodoDbService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class WeekListAdapter extends BaseExpandableListAdapter {
@@ -32,11 +33,11 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     //private HashMap<String, List<Week>> expandableListDetail;
-    private HashMap<String, List<String>> expandableListDetail;
+    private LinkedHashMap<String, List<String>> expandableListDetail;
 
     public WeekListAdapter(Context context, List<String> expandableListTitle,
                            //HashMap<String, List<Week>> expandableListDetail) {
-        HashMap<String, List<String>> expandableListDetail) {
+        LinkedHashMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;

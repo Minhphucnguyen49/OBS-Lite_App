@@ -97,7 +97,10 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         }else {
             cardPercentage = modules.get(position).getPercentage() + " %";
         }
-        holder.moduleInfor.setText(cardDate + cardName + cardPercentage );
+
+        holder.moduleInfor.setText(cardName);
+        holder.moduleDate.setText(cardDate);
+        holder.moduleProgress.setText("Prozent " + cardPercentage);
 
 
         holder.module.setOnClickListener(v -> {
@@ -121,7 +124,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
              * no data will be shown except for the
              * default value PG2 P1 100% assigned in xml
              */
-            holder.moduleInfor.setText(cardDate + cardName + Integer.toString(valueInt) + " %");
+           // the progress change will be displayed while sliding
+            holder.moduleProgress.setText("Prozent " + Integer.toString(valueInt) + " %");
         });
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
@@ -162,6 +166,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         private CardView module;//name of CardView Material
         private TextView moduleInfor;
+        private TextView moduleDate;
+        private TextView moduleProgress;
         private ImageView downArrow, upArrow;
         private RelativeLayout collapsedRelLayout;
         private RelativeLayout expandedRelLayout;
@@ -172,6 +178,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             super(itemView);
             module = itemView.findViewById(R.id.module);
             moduleInfor = itemView.findViewById(R.id.module_infor);
+            moduleDate = itemView.findViewById(R.id.module_time);
+            moduleProgress = itemView.findViewById(R.id.module_progress);
             downArrow = itemView.findViewById(R.id.btnDownArrow);
             upArrow = itemView.findViewById(R.id.btnUpArrow);
             expandedRelLayout = itemView.findViewById(R.id.expandedRelLayout);
