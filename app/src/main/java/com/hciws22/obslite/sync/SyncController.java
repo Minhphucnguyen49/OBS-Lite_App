@@ -132,7 +132,11 @@ public class SyncController {
 
         fileService.convertOBStoEntityRepresentation();
         syncDbService.insertModule(fileService.getModules());
-        syncDbService.insertAppointments(fileService.getAllAppointments());
+        syncDbService.dataChangeCheck(fileService.getAllAppointments());
+        if(!fileService.getAllAppointments().isEmpty()){
+            syncDbService.insertAppointments(fileService.getAllAppointments());
+        }
+
     }
 
 }

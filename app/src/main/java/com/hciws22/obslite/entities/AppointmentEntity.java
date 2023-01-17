@@ -95,11 +95,9 @@ public class AppointmentEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppointmentEntity that = (AppointmentEntity) o;
-        return startAt.equals(that.startAt) && endAt.equals(that.endAt) && moduleID.equals(that.moduleID);
+        return startAt.toString().equals(that.startAt.toString())
+                && endAt.toString().equals(that.endAt.toString())
+                && moduleID.equals(that.moduleID);
     }
 
-    @Override
-    public int hashCode() {
-        return 0;
-    }
 }

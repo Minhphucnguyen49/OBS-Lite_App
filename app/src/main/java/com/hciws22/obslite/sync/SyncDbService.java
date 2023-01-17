@@ -38,6 +38,9 @@ public class SyncDbService {
     private static final String TABLE_NOTIFICATION = "Notification";
     private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
 
+    private static final int NO_INSERT_POSSIBLE = 0;
+    private static final int INSERT_POSSIBLE = 1;
+
 
     public SqLiteHelper sqLiteHelper;
 
@@ -54,13 +57,9 @@ public class SyncDbService {
     }
 
     private String selectUnmodifiedAppointment(AppointmentEntity a){
-        return "SELECT COUNT(*) FROM " + TABLE_APPOINTMENT + " WHERE " + COLUMNS_FOR_APPOINTMENT[0]  + " = '" + a.getId() + "'" +
-                " AND " + COLUMNS_FOR_APPOINTMENT[1] + " = '" + a.getStartAt().toString() + "'" +
-                " AND " + COLUMNS_FOR_APPOINTMENT[2] + " = '" + a.getEndAt().toString() + "'" +
-                " AND " + COLUMNS_FOR_APPOINTMENT[3] + " = '" + a.getLocation() + "'" +
-                " AND " + COLUMNS_FOR_APPOINTMENT[4] + " = '" + a.getType() + "'" +
-                " AND " + COLUMNS_FOR_APPOINTMENT[5] + " = '" + a.getNr() + "';";
+        return "SELECT * FROM " + TABLE_APPOINTMENT + " WHERE " + COLUMNS_FOR_APPOINTMENT[6] + " = '" + a.getModuleID() + "';";
     }
+
 
     private String selectLastSyncRecordTemplate(){
         return "SELECT * FROM " + TABLE_SYNC + " ORDER BY "+ COLUMNS_FOR_SYNC[0] + " DESC LIMIT 1;";
@@ -135,6 +134,36 @@ public class SyncDbService {
         }
     }
 
+    public void removeUnchangedData(Map<String,List<AppointmentEntity>> appointments){
+
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+            boolean unchangedData = entry
+                    .getValue()
+                    .equals(compareRegisteredAppointments(entry.getValue().get(0)));
+
+            if(unchangedData) appointments.remove(entry.getKey());
+        }
+
+    }
+
+    public void deleteInvalidData(Map<String,List<AppointmentEntity>> appointments){
+
+        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        db.beginTransaction();
+
+
+
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+
+            List<AppointmentEntity> oldList = compareRegisteredAppointments(entry.getValue().get(0));
+
+
+            for (AppointmentEntity a : entry.getValue()){
+            }
+        }
+    }
+
+
     public void insertAppointments(Map<String,List<AppointmentEntity>> appointments) {
 
         if(appointments.isEmpty()){
@@ -147,23 +176,13 @@ public class SyncDbService {
         try {
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
-
                 for (AppointmentEntity a : entry.getValue()) {
 
                     ContentValues insertValues = newAdded(a);
-                    int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-                    if (id < 0 && isModifiable(a)) {
+                    ContentValues contentValues = notificationInfo(a, 1, 0,0);
+                    db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-                        int insertInfo = (int) db.insertWithOnConflict(TABLE_NOTIFICATION, null, notificationInfo(a, 0, 1,0), SQLiteDatabase.CONFLICT_IGNORE);
-                        int updateInfo = db.update(TABLE_APPOINTMENT, insertValues, "id=?", new String[] {COLUMNS_FOR_APPOINTMENT[0]});
-                        Log.d("Update Info: ", String.valueOf(updateInfo));
-                    }
-
-                    if(id >= 1 ){
-                        ContentValues contentValues = notificationInfo(a, 1, 0,0);
-                        db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
-                    }
                 }
                 // execute set of insert for each module
             }
@@ -187,6 +206,32 @@ public class SyncDbService {
         ));
     }
 
+
+    private List<AppointmentEntity> compareRegisteredAppointments(AppointmentEntity a){
+
+        String queryString = selectUnmodifiedAppointment(a);
+
+        SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null) ;
+
+        AppointmentEntity old = new AppointmentEntity();
+
+        List<AppointmentEntity> list = new ArrayList<>();
+
+        for(cursor.moveToFirst(); cursor.isAfterLast(); cursor.isLast()){
+            old.setStartAt(ZonedDateTime.parse(cursor.getString(1)));
+            old.setEndAt(ZonedDateTime.parse(cursor.getString(2)));
+            old.setModuleID(cursor.getString(6));
+            list.add(old);
+        }
+
+        cursor.close();
+
+        return list;
+
+
+    }
+
     private boolean isModifiable(AppointmentEntity a){
 
         String queryString = selectUnmodifiedAppointment(a);
@@ -194,13 +239,17 @@ public class SyncDbService {
         SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null) ;
 
+        AppointmentEntity old = new AppointmentEntity();
+        if(cursor.moveToFirst()){
+            old.setStartAt(ZonedDateTime.parse(cursor.getString(1)));
+            old.setEndAt(ZonedDateTime.parse(cursor.getString(2)));
+            old.setModuleID(cursor.getString(6));
 
-        if(null != cursor && cursor.moveToFirst() && cursor.getCount() > 0){
-            Log.d("AUTO SYNC UPDATE: ", String.valueOf(cursor.getCount()));
-            return false;
+            return !old.equals(a);
+
         }
 
-        return true;
+        return false;
 
     }
 
