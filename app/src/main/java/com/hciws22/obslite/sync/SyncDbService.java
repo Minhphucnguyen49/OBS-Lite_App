@@ -339,19 +339,19 @@ public class SyncDbService {
         List<AppointmentEntity> list = new ArrayList<>();
         String queryString = selectUnmodifiedAppointment(a);
 
-        SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
+        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null)) {
 
-        AppointmentEntity old = new AppointmentEntity();
+            AppointmentEntity old = new AppointmentEntity();
 
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            old.setStartAt(ZonedDateTime.parse(cursor.getString(1)));
-            old.setEndAt(ZonedDateTime.parse(cursor.getString(2)));
-            old.setModuleID(cursor.getString(6));
-            list.add(old);
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                old.setStartAt(ZonedDateTime.parse(cursor.getString(1)));
+                old.setEndAt(ZonedDateTime.parse(cursor.getString(2)));
+                old.setModuleID(cursor.getString(6));
+                list.add(old);
+            }
         }
 
-        cursor.close();
         return list;
 
 
