@@ -172,8 +172,10 @@ public class SyncDbService {
             List<AppointmentEntity> old = readRegisteredAppointments(entry.getValue().get(0));
             if(old.isEmpty()) continue;
 
-            if(entry.getValue().containsAll(old))
-            removeKeys.add(entry.getKey());
+            if(entry.getValue().containsAll(old)){
+                removeKeys.add(entry.getKey());
+            }
+
         }
 
         removeKeys.forEach(appointments::remove);
