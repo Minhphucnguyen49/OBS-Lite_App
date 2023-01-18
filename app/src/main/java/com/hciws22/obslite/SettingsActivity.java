@@ -28,8 +28,6 @@ public class SettingsActivity extends AppCompatActivity {
         TextView syncTime = findViewById(R.id.sync_time);
 
         Button sendButton = findViewById(R.id.send);
-        TextView syncNow = findViewById(R.id.Sync_button_description);
-
         Button toggleBtn = findViewById(R.id.button_toggle);
 
         TextView warningNoLink = findViewById(R.id.no_link_warning);
@@ -38,10 +36,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         settingcontroller.init(
                 title, editText,syncTime,
-                sendButton, syncNow,
+                sendButton,
                 warningNoLink, warningSign,
-                toggleBtn,
-                this );
+                toggleBtn);
         settingcontroller.applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
 
     }
