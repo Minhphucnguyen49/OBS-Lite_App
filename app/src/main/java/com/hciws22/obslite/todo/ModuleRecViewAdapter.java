@@ -30,22 +30,8 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         this.contextToShowImage = contextToShowImage;
     }
 
-    public String shortenName(String fullName){
-        String moduleInitials = "";
-        if(fullName.contains(" ")) {
-            //mehr als ein Wort
-            String[] words = fullName.split(" ");
-            for (int i = 0; i < words.length - 1; i++) {
-                moduleInitials += words[i].charAt(0);
-            }
-            moduleInitials += " " + words[words.length-1];
-            return moduleInitials;
-        }
-        //TODO: Exceptions of module name still need to be handled. e.g: BS = Betriebssystem;// Current B = Betriebssystem
 
-        return fullName;
-    }
-    public String shortenNameSimon(String fullName){
+    public String shortenName(String fullName){
         //shorten name to initials
         String LabNumber = "";
         String actualName = fullName;
@@ -89,7 +75,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public String checkNameLength(String fullName){
         //check if name has to be shortened
         if(fullName.length()>20){
-            return shortenNameSimon(fullName);
+            return shortenName(fullName);
         }
 
         return fullName;

@@ -29,7 +29,7 @@
             android:id="@+id/button_to_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_edit_text"
             android:text="@string/AGENDA"
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"

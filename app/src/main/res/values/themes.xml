@@ -57,6 +57,11 @@
     </style>
 
     <style name="description">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="linkWarning">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
