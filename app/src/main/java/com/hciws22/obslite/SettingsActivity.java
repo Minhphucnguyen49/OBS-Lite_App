@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hciws22.obslite.setting.SettingController;
@@ -27,9 +28,10 @@ public class SettingsActivity extends AppCompatActivity {
         TextView title = findViewById(R.id.title_SETTING);
         EditText editText = findViewById(R.id.obs_link);
         TextView syncTime = findViewById(R.id.sync_time);
+        TextView warningNoLink = findViewById(R.id.no_link_warning);
+        ImageView warningSign = findViewById(R.id.image_warning);
 
-
-        settingcontroller.init(sendButton,title, toggleBtn, editText, syncTime, this );
+        settingcontroller.init(sendButton,title, toggleBtn, editText, syncTime,warningNoLink,warningSign, this );
         settingcontroller.applyChanges(title);
 
     }
