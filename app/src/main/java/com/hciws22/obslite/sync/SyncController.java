@@ -114,25 +114,32 @@ public class SyncController {
         }
 
         syncDbService.insertOrUpdateTable(url, ZonedDateTime.now());
-        updateData();
+        updateData(isNewLink);
         return false;
 
     }
 
-    private void updateData(){
+    private void updateData(Boolean isNewLink){
 
         List<String> filteredList = responseService.getFilteredList();
-        Log.d(Thread.currentThread().getName() + ": synccontroller", "Converting");
-
-        Log.d(Thread.currentThread().getName() + ": synccontroller", "start Converting");
         fileService.convertToModule(filteredList);
 
-
-        Log.d(Thread.currentThread().getName() + ": FilteredList Size: ", String.valueOf(responseService.getFilteredList().size()));
-
         fileService.convertOBStoEntityRepresentation();
-        syncDbService.insertModule(fileService.getModules());
-        syncDbService.insertAppointments(fileService.getAllAppointments());
+
+
+        if(isNewLink) {
+            syncDbService.insertOrUpdateModule(fileService.getModules());
+            syncDbService.initAppointments(fileService.getAllAppointments());
+            return;
+        }
+        syncDbService.deleteInvalidModules(fileService.getAllAppointments());
+        syncDbService.removeUnchangedData(fileService.getAllAppointments());
+        syncDbService.insertOrUpdateModule(fileService.getModules());
+
+        if(!fileService.getAllAppointments().isEmpty()){
+            syncDbService.updateChangedData(fileService.getAllAppointments());
+        }
+
     }
 
 }

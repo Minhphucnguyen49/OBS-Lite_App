@@ -24,14 +24,7 @@ public class NotificationController {
 
          List<Notification> notifications = notificationDbService.selectNotifications(true,true, true);
 
-        for (Notification notification : notifications) {
 
-            Log.d("Current Notification: ",
-                    notification.getMessage() + " " +
-                            ",isNew: " + notification.isNewAdded() + " " +
-                            ",isOld: " + notification.isOldChanged() + " " +
-                            ",isDeleted: " + notification.isOldDeleted());
-        }
          if(notifications.isEmpty() || Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
              Log.d("Current Notification: ", "No notifications");
              return;

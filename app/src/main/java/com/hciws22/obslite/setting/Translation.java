@@ -12,10 +12,11 @@ public enum Translation {
     LIGHT_MODE("hell", "light"),
     // Notifications
     NOTIFICATION_SUB_TITLE_NEW_APP("Neuer Termin:  ", "New Appointment:  "),
-    NOTIFICATION_SUB_TITLE_CHANGED_APP("Terminänderung:  ", "Appointment chnaged:  "),
+    NOTIFICATION_SUB_TITLE_CHANGED_APP("Änderung:  ", "Update:  "),
     NOTIFICATION_SUB_TITLE_DELETED_APP("Termin gelöscht:  ", "Appointment deleted:  "),
-    NOTIFICATION_LOCATION("\nOrt:                     ", "\nLocation:                   "),
-    NOTIFICATION_DATE("Datum:             ","Date:                         "),
+    NOTIFICATION_LOCATION("Ort: ", "Location: "),
+    NOTIFICATION_DATE("Datum: ","Date: "),
+    NOTIFICATION_TIME("Zeit: ", "Time: "),
     NOTIFICATION_SUBTITLE("Hochschule Darmstadt, FBI", "University of applied science Darmstadt, FBI"),
     // Sync
     ERROR_OBS_LINK_UPDATE("OBS link konnte nicht aktualisiert werden.\nPrüfe deine Internet Verbindung","Could not update obs link.\nCheck your internet connection"),
