@@ -16,6 +16,7 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
+import com.hciws22.obslite.jobs.AutoNotificationService;
 import com.hciws22.obslite.jobs.AutoSyncService;
 import com.hciws22.obslite.fragments_mainactivity.AgendaFragment;
 import com.hciws22.obslite.fragments_mainactivity.SettingsFragment;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         /**
          *  Auto Synchronisation
          */
-        setUpScheduler();
+        setUpAutoSyncScheduler();
+        setUpAutoNotificationScheduler();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
@@ -58,18 +60,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public int setUpScheduler(){
+    public void setUpAutoSyncScheduler(){
 
         AutoSyncService.setContext(this);
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);
 
         JobInfo jobInfo = new JobInfo.Builder(123, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true)
-                .setPeriodic(1000 * 60 * 60)
+                .setPeriodic(60000)
                 .build();
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        return scheduler.schedule(jobInfo);
+        scheduler.schedule(jobInfo);
+    }
+
+    public void setUpAutoNotificationScheduler(){
+
+        AutoNotificationService.setContext(this);
+        ComponentName componentName = new ComponentName(this, AutoNotificationService.class);
+
+        JobInfo jobInfo = new JobInfo.Builder(124, componentName)
+                .setPersisted(true)
+                .setPeriodic(120000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(jobInfo);
     }
 
     private void replaceFragment(Fragment fragment){
@@ -82,14 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void sendNotification(Context context) {
-        NotificationChannel channel = new NotificationChannel("My Notification", "My Notification", NotificationManager.IMPORTANCE_DEFAULT);
-        NotificationManager manager = context.getSystemService(NotificationManager.class);
-
-        manager.createNotificationChannel(channel);
-
-    }
 
 }
 /*

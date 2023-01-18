@@ -32,7 +32,7 @@ public class SyncController {
         responseService = new ResponseService();
         fileService = new FileService();
         syncDbService = new SyncDbService(sqLiteHelper);
-        notificationController = new NotificationController(sqLiteHelper, context);
+        notificationController = new NotificationController(context);
     }
 
 
@@ -75,13 +75,8 @@ public class SyncController {
             return false;
         }
 
-        boolean errorOccurred = manualSynchronize(obsLink, false);
-
-        Thread t1 = new Thread(notificationController::createNotification);
-        t1.start();
-
-        return errorOccurred;
-
+        return manualSynchronize(obsLink, false);
+        
     }
 
     public boolean checkUrlForm(String url){

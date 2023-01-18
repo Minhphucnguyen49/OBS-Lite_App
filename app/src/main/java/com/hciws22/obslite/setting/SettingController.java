@@ -31,7 +31,7 @@ public class SettingController {
         SqLiteHelper sqLiteHelper = new SqLiteHelper(context);
         this.syncController = syncController;
         this.settingsModel = new SettingsModel();
-        this.notificationController = new NotificationController(sqLiteHelper, context);
+        this.notificationController = new NotificationController(context);
         this.settingsDbService = new SettingsDbService(sqLiteHelper);
     }
 
