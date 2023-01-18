@@ -5,10 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.SyncEntity;
-
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Optional;
 
 public class SettingsDbService {
 

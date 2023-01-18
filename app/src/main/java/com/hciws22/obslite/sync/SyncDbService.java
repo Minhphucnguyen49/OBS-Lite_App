@@ -41,8 +41,8 @@ public class SyncDbService {
         this.sqLiteHelper = sqLiteHelper;
     }
 
-    private String updateModulesTemplate(){
-        return "INSERT OR REPLACE INTO " +
+    private String insertModulesTemplate(){
+        return "INSERT OR IGNORE INTO " +
                 TABLE_MODULE +" ("+
                 COLUMNS_FOR_MODULE[0] + ", "+
                 COLUMNS_FOR_MODULE[1]  +", "+
@@ -68,6 +68,10 @@ public class SyncDbService {
 
     private String truncateAppointmentTemplate(){
         return "DELETE FROM " + TABLE_APPOINTMENT + ";";
+    }
+
+    private String resetModuleTableTemplate(){
+        return "DELETE FROM " + TABLE_MODULE + ";";
     }
 
 
@@ -365,7 +369,11 @@ public class SyncDbService {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = updateModulesTemplate();
+
+            String sql = resetModuleTableTemplate();
+            db.execSQL(sql);
+
+            sql = insertModulesTemplate();
 
             for (ModuleEntity m : moduleEntities) {
                 sql += "('" + m.getId() + "','" + m.getName() + "','" + m.getSemester() + "'),";

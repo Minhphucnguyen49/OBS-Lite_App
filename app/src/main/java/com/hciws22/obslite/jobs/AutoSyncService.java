@@ -47,10 +47,6 @@ public class AutoSyncService extends JobService {
 
     private void executeTask(JobParameters jobParameters) {
 
-        if(jobCancelled){
-            return;
-        }
-
 
         Log.d(TAG,Thread.currentThread().getName() + ": Job is running");
         boolean isSucceeded;
@@ -70,8 +66,7 @@ public class AutoSyncService extends JobService {
     public boolean onStopJob(JobParameters jobParameters) {
         Log.d(TAG, Thread.currentThread().getName() + ": Job cancelled before completion");
 
-        jobCancelled = true;
-        return true;
+        return false;
 
     }
 }

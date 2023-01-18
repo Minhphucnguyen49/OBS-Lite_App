@@ -3,7 +3,6 @@ package com.hciws22.obslite.setting;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class SettingsModel {

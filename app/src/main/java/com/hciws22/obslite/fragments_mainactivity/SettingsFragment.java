@@ -52,9 +52,9 @@ public class SettingsFragment extends Fragment {
 
         settingcontroller.init(
                 title, editText,syncTime,
-                sendButton, syncNow,
+                sendButton,
                 warningNoLink, warningSign,
-                toggleBtn, mContext);
+                toggleBtn);
         settingcontroller.applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
 
         // Inflate the layout for this fragment

@@ -31,16 +31,15 @@ public class SettingController {
         SqLiteHelper sqLiteHelper = new SqLiteHelper(context);
         this.syncController = syncController;
         this.settingsModel = new SettingsModel();
-        this.notificationController = new NotificationController(sqLiteHelper, context);
+        this.notificationController = new NotificationController(context);
         this.settingsDbService = new SettingsDbService(sqLiteHelper);
     }
 
 
     public void init(TextView title, EditText editText, TextView syncTime,
-                     Button sendBtn, TextView syncNow,
+                     Button sendBtn,
                      TextView warningNoLink, ImageView warningSign,
-                     Button toggle,
-                     Context context){
+                     Button toggle){
 
         sendBtn.setOnClickListener(view -> updateSyncTime(syncTime, editText, warningNoLink, warningSign));
 
@@ -80,11 +79,10 @@ public class SettingController {
             String errorMsg =  Translation.getTranslation( Translation.ERROR_INVALID_OBS_LINK, Translation.loadMode(context));
             syncTime.setText(errorMsg);
             return;
-        } else {
-            warningNoLink.setVisibility(View.GONE);
-            warningSign.setVisibility(View.GONE);
-            Toast.makeText(context, "Lovely, you got the right one ^^", Toast.LENGTH_SHORT).show();
         }
+        warningNoLink.setVisibility(View.GONE);
+        warningSign.setVisibility(View.GONE);
+        Toast.makeText(context, "Lovely, you got the right one ^^", Toast.LENGTH_SHORT).show();
 
         settingsDbService.resetDatabaseTemplate();
         syncTime.setText(syncController.updateSyncLabel(editText.getText().toString()));
