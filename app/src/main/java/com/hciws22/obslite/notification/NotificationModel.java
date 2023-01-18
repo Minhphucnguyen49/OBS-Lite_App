@@ -52,7 +52,7 @@ public class NotificationModel {
 
     public void buildNotification(List<Notification> notifications){
 
-        String date = Translation.getTranslation( Translation.NOTIFICATION_DATE, Translation.loadMode(context));
+        String time = Translation.getTranslation( Translation.NOTIFICATION_TIME, Translation.loadMode(context));
         String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
@@ -62,17 +62,24 @@ public class NotificationModel {
 
         StringBuilder content = new StringBuilder();
 
-        for(int i = 0; i < 3 && i < notifications.size(); i++) {
+        String alreadySent = "";
+        for(int i = 0; i < notifications.size(); i++) {
 
             Notification notification = notifications.get(i);
 
-             content.append(getContentType(notification))
-                    .append(notification.getType()).append(": ")
-                    .append(notification.getModuleTitle()).append("\n")
-                    .append(date)
-                    .append(getNotificationTime(notification))
-                    .append(getNotificationDate(notification)).append("  ")
-                    .append(getLocation(notification)).append("\n\n");
+            if(!notification.getModuleTitle().equals(alreadySent)){
+                content.append(getContentType(notification))
+                        .append(notification.getType()).append(": ")
+                        .append(notification.getModuleTitle()).append("\n");
+
+                if(!notification.isOldDeleted()){
+                    content.append(time)
+                            .append(getNotificationTime(notification))
+                            .append(getLocation(notification)).append("\n\n");
+                }
+
+                alreadySent = notification.getModuleTitle();
+            }
 
         }
         builder.setContentText(content.toString())

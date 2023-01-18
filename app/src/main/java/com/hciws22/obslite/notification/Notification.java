@@ -1,17 +1,21 @@
 package com.hciws22.obslite.notification;
 
+import java.util.Optional;
+
 public class Notification {
 
-    private final Integer id;
+    private Integer id;
     private String type;
     private String location;
-    private final String moduleTitle;
-    private final boolean newAdded;
-    private final boolean oldDeleted;
-    private final boolean oldChanged;
+    private String moduleTitle;
+    private boolean newAdded;
+    private boolean oldDeleted;
+    private boolean oldChanged;
     private String message;
 
+    public Notification(){
 
+    }
 
     public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, String message) {
         this.id = id;
@@ -24,12 +28,41 @@ public class Notification {
         this.message = message;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setModuleTitle(String moduleTitle) {
+        this.moduleTitle = moduleTitle;
+    }
+
+    public void setNewAdded(boolean newAdded) {
+        this.newAdded = newAdded;
+    }
+
+    public void setOldDeleted(boolean oldDeleted) {
+        this.oldDeleted = oldDeleted;
+    }
+
+    public void setOldChanged(boolean oldChanged) {
+        this.oldChanged = oldChanged;
+    }
+
+
     public String getLocation() {
-        return location;
+        return Optional.ofNullable(location).orElse("");
     }
 
     public String getType() {
-        return type;
+        return Optional.ofNullable(type).orElse("");
     }
 
     public Integer getId() {
@@ -53,7 +86,7 @@ public class Notification {
     }
 
     public String getMessage() {
-        return message;
+        return Optional.ofNullable(message).orElse("");
     }
 
     public void setMessage(String message) {
