@@ -68,9 +68,12 @@ public class NotificationModel {
             Notification notification = notifications.get(i);
 
             if(!notification.getModuleTitle().equals(alreadySent)){
-                content.append(getContentType(notification))
-                        .append(notification.getType()).append(": ")
-                        .append(notification.getModuleTitle()).append("\n");
+                content.append(getContentType(notification));
+
+                if(!notification.isOldDeleted()){
+                    content.append(notification.getType()).append(": ");
+                }
+                    content.append(notification.getModuleTitle()).append("\n");
 
                 if(!notification.isOldDeleted()){
                     content.append(time)
