@@ -23,16 +23,26 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
 
-        Button sendButton = findViewById(R.id.send);
-        Button toggleBtn = findViewById(R.id.button_toggle);
         TextView title = findViewById(R.id.title_SETTING);
         EditText editText = findViewById(R.id.obs_link);
         TextView syncTime = findViewById(R.id.sync_time);
+
+        Button sendButton = findViewById(R.id.send);
+        TextView syncNow = findViewById(R.id.Sync_button_description);
+
+        Button toggleBtn = findViewById(R.id.button_toggle);
+
         TextView warningNoLink = findViewById(R.id.no_link_warning);
         ImageView warningSign = findViewById(R.id.image_warning);
 
-        settingcontroller.init(sendButton,title, toggleBtn, editText, syncTime,warningNoLink,warningSign, this );
-        settingcontroller.applyChanges(title);
+
+        settingcontroller.init(
+                title, editText,syncTime,
+                sendButton, syncNow,
+                warningNoLink, warningSign,
+                toggleBtn,
+                this );
+        settingcontroller.applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
 
     }
 
