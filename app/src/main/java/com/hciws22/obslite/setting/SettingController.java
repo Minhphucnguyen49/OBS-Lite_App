@@ -36,26 +36,37 @@ public class SettingController {
     }
 
 
-    public void init(Button sendBtn, TextView title, Button toggle, EditText editText, TextView synctime, TextView warningNoLink, ImageView warningSign, Context context){
+    public void init(TextView title, EditText editText, TextView syncTime,
+                     Button sendBtn, TextView syncNow,
+                     TextView warningNoLink, ImageView warningSign,
+                     Button toggle,
+                     Context context){
 
-        sendBtn.setOnClickListener(view -> updateSyncTime(synctime, editText, warningNoLink, warningSign));
+        sendBtn.setOnClickListener(view -> updateSyncTime(syncTime, editText, warningNoLink, warningSign));
 
         SyncEntity sync = settingsDbService.selectSyncData();
         Optional<ZonedDateTime> date = sync.getLocalDateTime();
 
         if (date.isPresent()){
+            //hide warning
+            warningNoLink.setVisibility(View.GONE);
+            warningSign.setVisibility(View.GONE);
+
+
             editText.setText(sync.getObsLink());
-            synctime.setText(settingsModel.generateCurrentDate(date.get()));
+            syncTime.setText(settingsModel.generateCurrentDate(date.get()));
         }else{
             //editText.setText(Translation.getTranslation( Translation.ERROR_NO_SYNC_DATE_FOUND, settingsModel.loadMode(context) ));
+            //show warning
             warningNoLink.setVisibility(View.VISIBLE);
             warningSign.setVisibility(View.VISIBLE);
+
         }
 
         //TODO: sync_time needs to be translated
         toggle.setOnClickListener(view -> {
             toggleLanguage();
-            applyChanges(title);
+            applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
             //applyChanges(title, sendBtn, context);
         });
     }
@@ -88,9 +99,14 @@ public class SettingController {
         //toggle auf english
         settingsModel.saveMode(context, !settingsModel.loadMode(context));
     }
-    public void applyChanges (TextView title){
+    public void applyAllChanges (TextView title, TextView warning, EditText editText, TextView syncTime,ImageView warningSign){
         title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
+        warning.setText(Translation.getTranslation( Translation.NO_LINK_WARNUNG, settingsModel.loadMode(context) ));
+        editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context) ));
+        updateSyncTime(syncTime,editText,warning,warningSign);
     }
+
+
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));
 
 }

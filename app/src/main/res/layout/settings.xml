@@ -40,42 +40,43 @@
 
 
         <Button
-            android:id="@+id/send"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
+            android:visibility="gone"
+            android:id="@+id/sendGone"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:background="@drawable/ic_sync"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toTopOf="@+id/Sync_button_description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.817" />
+            app:layout_constraintVertical_bias="0.839" />
 
         <TextView
+
             android:id="@+id/OBS_link_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="OBS-Link:"
             android:textAppearance="@style/heading"
-            app:layout_constraintBottom_toTopOf="@+id/obs_link"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.342"
+            app:layout_constraintHorizontal_bias="0.065"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/obs_link"
             android:layout_width="202dp"
-            android:layout_height="45dp"
-            android:background="@color/white"
+            android:layout_height="36dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/rounded_edit_text"
             android:hint=" Insert OBS Link"
+            android:bottomRightRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.266" />
+            app:layout_constraintTop_toBottomOf="@+id/OBS_link_heading"
+            app:layout_constraintVertical_bias="0.068" />
 
         <TextView
             android:id="@+id/sync_time"
@@ -90,11 +91,14 @@
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
             app:layout_constraintVertical_bias="0.062" />
 
+        <!--android:visibility="gone"-->
+
         <TextView
+            android:visibility="gone"
             android:id="@+id/Sync_button_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="88dp"
             android:text="Sync now"
             android:textAppearance="@style/description"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -102,55 +106,70 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
-
         <ImageView
             android:id="@+id/image_warning"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:visibility="gone"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+
+            android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/no_link_warning"
-            app:layout_constraintHorizontal_bias="0.803"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.065"
+            app:layout_constraintVertical_bias="0.216"
             app:srcCompat="@drawable/ic_baseline_warning_24" />
 
         <TextView
             android:id="@+id/no_link_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="44dp"
-            android:text="Get your OBS-Link from the OBS-Website.\nSchedule > Subscribe > Copy link"
-            android:textAppearance="@style/button"
-            android:visibility="gone"
+            android:layout_marginStart="20dp"
+            android:text="Get your OBS-Link from the OBS-Website:\nSchedule > Subscribe > Copy link"
+
+            android:textAppearance="@style/linkWarning"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.061" />
+            app:layout_constraintVertical_bias="0.419" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="16dp"
+            android:text="Sync"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/obs_link"
+            app:layout_constraintTop_toBottomOf="@+id/OBS_link_heading"
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/dark"
-        tools:context=".TodayActivity">
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/dark"
+    tools:context=".TodayActivity">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GERMAN"
-            android:textAppearance="@style/button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/button_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GERMAN"
+        android:textAppearance="@style/button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.506" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

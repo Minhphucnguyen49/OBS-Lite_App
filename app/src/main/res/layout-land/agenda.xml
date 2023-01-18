@@ -29,7 +29,7 @@
             android:id="@+id/button_to_week"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_edit_text"
             android:text="W"
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"
