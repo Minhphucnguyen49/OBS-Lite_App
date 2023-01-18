@@ -187,6 +187,7 @@ public class SyncDbService {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         db.beginTransaction();
 
+
         try {
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
