@@ -25,22 +25,18 @@ public class AutoNotificationService extends JobService {
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "Job started");
         executeTask(jobParameters);
-        return false;
+        return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         Log.d(TAG, Thread.currentThread().getName() + ": Job cancelled before completion");
 
-        jobCancelled = true;
-        return true;
+        return false;
     }
 
     private void executeTask(JobParameters jobParameters) {
 
-        if(jobCancelled){
-            return;
-        }
 
 
         Log.d(TAG,Thread.currentThread().getName() + ": Job is running");

@@ -66,8 +66,9 @@ public class MainActivity extends AppCompatActivity {
         ComponentName componentName = new ComponentName(this, AutoSyncService.class);
 
         JobInfo jobInfo = new JobInfo.Builder(123, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true)
-                .setPeriodic(60000)
+                .setPeriodic(15 * 60 * 1000)
                 .build();
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         scheduler.schedule(jobInfo);
@@ -79,8 +80,9 @@ public class MainActivity extends AppCompatActivity {
         ComponentName componentName = new ComponentName(this, AutoNotificationService.class);
 
         JobInfo jobInfo = new JobInfo.Builder(124, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true)
-                .setPeriodic(120000)
+                .setPeriodic(16 * 60 * 1000)
                 .build();
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
         scheduler.schedule(jobInfo);

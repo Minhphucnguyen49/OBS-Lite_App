@@ -28,7 +28,6 @@ public class NotificationController {
 
          if(notifications.isEmpty() || Build.VERSION.SDK_INT < Build.VERSION_CODES.O){
              Log.d("Current Notification: ", "No notifications");
-             return true;
          }
 
          notificationModel.buildChannel();
