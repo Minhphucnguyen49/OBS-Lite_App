@@ -32,7 +32,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="388dp"
+        android:layout_height="562dp"
         android:background="@color/dark"
         tools:context=".TodayActivity"
         tools:layout_editor_absoluteX="0dp"
@@ -40,11 +40,11 @@
 
 
         <Button
-            android:visibility="gone"
             android:id="@+id/sendGone"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/ic_sync"
+            android:visibility="gone"
             app:backgroundTint="@null"
             app:layout_constraintBottom_toTopOf="@+id/Sync_button_description"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,15 +68,17 @@
         <EditText
             android:id="@+id/obs_link"
             android:layout_width="202dp"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:background="@drawable/rounded_edit_text"
-            android:hint=" Insert OBS Link"
             android:bottomRightRadius="15dp"
+            android:hint=" Insert OBS Link"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/OBS_link_heading"
-            app:layout_constraintVertical_bias="0.068" />
+            app:layout_constraintVertical_bias="0.038" />
+
+        <!--android:visibility="gone"-->
 
         <TextView
             android:id="@+id/sync_time"
@@ -89,18 +91,16 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/obs_link"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.062" />
-
-        <!--android:visibility="gone"-->
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/Sync_button_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="88dp"
             android:text="Sync now"
             android:textAppearance="@style/description"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -110,12 +110,12 @@
             android:id="@+id/image_warning"
             android:layout_width="49dp"
             android:layout_height="49dp"
-
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.216"
+            app:layout_constraintVertical_bias="0.024"
             app:srcCompat="@drawable/ic_baseline_warning_24" />
 
         <TextView
@@ -124,52 +124,102 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="Get your OBS-Link from the OBS-Website:\nSchedule > Subscribe > Copy link"
-
             android:textAppearance="@style/linkWarning"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
-            app:layout_constraintVertical_bias="0.419" />
+            app:layout_constraintVertical_bias="0.164" />
 
         <Button
             android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="85dp"
+            android:layout_height="39dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="16dp"
             android:text="Sync"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.014"
             app:layout_constraintStart_toEndOf="@+id/obs_link"
             app:layout_constraintTop_toBottomOf="@+id/OBS_link_heading"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+
+            android:id="@+id/Language_Area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Language:"
+            android:textAppearance="@style/heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_link_warning" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/button_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="GERMAN"
+            android:textAppearance="@style/button"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.073"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Language_Area"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+
+            android:id="@+id/Notifications_Area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Notifications:"
+            android:textAppearance="@style/heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_toggle" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/button_toggle_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOGGLE"
+            android:textAppearance="@style/button"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Notifications_Area"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/button_toggle_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="TOGGLE"
+            android:textAppearance="@style/button"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_toggle_2"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/dark"
-    tools:context=".TodayActivity">
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/button_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GERMAN"
-        android:textAppearance="@style/button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.506" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>
