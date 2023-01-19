@@ -8,13 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hciws22.obslite.TodayActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.SyncEntity;
 import com.hciws22.obslite.notification.NotificationController;
 import com.hciws22.obslite.sync.SyncController;
-
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -38,8 +36,9 @@ public class SettingController {
 
     public void init(TextView title, EditText editText, TextView syncTime,
                      Button sendBtn,
-                     TextView warningNoLink, ImageView warningSign,
-                     Button toggle){
+                     TextView warningNoLink, TextView languageTitle, TextView notificationTitle,
+                     ImageView warningSign,
+                     SwitchCompat languages, SwitchCompat notification, SwitchCompat dailyAssistant){
 
         sendBtn.setOnClickListener(view -> updateSyncTime(syncTime, editText, warningNoLink, warningSign));
 
@@ -62,10 +61,17 @@ public class SettingController {
 
         }
 
-        //TODO: sync_time needs to be translated
-        toggle.setOnClickListener(view -> {
-            toggleLanguage();
-            applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
+        notification.setOnClickListener(view -> {
+            toggleMode("notification");
+        });
+
+        dailyAssistant.setOnClickListener(view -> {
+            toggleMode("daily-assistant");
+        });
+
+        languages.setOnClickListener(view -> {
+            toggleMode("mode");
+            applyAllChanges(title,warningNoLink,editText,syncTime,warningSign,languageTitle, notificationTitle, languages,notification, dailyAssistant );
             //applyChanges(title, sendBtn, context);
         });
     }
@@ -90,17 +96,38 @@ public class SettingController {
 
 
     }
+    public boolean isLanguageOn(){
+        return settingsModel.loadMode(context);
+    }
 
-    public void toggleLanguage(){
+    public boolean isNotificationOn(){
+        return settingsModel.loadMode(context, "notification");
+    }
+
+    public boolean isDailyAssistantOn(){
+        return settingsModel.loadMode(context,"daily-assistant");
+    }
+
+    public void toggleMode(String mode){
         //TODO: Check current mode
 
         //toggle auf english
-        settingsModel.saveMode(context, !settingsModel.loadMode(context));
+        settingsModel.saveMode(context, !settingsModel.loadMode(context, mode), mode);
     }
-    public void applyAllChanges (TextView title, TextView warning, EditText editText, TextView syncTime,ImageView warningSign){
-        title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context) ));
-        warning.setText(Translation.getTranslation( Translation.NO_LINK_WARNUNG, settingsModel.loadMode(context) ));
-        editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context) ));
+    public void applyAllChanges (TextView title, TextView warning,
+                                 EditText editText, TextView syncTime,ImageView warningSign, TextView languageTitle, TextView notificationTitle,
+                                 SwitchCompat languages, SwitchCompat notification, SwitchCompat dailyAssistant){
+        title.setText(Translation.getTranslation( Translation.TITLE_SETTINGS, settingsModel.loadMode(context)));
+        warning.setText(Translation.getTranslation( Translation.NO_LINK_WARNUNG, settingsModel.loadMode(context)));
+        languageTitle.setText(Translation.getTranslation( Translation.NOTIFICATION_LANGUAGE_SUB_TITLE, settingsModel.loadMode(context)));
+        notificationTitle.setText(Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE, settingsModel.loadMode(context)));
+        dailyAssistant.setText(Translation.getTranslation( Translation.NOTIFICATION_DAILY_ASSISTANT, settingsModel.loadMode(context)));
+
+
+        languages.setText(Translation.getTranslation( Translation.NOTIFICATION_LANGUAGE_TOGGLE, settingsModel.loadMode(context)));
+        notification.setText(Translation.getTranslation( Translation.NOTIFICATION_TOGGLE, settingsModel.loadMode(context)));
+
+        editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context)));
         updateSyncTime(syncTime,editText,warning,warningSign);
     }
 

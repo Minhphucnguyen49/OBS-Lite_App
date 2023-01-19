@@ -68,10 +68,10 @@
         <EditText
             android:id="@+id/obs_link"
             android:layout_width="202dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginStart="20dp"
             android:background="@drawable/rounded_edit_text"
-            android:bottomRightRadius="15dp"
+            android:bottomRightRadius="40dp"
             android:hint=" Insert OBS Link"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
             android:textAppearance="@style/linkWarning"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/obs_link"
             app:layout_constraintVertical_bias="0.164" />
@@ -152,25 +152,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Language:"
             android:textAppearance="@style/heading"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.072"
+            app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/no_link_warning" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_toggle"
+            android:id="@+id/language_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="GERMAN"
             android:textAppearance="@style/button"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.073"
+            app:layout_constraintHorizontal_bias="0.056"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Language_Area"
             app:layout_constraintVertical_bias="0.0" />
@@ -181,44 +179,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Notifications:"
             android:textAppearance="@style/heading"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.076"
+            app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_toggle" />
+            app:layout_constraintTop_toBottomOf="@+id/language_toggle" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_toggle_2"
+            android:id="@+id/notification_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="TOGGLE"
             android:textAppearance="@style/button"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintHorizontal_bias="0.058"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Notifications_Area"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.133" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/button_toggle_3"
+            android:id="@+id/daily_assistant_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="TOGGLE"
+            android:layout_marginBottom="72dp"
             android:textAppearance="@style/button"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.071"
+            app:layout_constraintHorizontal_bias="0.056"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_toggle_2"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/notification_toggle"
+            app:layout_constraintVertical_bias="0.529" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

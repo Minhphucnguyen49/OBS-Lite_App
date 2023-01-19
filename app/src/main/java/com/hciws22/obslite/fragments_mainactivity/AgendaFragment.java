@@ -75,7 +75,6 @@ public class AgendaFragment extends Fragment {
     }
 
 
-
     private void setWeekChip(Chip weekChoice) {
         String weekText = "WEEK";
         weekChoice.setText(weekText);
