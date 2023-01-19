@@ -82,13 +82,29 @@ public class TodoDbService {
                 " AND '" + future.toLocalDate() + "'" +
                 " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
     }
-    public List<Todo> selectTodoTwoWeek(){
+
+    public String selectTodoAll(){
+        return "SELECT " +
+                COLUMNS_FOR_APPOINTMENT[0] + "," +
+                COLUMNS_FOR_APPOINTMENT[1] + "," +
+                COLUMNS_FOR_APPOINTMENT[2] + "," +
+                COLUMNS_FOR_APPOINTMENT[3] + "," +
+                COLUMNS_FOR_APPOINTMENT[4] +
+
+                " FROM " + TABLE_APPOINTMENT + " WHERE " +
+                "( type = '" + TO_DO[0] + "'" +
+                " OR type = '" + TO_DO[1] +  "'" +
+                " OR type = '" + TO_DO[2] +  "'" +
+                " OR type = '" + TO_DO[3] +  "'" +
+                " OR type = '" + TO_DO[4] +  "');";
+    }
+    public List<Todo> selectCurrentWeek(){
         String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(previousOrSame(DayOfWeek.MONDAY)).plusDays(14));
         return selectTodoAppointmentsPattern(queryString);
     }
 
-    public List<Todo> selectTodoOneWeek(){
-        String queryString = selectTodoPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).with(nextOrSame(DayOfWeek.SUNDAY)));
+    public List<Todo> selectAllWeek(){
+        String queryString = selectTodoAll();
         return selectTodoAppointmentsPattern(queryString);
     }
     public List<Todo> selectExams(){

@@ -14,10 +14,11 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.fragments_todo.ToDoThisWeekFragment;
+import com.hciws22.obslite.fragments_todo.ToDoCurrentFragment;
 import com.hciws22.obslite.fragments_todo.TodoExamsFragment;
-import com.hciws22.obslite.fragments_todo.TodoNextWeekFragment;
+import com.hciws22.obslite.fragments_todo.TodoAllWeekFragment;
 import com.hciws22.obslite.todo.TodoController;
+
 
 public class TodoFragment extends Fragment {
     private Context mContext;
@@ -38,20 +39,21 @@ public class TodoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ChipGroup chipGroup = view.findViewById(R.id.chip_group);
-        Chip nextWeek = view.findViewById(R.id.chip_2);
-        Chip thisWeek = view.findViewById(R.id.chip_1);
+
+        Chip currentWeek = view.findViewById(R.id.chip_1);
+        Chip allWeek = view.findViewById(R.id.chip_2);
         Chip examsChoice = view.findViewById(R.id.chip_3);
 
-        setTodoThisWeekChip(thisWeek);
-        setNextWeekChip(nextWeek);
-        setExamsChip(examsChoice);
+        setCurrentWeek(currentWeek);
+        setAllWeek(allWeek);
+        setExams(examsChoice);
 
         //set Today View as default
         chipGroup.setSelectionRequired(true);
         chipGroup.setSingleSelection(true);
-        chipGroup.check(thisWeek.getId());
-        if (thisWeek.isChecked()) {
-            Fragment toDoThisWeekFragment = new ToDoThisWeekFragment();
+        chipGroup.check(currentWeek.getId());
+        if (currentWeek.isChecked()) {
+            Fragment toDoThisWeekFragment = new ToDoCurrentFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.todo_scrollable, toDoThisWeekFragment).commit();
         }
@@ -66,41 +68,43 @@ public class TodoFragment extends Fragment {
                 chip.setClickable(false);
             }
         });
+        todoController.applyAllChanges(currentWeek,allWeek,examsChoice,mContext);
         return view;
     }
 
 
-    private void setNextWeekChip(Chip nextWeekChip) {
-        String nexWeekText = "NEXT WEEK";
-        nextWeekChip.setText(nexWeekText);
-        showNextWeek(nextWeekChip);
+
+    private void setAllWeek(Chip allWeek) {
+        String nexWeekText = "ALL"; //will be overwritten
+        allWeek.setText(nexWeekText);
+        showAllWeek(allWeek);
     }
 
-    private void setExamsChip(Chip examsChip) {
-        String examsText = "EXAMS";
+    private void setExams(Chip examsChip) {
+        String examsText = "EXAMS"; //will be overwritten
         examsChip.setText(examsText);
         showExams(examsChip);
     }
 
-    private void setTodoThisWeekChip(Chip thisWeekChoice) {
-        String thisWeekText = "THIS WEEK";
-        thisWeekChoice.setText(thisWeekText);
-        showTodoThisWeek(thisWeekChoice);
+    private void setCurrentWeek(Chip currentWeek) {
+        String thisWeekText = "CURRENT"; //will be overwritten
+        currentWeek.setText(thisWeekText);
+        showCurrentWeek(currentWeek);
     }
 
-    private void showTodoThisWeek(Chip selectedChip) {
+    private void showCurrentWeek(Chip selectedChip) {
         selectedChip.setOnClickListener(v -> {
             //TODO: selectTodayView
-            Fragment thisWeekFragment = new ToDoThisWeekFragment();
+            Fragment thisWeekFragment = new ToDoCurrentFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.todo_scrollable, thisWeekFragment).commit();
         });
     }
 
-    private void showNextWeek(Chip selectedChip) {
+    private void showAllWeek(Chip selectedChip) {
         selectedChip.setOnClickListener(v -> {
             //TODO: selectWeekView
-            Fragment nextWeekFragment = new TodoNextWeekFragment();
+            Fragment nextWeekFragment = new TodoAllWeekFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.todo_scrollable, nextWeekFragment).commit();
         });

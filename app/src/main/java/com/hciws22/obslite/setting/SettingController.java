@@ -82,7 +82,8 @@ public class SettingController {
         }
         warningNoLink.setVisibility(View.GONE);
         warningSign.setVisibility(View.GONE);
-        Toast.makeText(context, "Lovely, you got the right one ^^", Toast.LENGTH_SHORT).show();
+        String success_toast = Translation.getTranslation( Translation.SUCCESS_TOAST, settingsModel.loadMode(context) );
+        Toast.makeText(context, success_toast, Toast.LENGTH_SHORT).show();
 
         settingsDbService.resetDatabaseTemplate();
         syncTime.setText(syncController.updateSyncLabel(editText.getText().toString()));

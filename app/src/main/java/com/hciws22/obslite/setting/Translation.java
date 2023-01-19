@@ -10,6 +10,8 @@ public enum Translation {
     TITLE_SETTINGS("Einstellungen", "Settings"),
     DARK_MODE("dunkel", "dark"),
     LIGHT_MODE("hell", "light"),
+    LANGUAGE_GERMAN("Deutsch", "German"),
+    LANGUAGE_ENGLISH("Englisch", "English"),
 
     NO_LINK_WARNUNG(
             "Deinen OBS-Link ist auf der OBS-Website:\nTerminliste > Abonnieren > Link kopieren",
@@ -28,6 +30,16 @@ public enum Translation {
     ERROR_INVALID_OBS_LINK("Bitte gebe eine gültige Url ein ", "Please Provide a valid url"),
     SYNC_DATE_FORMAT("Zuletzt aktualisert: ", "Last sync: "),
     RIGHT_NOW_SUCCESS_MSG("gerade jetzt", "just now"),
+
+    //chips
+    CURRENT_WEEK("AKTUELL", "CURRENT"),
+    ALL_WEEK("GESAMT", "ALL"),
+    EXAMS("PRÜFUNGEN", "EXAMS"),
+
+    //Toasts
+    SUCCESS_TOAST("Erfolgreich", "Success"),
+    NO_APPOINTMENTS("Keine Termine gelistet", "No Appointments listed"),
+
 
 
     // Default

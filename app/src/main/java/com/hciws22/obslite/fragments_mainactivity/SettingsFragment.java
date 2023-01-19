@@ -55,7 +55,7 @@ public class SettingsFragment extends Fragment {
                 sendButton,
                 warningNoLink, warningSign,
                 toggleBtn);
-        settingcontroller.applyAllChanges(title,warningNoLink,editText,syncTime,warningSign);
+
 
         // Inflate the layout for this fragment
         return view;
