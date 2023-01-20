@@ -41,6 +41,11 @@ public enum Translation {
     ALL_WEEK("GESAMT", "ALL"),
     EXAMS("PRÜFUNGEN", "EXAMS"),
 
+    TODAY("HEUTE","TODAY"),
+    TOMORROW("MORGEN","TOMORROW"),
+    THIS_WEEK("DIESE WOCHE","THIS WEEK"),
+
+
     //Toasts
     SUCCESS_TOAST("Erfolgreich", "Success"),
     NO_APPOINTMENTS("Keine Termine gelistet", "No Appointments listed"),
