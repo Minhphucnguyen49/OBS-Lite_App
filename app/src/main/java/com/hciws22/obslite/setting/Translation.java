@@ -23,9 +23,9 @@ public enum Translation {
     NOTIFICATION_DATE("Datum: ","Date: "),
     NOTIFICATION_TIME("Zeit: ", "Time: "),
     NOTIFICATION_SUBTITLE("Hochschule Darmstadt, FBI", "University of applied science Darmstadt, FBI"),
-    NOTIFICATION_SUB_TITLE("Benachrichtigungen:", "Notification:"),
+    NOTIFICATION_SUB_TITLE(" Benachrichtigungen:", "Notification:"),
     NOTIFICATION_LANGUAGE_SUB_TITLE("Sprache:", "Language:"),
-    NOTIFICATION_TOGGLE("Benachrichtigungen\nausschalten ", "deactivate\nnotifications "),
+    NOTIFICATION_TOGGLE(" Benachrichtigungen\n ausschalten ", "deactivate\nnotifications "),
     NOTIFICATION_LANGUAGE_TOGGLE("Englisch ", "German "),
     NOTIFICATION_DAILY_ASSISTANT("OBS Assistent ", "OBS Assistant"),
     // Sync
