@@ -15,9 +15,9 @@ import android.widget.TextView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.hciws22.obslite.R;
-import com.hciws22.obslite.setting.fragments_agenda.TodayFragment;
-import com.hciws22.obslite.setting.fragments_agenda.TomorrowFragment;
-import com.hciws22.obslite.setting.fragments_agenda.WeekFragment;
+import com.hciws22.obslite.fragments_agenda.TodayFragment;
+import com.hciws22.obslite.fragments_agenda.TomorrowFragment;
+import com.hciws22.obslite.fragments_agenda.WeekFragment;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.TodayController;
 
