@@ -43,9 +43,10 @@ public class AgendaFragment extends Fragment {
         todayController.showDate(dateToday);
 
         ChipGroup chipGroup = view.findViewById(R.id.chip_group);
-        Chip weekChoice = view.findViewById(R.id.chip_2);
+
         Chip todayChoice = view.findViewById(R.id.chip_1);
-        Chip tomorrowChoice = view.findViewById(R.id.chip_3);
+        Chip tomorrowChoice = view.findViewById(R.id.chip_2);
+        Chip weekChoice = view.findViewById(R.id.chip_3);
 
         setTodayChip(todayChoice);
         setWeekChip(weekChoice);

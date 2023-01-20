@@ -16,7 +16,7 @@ import com.hciws22.obslite.todo.ModuleRecViewAdapter;
 import com.hciws22.obslite.todo.TodoController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 
-public class ToDoThisWeekFragment extends Fragment {
+public class ToDoCurrentFragment extends Fragment {
     private Context mContext;
     private RecyclerView modulesRecView;
     private ModuleRecViewAdapter adapter;
@@ -44,7 +44,7 @@ public class ToDoThisWeekFragment extends Fragment {
 
 
         todoController.getExtraInfo();
-        adapter.setModules(todoController.getToDoOneWeek());
+        adapter.setModules(todoController.getCurrentWeek());
         todoController.getExtraInfo();
 
         //Add space between cards

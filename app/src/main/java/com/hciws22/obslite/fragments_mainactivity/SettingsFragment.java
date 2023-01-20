@@ -1,7 +1,6 @@
 package com.hciws22.obslite.fragments_mainactivity;
 
 import android.content.Context;
-
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SwitchCompat;
