@@ -1,4 +1,4 @@
-package com.hciws22.obslite.fragments_agenda;
+package com.hciws22.obslite.setting.fragments_agenda;
 
 import android.content.Context;
 import android.os.Bundle;
