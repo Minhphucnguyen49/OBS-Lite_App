@@ -1,6 +1,5 @@
 package com.hciws22.obslite.todo;
 
-import static java.time.temporal.TemporalAdjusters.nextOrSame;
 import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 import android.database.Cursor;
@@ -10,11 +9,8 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.ExtraInfoEntity;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -132,6 +128,36 @@ public class TodoDbService {
         return todoList;
     }
 
+    public String selectExtraPattern(){
+        return "SELECT " +
+                COLUMNS_FOR_EXTRA_INFO[0] + ", " +
+                COLUMNS_FOR_EXTRA_INFO[1] +
+                " FROM " + TABLE_EXTRA_INFO + ";";
+    }
+
+    public List<Todo> selectExtra() {
+        List<Todo> todoList = new ArrayList<>();
+        String queryString = selectExtraPattern();
+
+        // close both cursor and the db.
+        // Try-with-resources will always close all kinds of connection
+        // after the Try-block has reached his end
+        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null)) {
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Todo todo = new Todo(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        "",
+                        "",
+                        "");
+                todoList.add(todo);
+            }
+        }
+        return todoList;
+    }
+
 
     private String getName(String name){
         return name.substring(0,name.lastIndexOf(' '));
@@ -166,6 +192,7 @@ public class TodoDbService {
             String sql = insertExtraInfoTemplate();
 
             for (Todo todo : extraInfoEntities) {
+                //sql += "('" + todo.getName() + "','" + "0%" + "','" + " " + "'),";
                 sql += "('" + todo.getName() + "','" + " " + "','" + " " + "'),";
             }
             // remove last "," and add ";"---
@@ -185,7 +212,11 @@ public class TodoDbService {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            String sql = updateExtraInfoTemplate(module.getPercentage(), module.getName());
+            //String sql = updateExtraInfoTemplate(module.getPercentage(), module.getName());
+            String sql =
+                    " UPDATE " + TABLE_EXTRA_INFO
+                            + " SET " + COLUMNS_FOR_EXTRA_INFO[1] + " = '" + module.getPercentage()
+                            + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + module.getName() + "' ;";
 
             db.execSQL(sql);
             db.setTransactionSuccessful();
