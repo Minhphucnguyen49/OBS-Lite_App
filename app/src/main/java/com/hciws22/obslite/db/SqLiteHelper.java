@@ -34,6 +34,7 @@ public class SqLiteHelper extends SQLiteOpenHelper {
     */
     @Override
     public void onCreate(SQLiteDatabase db) {
+
        String createModuleStatement = "" +
                "CREATE TABLE Module (" +
                "id TEXT PRIMARY KEY, " +
@@ -76,8 +77,6 @@ public class SqLiteHelper extends SQLiteOpenHelper {
                "oldChanged INTEGER DEFAULT 0," +
                "oldDeleted INTEGER DEFAULT 0," +
                "message TEXT NOT NULL);";
-
-
 
         db.execSQL(createModuleStatement);
         db.execSQL(createAppointmentStatement);

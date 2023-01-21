@@ -76,6 +76,7 @@ public class SettingController {
         });
     }
 
+
     private void updateSyncTime(TextView syncTime, EditText editText, TextView warningNoLink, ImageView warningSign) {
         boolean isValidUrl = syncController.checkUrlForm(editText.getText().toString());
 
@@ -88,6 +89,8 @@ public class SettingController {
         }
         warningNoLink.setVisibility(View.GONE);
         warningSign.setVisibility(View.GONE);
+
+
         String success_toast = Translation.getTranslation( Translation.SUCCESS_TOAST, settingsModel.loadMode(context) );
         Toast.makeText(context, success_toast, Toast.LENGTH_SHORT).show();
 
@@ -129,10 +132,6 @@ public class SettingController {
         notification.setText(Translation.getTranslation( Translation.NOTIFICATION_TOGGLE, settingsModel.loadMode(context)));
 
         editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context)));
-        updateSyncTime(syncTime,editText,warning,warningSign);
     }
-
-
-//Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));
 
 }
