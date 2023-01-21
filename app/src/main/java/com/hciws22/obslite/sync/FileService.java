@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ public class FileService {
     private final Set<ModuleEntity> moduleEntities = new HashSet<>();
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
 
+    private boolean isEnglish = false;
 
 
     // this function will be executed inside a synchronize Block (synchronously)
@@ -43,6 +45,7 @@ public class FileService {
         Log.d("File Service OBSList", String.valueOf(obsList.size()));
 
     }
+
 
     // this function will be executed outside the synchronize block (Asynchronously).
     // generate entity representation
@@ -69,17 +72,11 @@ public class FileService {
         }
     }
 
-
     public Set<ModuleEntity> getModules(){
         return moduleEntities;
     }
 
     public Map<String, List<AppointmentEntity>> getAllAppointments(){
         return appointments;
-    }
-
-    public List<AppointmentEntity> getAppointmentsOfOneModule(String moduleID){
-        if(!appointments.containsKey(moduleID)) return Collections.emptyList();
-        return appointments.get(moduleID);
     }
 }

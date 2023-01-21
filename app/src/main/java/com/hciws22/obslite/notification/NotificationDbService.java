@@ -30,10 +30,6 @@ public class NotificationDbService {
                 "OR " + COLUMNS_FOR_NOTIFICATION[6] + " = '" + oldDeleted + "';";
     }
 
-    private String deleteFromNotificationTableTemplate(int newAdded, int oldChanged, int oldDeleted) {
-        return "DELETE FROM " + TABLE_NOTIFICATION + whereCondition(newAdded, oldChanged, oldDeleted);
-    }
-
     private String deleteFromNotificationTableWhereTemplate(Notification notification) {
         return "DELETE FROM " + TABLE_NOTIFICATION + " WHERE id = " + notification.getId() + ";";
     }
