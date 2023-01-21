@@ -1,5 +1,7 @@
 package com.hciws22.obslite.todo;
 
+import java.util.Optional;
+
 public class Todo {
     private String name;//name + prakID
 
@@ -32,7 +34,7 @@ public class Todo {
         isExpanded = expanded;
     }
     public String getPercentage() {
-        return percentage;
+        return Optional.ofNullable(percentage).orElse("");
     }
     public String getDate() {
         return date;

@@ -191,9 +191,10 @@ public class TodoDbService {
             db.beginTransaction();
             String sql = insertExtraInfoTemplate();
 
+            String percentage = "0";
+            String notes = "";
             for (Todo todo : extraInfoEntities) {
-                sql += "('" + todo.getName() + "','" + "0%" + "','" + " " + "'),";
-                //sql += "('" + todo.getName() + "','" + " " + "','" + " " + "'),";
+                sql += "('" + todo.getName() + "','" + percentage + "','" + notes + "'),";
             }
             // remove last "," and add ";"---
             sql = sql.substring(0, sql.length() - 1) + ";";

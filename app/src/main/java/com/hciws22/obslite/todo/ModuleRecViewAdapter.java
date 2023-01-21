@@ -121,13 +121,15 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * CollapsedLayout
          */
-
         String cardPercentage = "";
 
         //Positioning slider with the right card.
-        for(int i=0;i<extraInfo.size();i++) {
-            if (Objects.equals(modules.get(position).getName(), extraInfo.get(i).getName())){
-                cardPercentage = extraInfo.get(i).getPercentage();
+        for (int i = 0; i < extraInfo.size(); i++) {
+            String percentage = extraInfo.get(i).getPercentage();
+            String name = modules.get(position).getName();
+            if ( name.equals(extraInfo.get(i).getName()) && !percentage.isEmpty() ){
+                cardPercentage = percentage;
+                setSlider(holder, Float.parseFloat(cardPercentage));
             }
         }
 
@@ -136,18 +138,13 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         holder.moduleInfor.setText(cardName);
         holder.moduleDate.setText(cardDate);
-        holder.moduleProgress.setText("Progress " + cardPercentage);
+        holder.moduleProgress.setText("Progress " + cardPercentage + "%");
 
         /**
          * ExpandedLayout
          */
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
-            //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
-            value = slider.getValue();
-            Integer valueInt = Math.round(value);
-
-           // the progress changes will be displayed while sliding
-            holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
+            setSlider(holder, value);
         });
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
@@ -157,7 +154,19 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             holder.downArrow.animate().rotation(holder.downArrow.getRotation()-180).start();
         });
 
+        /**
+         * Collapsed Layout again for Progress
+         */
 
+
+    }
+
+    private void setSlider(@NonNull ViewHolder holder, float value) {
+        //value = slider.getValue();
+        Integer valueInt = Math.round(value);
+        // the progress changes will be displayed while sliding
+        holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
+        holder.slider.setValue(valueInt);
     }
 
     private void setVisibilityView(@NonNull ViewHolder holder, int position) {
@@ -213,6 +222,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             collapsedRelLayout.setOnClickListener(view -> {
                 Todo module = modules.get(getAdapterPosition());
                 module.setExpanded( !module.isExpanded() );//toggle
+
                 notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
             });
 
