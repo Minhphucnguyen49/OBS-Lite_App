@@ -331,10 +331,7 @@ public class SyncDbService {
         }
 
         // if payload contains less appointments than database
-        if(oldList.size() > modules.size()){
-            Log.d("Delete Module: ", "Detected");
-            deleteInvalidModules(modules, oldList);
-        }
+        deleteInvalidModules(modules, oldList);
 
         return true;
 
