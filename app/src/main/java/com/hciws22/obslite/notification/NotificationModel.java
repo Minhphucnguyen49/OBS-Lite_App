@@ -75,6 +75,7 @@ public class NotificationModel {
                 }
                     content.append(notification.getModuleTitle()).append("\n");
 
+                if (notification.isOldDeleted()) content.append("\n");
                 if(!notification.isOldDeleted()){
                     content.append(time)
                             .append(getNotificationTime(notification))

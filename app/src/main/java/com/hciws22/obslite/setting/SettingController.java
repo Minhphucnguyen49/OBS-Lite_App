@@ -76,6 +76,7 @@ public class SettingController {
         });
     }
 
+
     private void updateSyncTime(TextView syncTime, EditText editText, TextView warningNoLink, ImageView warningSign) {
         boolean isValidUrl = syncController.checkUrlForm(editText.getText().toString());
 
@@ -88,14 +89,17 @@ public class SettingController {
         }
         warningNoLink.setVisibility(View.GONE);
         warningSign.setVisibility(View.GONE);
+
+
         String success_toast = Translation.getTranslation( Translation.SUCCESS_TOAST, settingsModel.loadMode(context) );
         Toast.makeText(context, success_toast, Toast.LENGTH_SHORT).show();
 
         settingsDbService.resetDatabaseTemplate();
         syncTime.setText(syncController.updateSyncLabel(editText.getText().toString()));
         notificationController.clear();
-    }
 
+
+    }
     public boolean isLanguageOn(){
         return settingsModel.loadMode(context);
     }
@@ -114,7 +118,6 @@ public class SettingController {
         //toggle auf english
         settingsModel.saveMode(context, !settingsModel.loadMode(context, mode), mode);
     }
-
     public void applyAllChanges (TextView title, TextView warning,
                                  EditText editText, TextView syncTime,ImageView warningSign, TextView languageTitle, TextView notificationTitle,
                                  SwitchCompat languages, SwitchCompat notification, SwitchCompat dailyAssistant){
@@ -124,11 +127,11 @@ public class SettingController {
         notificationTitle.setText(Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE, settingsModel.loadMode(context)));
         dailyAssistant.setText(Translation.getTranslation( Translation.NOTIFICATION_DAILY_ASSISTANT, settingsModel.loadMode(context)));
 
+
         languages.setText(Translation.getTranslation( Translation.NOTIFICATION_LANGUAGE_TOGGLE, settingsModel.loadMode(context)));
         notification.setText(Translation.getTranslation( Translation.NOTIFICATION_TOGGLE, settingsModel.loadMode(context)));
 
         editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context)));
-        updateSyncTime(syncTime,editText,warning,warningSign);
     }
 
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));

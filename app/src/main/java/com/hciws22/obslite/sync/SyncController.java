@@ -122,12 +122,14 @@ public class SyncController {
         fileService.convertOBStoEntityRepresentation();
 
 
-        if(isNewLink) {
+        boolean isValid = syncDbService.checkInvalidModules(fileService.getAllAppointments());
+
+        if(isNewLink || !isValid) {
             syncDbService.insertOrUpdateModule(fileService.getModules());
             syncDbService.initAppointments(fileService.getAllAppointments());
             return;
         }
-        syncDbService.deleteInvalidModules(fileService.getAllAppointments());
+
         syncDbService.removeUnchangedData(fileService.getAllAppointments());
         syncDbService.insertOrUpdateModule(fileService.getModules());
 //E(Ü) L(V)

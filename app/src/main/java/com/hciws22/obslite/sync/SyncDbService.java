@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class SyncDbService {
@@ -131,6 +132,29 @@ public class SyncDbService {
 
     }
 
+    private String resetTableTemplate(String tableName){
+        return "DELETE FROM " + tableName + ";";
+    }
+
+    public void resetDatabaseTemplate(){
+        try (SQLiteDatabase db = sqLiteHelper.getWritableDatabase();){
+            db.beginTransaction();
+
+            String[] tablesToReset = { "Appointment", "Notification", "Module"};
+
+            for (String s : tablesToReset) {
+                String sql = resetTableTemplate(s);
+                db.execSQL(sql);
+            }
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+
+
+
+    }
+
     public SyncEntity selectSyncData(){
 
         String queryString = selectLastSyncRecordTemplate();
@@ -151,10 +175,9 @@ public class SyncDbService {
     }
 
     public void insertOrUpdateTable(String obsLink, ZonedDateTime localDateTime){
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        db.beginTransaction();
-        try {
 
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()) {
+            db.beginTransaction();
 
             String sql = updateSyncTableTemplate() +
                     "('" + obsLink + "','" + localDateTime.toString() + "') ";
@@ -162,9 +185,7 @@ public class SyncDbService {
             System.out.println("Sync update link: " + sql);
             db.execSQL(sql);
             db.setTransactionSuccessful();
-        } finally {
             db.endTransaction();
-            db.close();
         }
     }
 
@@ -188,97 +209,89 @@ public class SyncDbService {
 
     public void updateChangedData(Map<String,List<AppointmentEntity>> appointments){
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        db.beginTransaction();
-
-
-        try {
             for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
 
                 List<AppointmentEntity> old = readRegisteredAppointments(entry.getValue().get(0));
                 List<AppointmentEntity> payload = entry.getValue();
 
-                if ( payload.size() > old.size()) {
+                if (payload.size() > old.size()) {
                     insertAppointments(payload, true);
                     continue;
                 }
 
-                if(payload.size() < old.size()){
+                if (payload.size() < old.size()) {
                     deleteInvalidAppointments(old.get(0), true);
                     insertAppointments(payload, false);
                     continue;
                 }
-
+                deleteInvalidAppointments(old.get(0), false);
                 updateAppointments(payload, true);
 
             }
-            db.setTransactionSuccessful();
-        }finally {
-            db.endTransaction();
-            db.close();
-        }
     }
 
     public void updateAppointments(List<AppointmentEntity> appointmentEntities, Boolean getNotified){
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
 
-        for (AppointmentEntity a : appointmentEntities) {
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
 
-            ContentValues updateValues = newAdded(a);
+            db.beginTransaction();
+            for (AppointmentEntity a : appointmentEntities) {
+                ContentValues insertValues = newAdded(a);
+                int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-            int returnValue = db.updateWithOnConflict(TABLE_APPOINTMENT, updateValues, " moduleID = ?", new String[]{ a.getModuleID(), }, SQLiteDatabase.CONFLICT_REPLACE);
-            if( returnValue > UNSUCCESSFUL_UPDATE && getNotified){
-                ContentValues contentValues = notificationInfo(a, 0, 1,0);
-                int code = (int)db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
-                Log.d("Notification: UpdateCode: ", String.valueOf(code));
+                if (id >= INSERT_POSSIBLE && getNotified) {
+                    ContentValues contentValues = notificationInfo(a, 0, 1, 0);
+                    db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
+                }
             }
-
-            // execute set of insert for each module
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
     public void initAppointments(Map<String, List<AppointmentEntity>> appointments){
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        db.beginTransaction();
 
-        try {
-            for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
-                 insertAppointments(entry.getValue(),true);
-            }
-            db.setTransactionSuccessful();
-        }finally {
-            db.endTransaction();
-            db.close();
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+             insertAppointments(entry.getValue(),true);
         }
+
     }
 
     public void insertAppointments(List<AppointmentEntity> appointmentEntities, Boolean getNotified){
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()) {
+            db.beginTransaction();
 
-        for (AppointmentEntity a : appointmentEntities) {
+            for (AppointmentEntity a : appointmentEntities) {
 
-            ContentValues insertValues = newAdded(a);
-            int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
+                ContentValues insertValues = newAdded(a);
+                int id = (int) db.insertWithOnConflict(TABLE_APPOINTMENT, null, insertValues, SQLiteDatabase.CONFLICT_IGNORE);
 
-            if(id >= INSERT_POSSIBLE && getNotified){
-                ContentValues contentValues = notificationInfo(a, 1, 0,0);
-                db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
-            }
+                if (id >= INSERT_POSSIBLE && getNotified) {
+                    ContentValues contentValues = notificationInfo(a, 1, 0, 0);
+                    db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
+                }
 
                 // execute set of insert for each module
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
 
 
     public void deleteInvalidAppointments(AppointmentEntity appointment, Boolean getNotified){
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
+            db.beginTransaction();
+            int deleteCode = db.delete(TABLE_APPOINTMENT, COLUMNS_FOR_APPOINTMENT[6] + "=?", new String[]{appointment.getModuleID()});
 
-        int deleteCode = db.delete(TABLE_APPOINTMENT, COLUMNS_FOR_APPOINTMENT[6] + "=?", new String[]{appointment.getModuleID()});
-
-        if(deleteCode > UNSUCCESSFUL_DELETE && getNotified){
+            if(deleteCode > UNSUCCESSFUL_DELETE && getNotified){
             ContentValues contentValues = notificationInfo(appointment, 0, 0,1);
             db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
+            }
+
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
     }
     public List<ModuleEntity> readRegisteredModules(){
@@ -286,50 +299,62 @@ public class SyncDbService {
         List<ModuleEntity> list = new ArrayList<>();
         String queryString = selectModulesTemplate();
 
-        SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
+        try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(queryString, null)) {
 
 
-
-        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-            ModuleEntity old = new ModuleEntity();
-            old.setId(cursor.getString(0));
-            old.setName(cursor.getString(1));
-            old.setSemester(cursor.getString(2));
-            list.add(old);
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                ModuleEntity old = new ModuleEntity();
+                old.setId(cursor.getString(0));
+                old.setName(cursor.getString(1));
+                old.setSemester(cursor.getString(2));
+                list.add(old);
+            }
         }
 
-        cursor.close();
         return list;
 
     }
 
-    public void deleteInvalidModules(Map<String,List<AppointmentEntity>> modules){
+    public boolean checkInvalidModules(Map<String,List<AppointmentEntity>> modules){
 
         List<ModuleEntity> oldList = readRegisteredModules();
 
-        if(oldList.size() <= modules.size()){
-            return;
+        Optional<ModuleEntity> optional = oldList.stream()
+                .filter(o -> modules.containsKey(o.getId()))
+                .findFirst();
+
+        // if language has changed drop everything
+        if(!optional.isPresent()){
+            resetDatabaseTemplate();
+            return false;
         }
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        db.beginTransaction();
+        // if payload contains less appointments than database
+        deleteInvalidModules(modules, oldList);
 
-        try {
+        return true;
+
+    }
+
+
+    private void deleteInvalidModules(Map<String,List<AppointmentEntity>> modules, List<ModuleEntity> oldList){
+
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
+            db.beginTransaction();
             for (int i = 0; i < oldList.size(); i++){
                 if(!modules.containsKey(oldList.get(i).getId())){
                     int deleteCode = db.delete(TABLE_MODULE, COLUMNS_FOR_MODULE[0] + "=?", new String[]{oldList.get(i).getId()});
 
                     if (deleteCode > UNSUCCESSFUL_DELETE) {
+                        db.delete(TABLE_APPOINTMENT, COLUMNS_FOR_APPOINTMENT[6] + "=?", new String[]{oldList.get(i).getId()});
                         ContentValues contentValues = notificationInfo(oldList.get(i), 0, 0, 1);
                         db.insertWithOnConflict(TABLE_NOTIFICATION, null, contentValues, SQLiteDatabase.CONFLICT_IGNORE);
                     }
                 }
             }
             db.setTransactionSuccessful();
-        }finally {
             db.endTransaction();
-            db.close();
         }
     }
 
@@ -366,8 +391,8 @@ public class SyncDbService {
             return;
         }
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        try {
+        try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
+
             db.beginTransaction();
 
             String sql = resetModuleTableTemplate();
@@ -383,26 +408,22 @@ public class SyncDbService {
 
             System.out.println("LOG: " + sql);
             db.execSQL(sql);
-            db.setTransactionSuccessful();
 
-        }finally {
+            db.setTransactionSuccessful();
             db.endTransaction();
-            db.close();
         }
     }
 
     public void truncateAppointments() {
 
-        SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
-        db.beginTransaction();
-        try {
 
+        try ( SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
+            db.beginTransaction();
             String sql = truncateAppointmentTemplate();
             db.execSQL(sql);
+
             db.setTransactionSuccessful();
-        } finally {
             db.endTransaction();
-            db.close();
         }
     }
 }
