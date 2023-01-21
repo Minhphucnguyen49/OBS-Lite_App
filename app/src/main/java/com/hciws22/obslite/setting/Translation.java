@@ -31,6 +31,7 @@ public enum Translation {
     NOTIFICATION_TOGGLE(" Benachrichtigungen\n ausschalten ", "deactivate\nnotifications "),
     NOTIFICATION_LANGUAGE_TOGGLE("Englisch ", "German "),
     NOTIFICATION_DAILY_ASSISTANT("OBS Assistent ", "OBS Assistant"),
+    NOTIFICATION_TODAY_AGENDA("Heutige Terminübersicht ","Today's Agenda" ),
     // Sync
     ERROR_OBS_LINK_UPDATE("OBS link konnte nicht aktualisiert werden.\nPrüfe deine Internet Verbindung","Could not update obs link.\nCheck your internet connection"),
     ERROR_INVALID_OBS_LINK("Bitte gebe eine gültige Url ein ", "Please Provide a valid url"),

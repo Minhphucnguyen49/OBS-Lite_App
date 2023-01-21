@@ -1,17 +1,27 @@
 package com.hciws22.obslite.notification;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.today.Today;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class NotificationDbService {
 
     private static final String TABLE_NOTIFICATION = "Notification";
     private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
     private static final String MODULE_DELETED_MESSAGE = "DELETED";
+
+    private static final String TABLE_APPOINTMENT = "Appointment";
+    private static final String[] COLUMNS_FOR_APPOINTMENT = {"startAt", "endAt", "location", "type", "nr", "moduleID"};
     private static final Boolean IS_DELETED = true;
     public SqLiteHelper sqLiteHelper;
 
@@ -113,5 +123,66 @@ public class NotificationDbService {
         }
 
         return notifications;
+    }
+
+
+    public List<Today> selectTodayAppointments() {
+        List<Today> todayList = new ArrayList<>();
+        //TODO: String queryString = selectTodayPattern();
+        String queryString = selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(3));
+        Log.d("SQL TODAY: ", queryString);
+        // close both cursor and the db.
+        // Try-with-resources will always close all kinds of connection
+        // after the Try-block has reached his end
+        try (SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
+             Cursor cursor = db.rawQuery(queryString, null)) {
+
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                Today today = new Today(
+                        getName(cursor.getString(5)),
+                        cursor.getString(3),
+                        cursor.getString(2),
+                        getDate(cursor.getString(0)),
+                        getTimePeriod(cursor.getString(0), cursor.getString(1)));
+                todayList.add(today);
+            }
+        }
+        return todayList;
+    }
+
+
+    private String selectTodayPattern(ZonedDateTime time) {
+        return "SELECT " +
+                COLUMNS_FOR_APPOINTMENT[0] + "," +
+                COLUMNS_FOR_APPOINTMENT[1] + "," +
+                COLUMNS_FOR_APPOINTMENT[2] + "," +
+                COLUMNS_FOR_APPOINTMENT[3] + "," +
+                COLUMNS_FOR_APPOINTMENT[4] + "," +
+                COLUMNS_FOR_APPOINTMENT[5] +
+                " FROM " + TABLE_APPOINTMENT + " WHERE " +
+                COLUMNS_FOR_APPOINTMENT[0] + " LIKE '" + time.toLocalDate() + "%'"
+                + " ORDER BY " + COLUMNS_FOR_APPOINTMENT[0] + ";";
+    }
+
+    private String getTimePeriod(String startAt, String endAt) {
+        ZonedDateTime localDateTime1 = parseFormat(startAt);
+        ZonedDateTime localDateTime2 = parseFormat(endAt);
+
+        return localDateTime1.toLocalTime().plusSeconds(localDateTime1.getOffset().getTotalSeconds()) + " - " + localDateTime2.toLocalTime().plusSeconds(localDateTime2.getOffset().getTotalSeconds());
+
+    }
+
+    private String getDate(String dateToString) {
+        ZonedDateTime localDateTime = parseFormat(dateToString);
+
+        return localDateTime
+                .getDayOfWeek()
+                .getDisplayName(TextStyle.FULL, Locale.getDefault()) + " - " + localDateTime.toLocalDate().toString().replace("-", ".");
+    }
+
+    private ZonedDateTime parseFormat(String dateToString){
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        return ZonedDateTime.parse(dateToString);
     }
 }

@@ -1,21 +1,16 @@
 package com.hciws22.obslite.jobs;
 
-import android.app.job.JobInfo;
+
 import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
 import android.app.job.JobService;
-import android.content.ComponentName;
 import android.content.Context;
 import android.util.Log;
 
-import com.hciws22.obslite.MainActivity;
-import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.sync.SyncController;
 
 public class AutoSyncService extends JobService {
 
     private static final String TAG = "AutoSyncService";
-    private boolean jobCancelled = false;
     private final SyncController syncController;
     private static Context context;
 
@@ -26,7 +21,6 @@ public class AutoSyncService extends JobService {
     public static void setContext(Context m_context) {
         context = m_context;
     }
-
 
     /*
      * If the operation duration is not time consuming we can return false. this
