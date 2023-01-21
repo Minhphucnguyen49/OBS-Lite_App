@@ -192,8 +192,8 @@ public class TodoDbService {
             String sql = insertExtraInfoTemplate();
 
             for (Todo todo : extraInfoEntities) {
-                //sql += "('" + todo.getName() + "','" + "0%" + "','" + " " + "'),";
-                sql += "('" + todo.getName() + "','" + " " + "','" + " " + "'),";
+                sql += "('" + todo.getName() + "','" + "0%" + "','" + " " + "'),";
+                //sql += "('" + todo.getName() + "','" + " " + "','" + " " + "'),";
             }
             // remove last "," and add ";"---
             sql = sql.substring(0, sql.length() - 1) + ";";
@@ -212,11 +212,7 @@ public class TodoDbService {
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
-            //String sql = updateExtraInfoTemplate(module.getPercentage(), module.getName());
-            String sql =
-                    " UPDATE " + TABLE_EXTRA_INFO
-                            + " SET " + COLUMNS_FOR_EXTRA_INFO[1] + " = '" + module.getPercentage()
-                            + "' WHERE " + COLUMNS_FOR_EXTRA_INFO[0] + " = '" + module.getName() + "' ;";
+            String sql = updateExtraInfoTemplate(module.getPercentage(), module.getName());
 
             db.execSQL(sql);
             db.setTransactionSuccessful();

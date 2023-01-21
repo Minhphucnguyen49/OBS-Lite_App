@@ -29,8 +29,14 @@ public class TodoController {
         return todoDbService.selectCurrentWeek();
     }
     public List<Todo> getExams(){return todoDbService.selectExams();}
-    public void getExtraInfo(){
+    //public void getExtraInfo(){
         //todoDbService.insertExtraInfo(//TODO: Return all);
+    //}
+    public List<Todo> getExtraInfo(){
+        return todoDbService.selectExtra();
+    }
+    public void insertExtraInfo(){
+        todoDbService.insertExtraInfo(todoDbService.selectAllWeek());
     }
     public boolean loadMode(Context context){
         SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);

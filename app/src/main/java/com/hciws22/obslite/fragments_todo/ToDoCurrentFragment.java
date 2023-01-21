@@ -44,9 +44,7 @@ public class ToDoCurrentFragment extends Fragment {
         modulesRecView.setAdapter(adapter_slider);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        todoController.getExtraInfo();
         adapter_slider.setModules(adapter_slider.getCurrentWeek(), adapter_slider.getExtraInfo());
-        todoController.getExtraInfo();
 
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);

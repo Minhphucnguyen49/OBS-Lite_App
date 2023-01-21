@@ -21,6 +21,7 @@ import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdapter.ViewHolder> {
 
@@ -35,17 +36,12 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public ModuleRecViewAdapter(Context contextToShowImage, SqLiteHelper sqLiteHelper) {
         this.contextToShowImage = contextToShowImage;
         this.todoDbService = new TodoDbService(sqLiteHelper);
-
-        if(getExtraInfo().isEmpty()){
-            insertExtraInfo();
-            Log.d("Debug", "ModuleRecViewAdapter: insertExtraInfo done!");
-        }
     }
 
-    public void insertExtraInfo(){
-        todoDbService.insertExtraInfo(todoDbService.selectAllWeek());
-    }
-
+    /**
+     * bring them back in TodoController
+     * @return
+     */
     public List<Todo> getExtraInfo(){
         return todoDbService.selectExtra();
     }
@@ -126,40 +122,15 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
          * CollapsedLayout
          */
 
-        final String sliderValue = extraInfo.get(position).getPercentage() + " %";
-        holder.moduleInfor.setText(sliderValue);
-
-        /**
-         * ExpandedLayout
-         */
-
-        holder.slider.addOnChangeListener((slider, value, fromUser) -> {
-            //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
-            value = slider.getValue();
-            Integer valueInt = Math.round(value);
-
-            /**
-             * Problem when calling holder here:
-             * Only when the Slider is being moved, the percentage will be displayed.
-             * But when the card collapse, all data will be back to normal
-             *
-             * If I just setText here and not in CollapsedLayout,
-             * no data will be shown except for the
-             * default value PG2 P1 100% assigned in xml
-             */
-            holder.moduleInfor.setText(Integer.toString(valueInt) + " %");
-        });
-/*
         String cardPercentage = "";
 
+        //Positioning slider with the right card.
         for(int i=0;i<extraInfo.size();i++) {
-            if (extraInfo.get(i).getName() == modules.get(position).getName()) {
+            if (Objects.equals(modules.get(position).getName(), extraInfo.get(i).getName())){
                 cardPercentage = extraInfo.get(i).getPercentage();
             }
         }
 
-
-        cardPercentage = extraInfo.get(position).getPercentage();
         final String cardName = checkNameLength(modules.get(position).getName()) + "\n" ;
         final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
 
@@ -167,31 +138,17 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         holder.moduleDate.setText(cardDate);
         holder.moduleProgress.setText("Progress " + cardPercentage);
 
-        holder.module.setOnClickListener(v -> {
-            //TODO: Navigate to MODULE Screen
-        });
-
- */
-
         /**
          * ExpandedLayout
          */
-        /*
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
             //TODO: Change the colour displayed on each Module Card correspondingly with the value of slider
             value = slider.getValue();
             Integer valueInt = Math.round(value);
 
-           // the progress change will be displayed while sliding
+           // the progress changes will be displayed while sliding
             holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
-
-            // save data in Extra Table
-            Todo module = modules.get(position);
-            module.setPercentage(Integer.toString(valueInt));
-            todoDbService.updateExtra(module);
         });
-
-         */
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
 
@@ -273,26 +230,13 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             });
              */
 
+            // save data in Extra Table
             slider.addOnChangeListener((slider, value, fromUser) -> {
                 Todo module = modules.get(getAdapterPosition());
                 Integer valueInt = Math.round(value);
                 module.setPercentage(Integer.toString(valueInt));
-                //TODO: save the value in a List so that insertExtra can function
-                /**
-                 * Problem: todoDbService is still not initialised
-                 * --> java.lang.NullPointerException: Attempt to invoke virtual method
-                 * 'void com.hciws22.obslite.todo.TodoDbService.updateExtra(com.hciws22.obslite.todo.Todo)' on a null object reference
-                 */
-
-
                 todoDbService.updateExtra(module);
-                //notifyItemChanged(getAdapterPosition());
-                //todoDbService.selectTodoAppointments().get(getAdapterPosition()).setPercentage(Integer.toString(valueInt));
-                //todoDbService.insertExtraInfo(todoDbService.selectTodoAppointments());
             });
-
-
-
 
         }
     }

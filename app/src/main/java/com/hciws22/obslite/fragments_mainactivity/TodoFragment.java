@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,12 @@ public class TodoFragment extends Fragment {
         Chip currentWeek = view.findViewById(R.id.chip_1);
         Chip allWeek = view.findViewById(R.id.chip_2);
         Chip examsChoice = view.findViewById(R.id.chip_3);
+
+        //initiate the Extra Table only once
+        if(todoController.getExtraInfo().isEmpty()){
+            todoController.insertExtraInfo();
+            Log.d("DebugTodoFragment", "Todo Fragment: insertExtraInfo done!");
+        }
 
         setCurrentWeek(currentWeek);
         setAllWeek(allWeek);
