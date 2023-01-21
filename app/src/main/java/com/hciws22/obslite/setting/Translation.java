@@ -20,6 +20,7 @@ public enum Translation {
     // Notifications
     NOTIFICATION_SUB_TITLE_NEW_APP("Neuer Termin:  ", "New Appointment:  "),
     NOTIFICATION_SUB_TITLE_CHANGED_APP("Änderung:  ", "Update:  "),
+    NOTIFICATION_SUB_TITLE_DELETED_MOD("Modul gelöscht: ", "Module deleted: "),
     NOTIFICATION_SUB_TITLE_DELETED_APP("Termin gelöscht:  ", "Appointment deleted:  "),
     NOTIFICATION_LOCATION("Ort: ", "Location: "),
     NOTIFICATION_DATE("Datum: ","Date: "),

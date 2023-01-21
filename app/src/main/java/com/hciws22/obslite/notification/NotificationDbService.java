@@ -11,7 +11,7 @@ public class NotificationDbService {
 
     private static final String TABLE_NOTIFICATION = "Notification";
     private static final String[] COLUMNS_FOR_NOTIFICATION = {"id", "type", "location", "moduleTitle", "newAdded", "oldChanged", "oldDeleted", "message"};
-
+    private static final String MODULE_DELETED_MESSAGE = "DELETED";
     private static final Boolean IS_DELETED = true;
     public SqLiteHelper sqLiteHelper;
 
@@ -102,7 +102,7 @@ public class NotificationDbService {
                 notification.setOldChanged(convertIntToBool(cursor.getInt(5)));
                 notification.setOldDeleted(convertIntToBool(cursor.getInt(6)));
 
-                if (!notification.isOldDeleted()) {
+                if (!notification.getMessage().equals(MODULE_DELETED_MESSAGE)) {
                     notification.setType(cursor.getString(1));
                     notification.setLocation(cursor.getString(2));
                     notification.setMessage(cursor.getString(7));

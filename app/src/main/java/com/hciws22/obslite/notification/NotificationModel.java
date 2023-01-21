@@ -27,6 +27,7 @@ public class NotificationModel {
     private static final String NAME = "appointment_notification";
     private static final String OBS_TITLE = "OBS Sync Update";
     private static final String DESCRIPTION = "Appointment table has changed";
+    private static final String MODULE_DELETED_MESSAGE = "DELETED";
     private static final int NOTIFICATION_ID = 234;
     private final Context context;
 
@@ -52,7 +53,6 @@ public class NotificationModel {
 
     public void buildNotification(List<Notification> notifications){
 
-        String time = Translation.getTranslation( Translation.NOTIFICATION_TIME, Translation.loadMode(context));
         String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
@@ -60,36 +60,47 @@ public class NotificationModel {
                 .setContentTitle(OBS_TITLE)
                 .setSubText(organisation);
 
-        StringBuilder content = new StringBuilder();
+        String content = buildNotificationMessage(notifications);
 
+        builder.setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private String buildNotificationMessage(List<Notification> notifications){
+
+        String time = Translation.getTranslation( Translation.NOTIFICATION_TIME, Translation.loadMode(context));
+
+        StringBuilder content = new StringBuilder();
         String alreadySent = "";
         for(int i = 0; i < notifications.size(); i++) {
 
             Notification notification = notifications.get(i);
 
             if(!notification.getModuleTitle().equals(alreadySent)){
+                alreadySent = notification.getModuleTitle();
                 content.append(getContentType(notification));
 
-                if(!notification.isOldDeleted()){
+                if(!notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append(notification.getType()).append(": ");
                 }
-                    content.append(notification.getModuleTitle()).append("\n");
 
-                if (notification.isOldDeleted()) content.append("\n");
-                if(!notification.isOldDeleted()){
-                    content.append(time)
-                            .append(getNotificationTime(notification))
-                            .append(getLocation(notification)).append("\n\n");
+                content.append(alreadySent.substring(0, alreadySent.lastIndexOf(" "))).append("\n");
+
+                if (notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
+                    content.append("\n");
+                    continue;
                 }
 
-                alreadySent = notification.getModuleTitle();
+                content.append(time)
+                        .append(getNotificationTime(notification))
+                        .append(getLocation(notification)).append("\n\n");
             }
-
         }
-        builder.setContentText(content.toString())
-                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        return content.toString();
+
     }
 
     private String getContentType(Notification notification){
@@ -99,11 +110,13 @@ public class NotificationModel {
         if(notification.isOldChanged())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_CHANGED_APP, Translation.loadMode(context));
 
-
         if(notification.isNewAdded())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_NEW_APP, Translation.loadMode(context));
 
-        if(notification.isOldDeleted())
+        if(notification.getMessage().equals(MODULE_DELETED_MESSAGE))
+            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_MOD, Translation.loadMode(context));
+
+        if(notification.isOldDeleted() && !notification.getMessage().equals(MODULE_DELETED_MESSAGE))
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_APP, Translation.loadMode(context));
 
         return message;
