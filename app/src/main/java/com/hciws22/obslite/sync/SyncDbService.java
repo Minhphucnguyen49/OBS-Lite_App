@@ -197,7 +197,7 @@ public class SyncDbService {
     public void initAppointments(Map<String, List<AppointmentEntity>> appointments){
 
         for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
-             insertAppointments(entry.getValue(),true);
+             insertAppointments(entry.getValue(),false);
         }
 
     }
