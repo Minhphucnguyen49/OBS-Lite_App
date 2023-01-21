@@ -17,16 +17,6 @@ public class Notification {
 
     }
 
-    public Notification(Integer id, String type, String location, String moduleTitle, boolean newAdded, boolean oldChanged, boolean oldDeleted, String message) {
-        this.id = id;
-        this.type = type;
-        this.location = location;
-        this.moduleTitle = moduleTitle;
-        this.newAdded = newAdded;
-        this.oldChanged = oldChanged;
-        this.oldDeleted = oldDeleted;
-        this.message = message;
-    }
 
     public void setId(Integer id) {
         this.id = id;
