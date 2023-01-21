@@ -132,7 +132,7 @@ public class SyncController {
 
         syncDbService.removeUnchangedData(fileService.getAllAppointments());
         syncDbService.insertOrUpdateModule(fileService.getModules());
-
+//E(Ü) L(V)
         if(!fileService.getAllAppointments().isEmpty()){
             syncDbService.updateChangedData(fileService.getAllAppointments());
         }

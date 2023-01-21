@@ -21,6 +21,7 @@ public class TodoAllWeekFragment extends Fragment {
     private Context mContext;
     private RecyclerView modulesRecView;
     private ModuleRecViewAdapter adapter;
+    private ModuleRecViewAdapter adapter_slider;
     TodoController todoController;
 
     @Override
@@ -38,15 +39,13 @@ public class TodoAllWeekFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         adapter = new ModuleRecViewAdapter(mContext);
+        adapter_slider = new ModuleRecViewAdapter( mContext, new SqLiteHelper(mContext) );
 
-        modulesRecView = (RecyclerView) view.findViewById(R.id.modulesRecView);
-        modulesRecView.setAdapter(adapter);
+        modulesRecView = view.findViewById(R.id.modulesRecView);
+        modulesRecView.setAdapter(adapter_slider);
         modulesRecView.setLayoutManager(new LinearLayoutManager(mContext));
 
-
-        todoController.getExtraInfo();
-        adapter.setModules(todoController.getAllWeek());
-        todoController.getExtraInfo();
+        adapter_slider.setModules(adapter_slider.getAllWeek(), adapter_slider.getExtraInfo());
 
         //Add space between cards
         SpacingItemDecorator itemDecorator = new SpacingItemDecorator(30);

@@ -134,4 +134,6 @@ public class SettingController {
         editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context)));
     }
 
+//Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));
+
 }
