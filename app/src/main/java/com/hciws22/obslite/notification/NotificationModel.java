@@ -8,17 +8,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.setting.Translation;
+import com.hciws22.obslite.today.Today;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
 
 public class NotificationModel {
 
@@ -50,15 +43,20 @@ public class NotificationModel {
         notificationManager.createNotificationChannel(mChannel);
 
     }
-
-    public void buildNotification(List<Notification> notifications){
-
+    public NotificationCompat.Builder buildNotificationTitle(){
         String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_sync)
-                .setContentTitle(OBS_TITLE)
                 .setSubText(organisation);
+
+        return builder;
+    }
+
+    public void buildNotification(List<Notification> notifications){
+
+        NotificationCompat.Builder builder = buildNotificationTitle();
+        builder.setContentTitle(OBS_TITLE);
 
         String content = buildNotificationMessage(notifications);
 
@@ -66,6 +64,49 @@ public class NotificationModel {
                 .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    public void buildDailyNotification(List<Today> appointments) {
+
+        String agenda = Translation.getTranslation( Translation.NOTIFICATION_TODAY_AGENDA, Translation.loadMode(context));
+        NotificationCompat.Builder builder = buildNotificationTitle();
+        builder.setContentTitle(agenda);
+
+        String content = buildDailyNotificationMessage(appointments);
+
+        builder.setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+    }
+    private String buildDailyNotificationMessage(List<Today> appointments){
+        StringBuilder content = new StringBuilder();
+
+        for (int i = 0; i < appointments.size(); i++) {
+            Today today = appointments.get(i);
+            if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
+            content.append(today.getName())
+                    .append("\n")
+                    .append(today.getTime())
+                    .append(", ")
+                    .append(today.getLocation())
+                    .append("\n\n");
+        }
+
+        // only for demonstrating purpose
+        for (int i = 0; i < appointments.size()-2; i++) {
+            Today today = appointments.get(i);
+            if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
+            content.append(today.getName())
+                    .append("\n")
+                    .append(today.getTime())
+                    .append(", ")
+                    .append(today.getLocation())
+                    .append("\n\n");
+        }
+
+        return content.toString();
     }
 
     private String buildNotificationMessage(List<Notification> notifications){
@@ -148,26 +189,4 @@ public class NotificationModel {
         return zonedDateTime.toLocalTime().plusSeconds(zonedDateTime.getOffset().getTotalSeconds()).toString();
     }
 
-    private String getNotificationDate(Notification notification){
-        String dateFormat = extractDate(notification.getMessage(), 0, notification.getMessage().indexOf("T"));
-
-        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        SimpleDateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN );
-
-        try {
-            Date date = originalFormat.parse(dateFormat);
-
-            dateFormat = targetFormat.format(date);
-        }catch(ParseException p){
-            p.printStackTrace();
-        }
-
-        return dateFormat;
-    }
-
-
-    private String extractDate(String dateFormat, int from, int to){
-        dateFormat = dateFormat.substring(from, to);
-        return dateFormat;
-    }
 }

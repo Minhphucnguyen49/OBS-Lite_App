@@ -5,13 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +17,7 @@ import com.hciws22.obslite.jobs.AutoSyncService;
 import com.hciws22.obslite.fragments_mainactivity.AgendaFragment;
 import com.hciws22.obslite.fragments_mainactivity.SettingsFragment;
 import com.hciws22.obslite.fragments_mainactivity.TodoFragment;
+import com.hciws22.obslite.jobs.DailyAssistant;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
          */
         setUpAutoSyncScheduler();
         setUpAutoNotificationScheduler();
+        setUpDailyAssistantScheduler();
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
@@ -58,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+    }
+    public void setUpDailyAssistantScheduler(){
+        DailyAssistant.setContext(this);
+        ComponentName componentName = new ComponentName(this, DailyAssistant.class);
+
+        JobInfo jobInfo = new JobInfo.Builder(125, componentName)
+                .setPersisted(true)
+                .setPeriodic( 60 * 60 * 1000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.schedule(jobInfo);
     }
 
     public void setUpAutoSyncScheduler(){
