@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.entities.AppointmentEntity;
+import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.jobs.ResponseService;
 import com.hciws22.obslite.jobs.SocketConnectionService;
 import com.hciws22.obslite.notification.NotificationController;
@@ -15,7 +17,10 @@ import com.hciws22.obslite.setting.Translation;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class SyncController {
 
@@ -122,7 +127,7 @@ public class SyncController {
         fileService.convertOBStoEntityRepresentation();
 
 
-        boolean isValid = syncDbService.checkInvalidModules(fileService.getAllAppointments());
+        boolean isValid = lookForInvalidModules(fileService.getAllAppointments());
 
         if(isNewLink || !isValid) {
             syncDbService.insertOrUpdateModule(fileService.getModules());
@@ -130,12 +135,75 @@ public class SyncController {
             return;
         }
 
-        syncDbService.removeUnchangedData(fileService.getAllAppointments());
+        removeUnchangedDataFromPayload(fileService.getAllAppointments());
+
         syncDbService.insertOrUpdateModule(fileService.getModules());
-//E(Ü) L(V)
+
         if(!fileService.getAllAppointments().isEmpty()){
-            syncDbService.updateChangedData(fileService.getAllAppointments());
+            updateChangedData(fileService.getAllAppointments());
         }
+
+    }
+
+
+    public void updateChangedData(Map<String,List<AppointmentEntity>> appointments){
+
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+
+            List<AppointmentEntity> old = syncDbService.readRegisteredAppointments(entry.getValue().get(0));
+            List<AppointmentEntity> payload = entry.getValue();
+
+            if (payload.size() > old.size()) {
+                syncDbService.insertAppointments(payload, true);
+                continue;
+            }
+
+            if (payload.size() < old.size()) {
+                syncDbService.deleteInvalidAppointments(old.get(0), true);
+                syncDbService.insertAppointments(payload, false);
+                continue;
+            }
+            syncDbService.deleteInvalidAppointments(old.get(0), false);
+            syncDbService.updateAppointments(payload, true);
+
+        }
+    }
+
+    public void removeUnchangedDataFromPayload(Map<String,List<AppointmentEntity>> appointments){
+
+        ArrayList<String> removeKeys = new ArrayList<>();
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+            List<AppointmentEntity> old = syncDbService.readRegisteredAppointments(entry.getValue().get(0));
+            if(old.isEmpty()) continue;
+
+            if(entry.getValue().containsAll(old)){
+                removeKeys.add(entry.getKey());
+            }
+
+        }
+
+        removeKeys.forEach(appointments::remove);
+
+    }
+
+
+    private boolean lookForInvalidModules(Map<String,List<AppointmentEntity>> modules){
+
+        List<ModuleEntity> oldList = syncDbService.readRegisteredModules();
+
+        Optional<ModuleEntity> optional = oldList.stream()
+                .filter(o -> modules.containsKey(o.getId()))
+                .findFirst();
+
+        // if language has changed drop everything
+        if(!optional.isPresent()){
+            syncDbService.resetDatabaseTemplate();
+            return false;
+        }
+
+        // if payload contains less appointments than database
+        syncDbService.deleteInvalidModules(modules, oldList);
+        return true;
 
     }
 
