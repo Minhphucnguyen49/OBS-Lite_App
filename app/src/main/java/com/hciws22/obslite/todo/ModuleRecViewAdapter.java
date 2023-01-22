@@ -121,30 +121,41 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * CollapsedLayout
          */
-        String cardPercentage = "";
+        //String cardPercentage = "";
 
         //Positioning slider with the right card.
+        // If code of module (e.g. 300456) is also available in local database,
+        // there will be no problem with changing en <-> de and keeping slider's value (Eg. 300456 #2)
         for (int i = 0; i < extraInfo.size(); i++) {
             String percentage = extraInfo.get(i).getPercentage();
             String name = modules.get(position).getName();
             if ( name.equals(extraInfo.get(i).getName()) && !percentage.isEmpty() ){
-                cardPercentage = percentage;
-                setSlider(holder, Float.parseFloat(cardPercentage));
+                //cardPercentage = percentage;//(Probably do not need this variable, let's check tomorrow)
+                //read from database (Extra Table) and show value in slider
+                setSlider(holder, Float.parseFloat(percentage));
             }
         }
 
         final String cardName = checkNameLength(modules.get(position).getName()) + "\n" ;
         final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
+        String cardProgress = "Progress " + modules.get(position).getPercentage() + "%";
 
         holder.moduleInfor.setText(cardName);
         holder.moduleDate.setText(cardDate);
-        holder.moduleProgress.setText("Progress " + cardPercentage + "%");
+        if(modules.get(position).getPercentage().isEmpty()){
+            holder.moduleProgress.setText("0%");
+        }
+        holder.moduleProgress.setText(cardProgress);
 
         /**
          * ExpandedLayout
          */
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
-            setSlider(holder, value);
+            Integer valueInt = Math.round(value);
+            // the progress changes will be displayed while sliding
+            holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
+            //save slider's value in modules to show it in collapsed Layout. (Problem 2 fixed)
+            modules.get(position).setPercentage(Integer.toString(valueInt));
         });
 
         holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
@@ -154,18 +165,12 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             holder.downArrow.animate().rotation(holder.downArrow.getRotation()-180).start();
         });
 
-        /**
-         * Collapsed Layout again for Progress
-         */
-
-
     }
 
     private void setSlider(@NonNull ViewHolder holder, float value) {
         //value = slider.getValue();
         Integer valueInt = Math.round(value);
-        // the progress changes will be displayed while sliding
-        holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
+        //Slider will display its value instead of being set back in 0 (Problem 1 fixed)
         holder.slider.setValue(valueInt);
     }
 
@@ -222,8 +227,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             collapsedRelLayout.setOnClickListener(view -> {
                 Todo module = modules.get(getAdapterPosition());
                 module.setExpanded( !module.isExpanded() );//toggle
-
-                notifyItemChanged(getAdapterPosition());//no need to notify all like notifyDataChanged()
+                notifyItemChanged( getAdapterPosition() );//no need to notify all like notifyDataChanged()
             });
 
             /*
