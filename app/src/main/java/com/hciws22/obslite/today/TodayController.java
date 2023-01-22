@@ -53,25 +53,6 @@ public class TodayController {
         return dayName + " - " + formattedDate;
     }
 
-    public String shortenName(String fullName){
-        String moduleInitials = "";
-        if(fullName.contains(" ")) {
-            //mehr als ein Wort
-            for (String s : fullName.split(" ")) {
-                moduleInitials += s.charAt(0);
-            }
-            return moduleInitials;
-        }
-        if(fullName.contains("Datenbanken")){
-            return "DB";
-        }
-        if(fullName.contains("Betriebssysteme")){
-            return "BS";
-        }
-
-
-        return fullName;
-    }
     public boolean loadMode(Context context){
         SharedPreferences pref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
         return pref.getBoolean(PREF_KEY, true);//true is german

@@ -38,10 +38,10 @@ public class DailyAssistant extends JobService {
         Log.d(TAG,Thread.currentThread().getName() + ": Job is running");
         boolean isSucceeded;
         if(notificationController.displayDailyAppointments()){
-            isSucceeded = false;
+            isSucceeded = true;
             Log.d(TAG,Thread.currentThread().getName() + ": Job has failed");
         }else{
-            isSucceeded = true;
+            isSucceeded = false;
             Log.d(TAG,Thread.currentThread().getName() + ": Job has succeeded");
         }
 

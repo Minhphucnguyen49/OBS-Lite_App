@@ -45,10 +45,10 @@ public class AutoSyncService extends JobService {
         Log.d(TAG,Thread.currentThread().getName() + ": Job is running");
         boolean isSucceeded;
          if(syncController.autoSynchronize()){
-             isSucceeded = false;
+             isSucceeded = true;
              Log.d(TAG,Thread.currentThread().getName() + ": Job has failed");
          }else{
-             isSucceeded = true;
+             isSucceeded = false;
              Log.d(TAG,Thread.currentThread().getName() + ": Job has succeeded");
          }
 

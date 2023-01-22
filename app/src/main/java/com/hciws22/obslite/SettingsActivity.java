@@ -8,18 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
-
 import com.hciws22.obslite.setting.SettingController;
 import com.hciws22.obslite.sync.SyncController;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static String mode = "de";
-
     SyncController syncController = new SyncController( SettingsActivity.this);
     SettingController settingcontroller = new SettingController(syncController, SettingsActivity.this);
-    //SharedPreferences sharedPreferences = getSharedPreferences("Mode", SettingsActivity.MODE_PRIVATE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

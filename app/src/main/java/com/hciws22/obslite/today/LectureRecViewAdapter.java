@@ -36,19 +36,6 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
         return new ViewHolder(view);
     }
 
-    public String shortenName(String fullName){
-        String moduleInitials = "";
-        if(fullName.contains(" ")) {
-            //mehr als ein Wort
-            for (String s : fullName.split(" ")) {
-                moduleInitials += s.charAt(0);
-            }
-            return moduleInitials;
-        }
-
-        return fullName;
-    }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         /**
@@ -56,7 +43,7 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
          */
 
         String time = modules.get(position).getTime() + " " ;
-        String name = "\n" + modules.get(position).getModuleType() +": "+ shortenName(modules.get(position).getName());
+        String name = "\n" + modules.get(position).getModuleType() +": "+ modules.get(position).getName();
         String location = "\n" + modules.get(position).getLocation();
         holder.moduleInfor.setText(time + name + location);
 

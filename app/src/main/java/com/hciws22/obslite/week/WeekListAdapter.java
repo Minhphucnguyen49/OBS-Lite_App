@@ -6,34 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.AutoTransition;
-import androidx.transition.TransitionManager;
-
-import com.google.android.material.slider.Slider;
 import com.hciws22.obslite.R;
-import com.hciws22.obslite.todo.Todo;
-import com.hciws22.obslite.todo.TodoDbService;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class WeekListAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
-    private List<String> expandableListTitle;
+    private final Context context;
+    private final List<String> expandableListTitle;
     //private HashMap<String, List<Week>> expandableListDetail;
-    private LinkedHashMap<String, List<String>> expandableListDetail;
+    private final LinkedHashMap<String, List<String>> expandableListDetail;
 
     public WeekListAdapter(Context context, List<String> expandableListTitle,
                            //HashMap<String, List<Week>> expandableListDetail) {

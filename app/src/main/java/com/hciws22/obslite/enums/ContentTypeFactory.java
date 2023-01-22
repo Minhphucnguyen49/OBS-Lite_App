@@ -3,11 +3,9 @@ package com.hciws22.obslite.enums;
 import com.hciws22.obslite.sync.OBSItem;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public enum ContentTypeFactory {

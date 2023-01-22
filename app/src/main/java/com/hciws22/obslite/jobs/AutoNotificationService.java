@@ -42,10 +42,10 @@ public class AutoNotificationService extends JobService {
         Log.d(TAG,Thread.currentThread().getName() + ": Job is running");
         boolean isSucceeded;
         if(notificationController.createNotification()){
-            isSucceeded = false;
+            isSucceeded = true;
             Log.d(TAG,Thread.currentThread().getName() + ": Job has failed");
         }else{
-            isSucceeded = true;
+            isSucceeded = false;
             Log.d(TAG,Thread.currentThread().getName() + ": Job has succeeded");
         }
 

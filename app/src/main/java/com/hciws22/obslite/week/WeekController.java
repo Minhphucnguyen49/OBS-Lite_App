@@ -4,14 +4,19 @@ import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+
+import de.danielnaber.jwordsplitter.AbstractWordSplitter;
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
 public class WeekController {
     private final WeekDbService weekDbService;
@@ -57,8 +62,19 @@ public class WeekController {
 
         return expandableListDetail;
     }
+
     public String shortenName(String fullName){
         String moduleInitials = "";
+
+
+        if(fullName.contains("Datenbanken")){
+            return fullName.replace("Datenbanken", "DB");
+        }
+
+        if(fullName.contains("-")){
+            fullName.replace("-", " ");
+        }
+
         if(fullName.contains(" ")) {
             //mehr als ein Wort
             for (String s : fullName.split(" ")) {
@@ -66,13 +82,29 @@ public class WeekController {
             }
             return moduleInitials;
         }
-        if(fullName.contains("Datenbanken")){
-            return "DB";
+
+        return shortGermanWord(fullName);
+    }
+
+    public String shortGermanWord(String name){
+
+
+        AbstractWordSplitter splitter = null;
+        try {
+            splitter = new GermanWordSplitter(false);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if(fullName.contains("Betriebssysteme")){
-            return "BS";
+
+        Collection<String> splitWords = splitter.splitWord(name);
+
+        String abbreviation = "";
+        for (String german : splitWords) {
+            abbreviation += german.charAt(0);
         }
-        return fullName;
+
+        return abbreviation.toUpperCase(Locale.ROOT);
+
     }
     public List<String> getWeekString (List<Week> weekArrayList){
         List<String> weekString = new ArrayList<>();

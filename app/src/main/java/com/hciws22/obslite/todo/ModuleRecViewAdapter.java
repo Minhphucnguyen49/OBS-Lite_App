@@ -1,7 +1,6 @@
 package com.hciws22.obslite.todo;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 import com.google.android.material.slider.Slider;
-import com.google.android.material.slider.Slider.OnChangeListener;
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdapter.ViewHolder> {
 
     private List<Todo> modules = new ArrayList<>();//from Appointment Table
     private List<Todo> extraInfo = new ArrayList<>();//from Extra Table
-    private Context contextToShowImage;
+    private final Context contextToShowImage;
     private TodoDbService todoDbService;
 
     public ModuleRecViewAdapter(Context contextToShowImage) {
@@ -38,10 +35,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         this.todoDbService = new TodoDbService(sqLiteHelper);
     }
 
-    /**
-     * bring them back in TodoController
-     * @return
-     */
     public List<Todo> getExtraInfo(){
         return todoDbService.selectExtra();
     }
@@ -58,55 +51,15 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public List<Todo> getExams(){return todoDbService.selectExams();}
 
 
-    public String shortenName(String fullName){
-        //shorten name to initials
-        String LabNumber = "";
-        String actualName = fullName;
-        String shortName = "";
-
-        //keep lab-number if exists
-        if(fullName.contains("#")) {
-            LabNumber = fullName.substring(fullName.length() - 3);
-            actualName = fullName.substring(0, fullName.length() - 3);
-        }
-        String moduleInitials = "";
-        if(actualName.contains(" ")) {
-            //mehr als ein Wort
-            for (String s : actualName.split(" ")) {
-                moduleInitials += s.charAt(0);
-            }
-            if(fullName.contains("#")) {
-                shortName=moduleInitials+" "+LabNumber;
-            }else{
-                shortName=moduleInitials;
-            }
-            return shortName;
-        }
-
-        if(fullName.contains("#")) {
-            shortName =actualName+=LabNumber;
-        }
-
-        return shortName;
-    }
 
     public String adaptDate(String originDate){
         //rearange date --> DD.MM.YYYY
         String[] words = originDate.split(" ");
         String[] date = words[1].split("\\.");
-        String newDate =  words[0]+" "+date[2]+"."+date[1]+"."+date[0];
+        return words[0]+" "+date[2]+"."+date[1]+"."+date[0];
 
-        return newDate;
     }
 
-    public String checkNameLength(String fullName){
-        //check if name has to be shortened
-        if(fullName.length()>20){
-            return shortenName(fullName);
-        }
-
-        return fullName;
-    }
 
     @NonNull
     @Override
@@ -136,7 +89,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             }
         }
 
-        final String cardName = checkNameLength(modules.get(position).getName()) + "\n" ;
+        final String cardName = modules.get(position).getName() + "\n" ;
         final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
         String cardProgress = "Progress " + modules.get(position).getPercentage() + "%";
 
@@ -153,12 +106,14 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         holder.slider.addOnChangeListener((slider, value, fromUser) -> {
             Integer valueInt = Math.round(value);
             // the progress changes will be displayed while sliding
-            holder.moduleProgress.setText("Progress " + Integer.toString(valueInt) + " %");
+            String progress = "Progress " + Integer.toString(valueInt) + " %";
+            holder.moduleProgress.setText(progress);
             //save slider's value in modules to show it in collapsed Layout. (Problem 2 fixed)
             modules.get(position).setPercentage(Integer.toString(valueInt));
         });
 
-        holder.time_location.setText(modules.get(position).getTime() + " \t " + modules.get(position).getLocation());
+        String timeLocation = modules.get(position).getTime() + " \t " + modules.get(position).getLocation();
+        holder.time_location.setText(timeLocation);
 
         setVisibilityView(holder, position);
         holder.downArrow.setOnClickListener(view -> {
@@ -201,15 +156,15 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private CardView module;//name of CardView Material
-        private TextView moduleInfor;
-        private TextView moduleDate;
-        private TextView moduleProgress;
-        private ImageView downArrow, upArrow;
-        private RelativeLayout collapsedRelLayout;
-        private RelativeLayout expandedRelLayout;
-        private TextView time_location;
-        private Slider slider;
+        private final CardView module;//name of CardView Material
+        private final TextView moduleInfor;
+        private final TextView moduleDate;
+        private final TextView moduleProgress;
+        private final ImageView downArrow, upArrow;
+        private final RelativeLayout collapsedRelLayout;
+        private final RelativeLayout expandedRelLayout;
+        private final TextView time_location;
+        private final Slider slider;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -129,7 +129,7 @@ public class NotificationDbService {
     public List<Today> selectTodayAppointments() {
         List<Today> todayList = new ArrayList<>();
         //TODO: String queryString = selectTodayPattern();
-        String queryString = selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(3));
+        String queryString = selectTodayPattern(ZonedDateTime.now(ZoneId.of("Europe/Berlin")));
         Log.d("SQL TODAY: ", queryString);
         // close both cursor and the db.
         // Try-with-resources will always close all kinds of connection
