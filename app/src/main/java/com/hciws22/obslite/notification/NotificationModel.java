@@ -8,17 +8,10 @@ import androidx.core.app.NotificationCompat;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.setting.Translation;
+import com.hciws22.obslite.today.Today;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
 
 public class NotificationModel {
 
@@ -27,6 +20,7 @@ public class NotificationModel {
     private static final String NAME = "appointment_notification";
     private static final String OBS_TITLE = "OBS Sync Update";
     private static final String DESCRIPTION = "Appointment table has changed";
+    private static final String MODULE_DELETED_MESSAGE = "DELETED";
     private static final int NOTIFICATION_ID = 234;
     private final Context context;
 
@@ -49,47 +43,105 @@ public class NotificationModel {
         notificationManager.createNotificationChannel(mChannel);
 
     }
-
-    public void buildNotification(List<Notification> notifications){
-
-        String time = Translation.getTranslation( Translation.NOTIFICATION_TIME, Translation.loadMode(context));
+    public NotificationCompat.Builder buildNotificationTitle(){
         String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_sync)
-                .setContentTitle(OBS_TITLE)
                 .setSubText(organisation);
 
+        return builder;
+    }
+
+    public void buildNotification(List<Notification> notifications){
+
+        NotificationCompat.Builder builder = buildNotificationTitle();
+        builder.setContentTitle(OBS_TITLE);
+
+        String content = buildNotificationMessage(notifications);
+
+        builder.setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    public void buildDailyNotification(List<Today> appointments) {
+
+        String agenda = Translation.getTranslation( Translation.NOTIFICATION_TODAY_AGENDA, Translation.loadMode(context));
+        NotificationCompat.Builder builder = buildNotificationTitle();
+        builder.setContentTitle(agenda);
+
+        String content = buildDailyNotificationMessage(appointments);
+
+        builder.setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+    }
+    private String buildDailyNotificationMessage(List<Today> appointments){
         StringBuilder content = new StringBuilder();
 
+        for (int i = 0; i < appointments.size(); i++) {
+            Today today = appointments.get(i);
+            if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
+            content.append(today.getName())
+                    .append("\n")
+                    .append(today.getTime())
+                    .append(", ")
+                    .append(today.getLocation())
+                    .append("\n\n");
+        }
+
+        // only for demonstrating purpose
+        for (int i = 0; i < appointments.size()-2; i++) {
+            Today today = appointments.get(i);
+            if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
+            content.append(today.getName())
+                    .append("\n")
+                    .append(today.getTime())
+                    .append(", ")
+                    .append(today.getLocation())
+                    .append("\n\n");
+        }
+
+        return content.toString();
+    }
+
+    private String buildNotificationMessage(List<Notification> notifications){
+
+        String time = Translation.getTranslation( Translation.NOTIFICATION_TIME, Translation.loadMode(context));
+
+        StringBuilder content = new StringBuilder();
         String alreadySent = "";
         for(int i = 0; i < notifications.size(); i++) {
 
             Notification notification = notifications.get(i);
 
             if(!notification.getModuleTitle().equals(alreadySent)){
+                alreadySent = notification.getModuleTitle();
                 content.append(getContentType(notification));
 
-                if(!notification.isOldDeleted()){
+                if(!notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append(notification.getType()).append(": ");
                 }
-                    content.append(notification.getModuleTitle()).append("\n");
 
-                if (notification.isOldDeleted()) content.append("\n");
-                if(!notification.isOldDeleted()){
-                    content.append(time)
-                            .append(getNotificationTime(notification))
-                            .append(getLocation(notification)).append("\n\n");
+                content.append(alreadySent.substring(0, alreadySent.lastIndexOf(" "))).append("\n");
+
+                if (notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
+                    content.append("\n");
+                    continue;
                 }
 
-                alreadySent = notification.getModuleTitle();
+                content.append(time)
+                        .append(getNotificationTime(notification))
+                        .append(getLocation(notification)).append("\n\n");
             }
-
         }
-        builder.setContentText(content.toString())
-                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
 
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        return content.toString();
+
     }
 
     private String getContentType(Notification notification){
@@ -99,11 +151,13 @@ public class NotificationModel {
         if(notification.isOldChanged())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_CHANGED_APP, Translation.loadMode(context));
 
-
         if(notification.isNewAdded())
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_NEW_APP, Translation.loadMode(context));
 
-        if(notification.isOldDeleted())
+        if(notification.getMessage().equals(MODULE_DELETED_MESSAGE))
+            message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_MOD, Translation.loadMode(context));
+
+        if(notification.isOldDeleted() && !notification.getMessage().equals(MODULE_DELETED_MESSAGE))
             message = Translation.getTranslation( Translation.NOTIFICATION_SUB_TITLE_DELETED_APP, Translation.loadMode(context));
 
         return message;
@@ -135,26 +189,4 @@ public class NotificationModel {
         return zonedDateTime.toLocalTime().plusSeconds(zonedDateTime.getOffset().getTotalSeconds()).toString();
     }
 
-    private String getNotificationDate(Notification notification){
-        String dateFormat = extractDate(notification.getMessage(), 0, notification.getMessage().indexOf("T"));
-
-        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        SimpleDateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN );
-
-        try {
-            Date date = originalFormat.parse(dateFormat);
-
-            dateFormat = targetFormat.format(date);
-        }catch(ParseException p){
-            p.printStackTrace();
-        }
-
-        return dateFormat;
-    }
-
-
-    private String extractDate(String dateFormat, int from, int to){
-        dateFormat = dateFormat.substring(from, to);
-        return dateFormat;
-    }
 }

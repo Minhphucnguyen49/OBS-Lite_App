@@ -75,16 +75,6 @@ public class SyncDbService {
         return "DELETE FROM " + TABLE_MODULE + ";";
     }
 
-
-
-    private String deleteFromAppointmentTableWhereTemplate(Appointment appointment){
-        return "DELETE FROM " + TABLE_APPOINTMENT + " WHERE "
-                + COLUMNS_FOR_APPOINTMENT[1] + " = " + appointment.getStartAt().toString() + " AND "
-                + COLUMNS_FOR_APPOINTMENT[2] + " = " + appointment.getEndAt().toString() + " AND "
-                + COLUMNS_FOR_APPOINTMENT[3] + " = " + appointment.getStartAt().toString() + ";";
-
-    }
-
     private ContentValues newAdded(AppointmentEntity a){
 
         return generateKeyValues(Map.of(
@@ -121,7 +111,6 @@ public class SyncDbService {
                 COLUMNS_FOR_NOTIFICATION[6],String.valueOf(oldDeleted), // oldDeleted
                 COLUMNS_FOR_NOTIFICATION[7],a.getStartAt().toString() + " " + a.getEndAt().toString())
         );
-
     }
 
     private ContentValues generateKeyValues(Map<String, String> map){
@@ -150,9 +139,6 @@ public class SyncDbService {
             db.setTransactionSuccessful();
             db.endTransaction();
         }
-
-
-
     }
 
     public SyncEntity selectSyncData(){
@@ -189,47 +175,6 @@ public class SyncDbService {
         }
     }
 
-
-    public void removeUnchangedData(Map<String,List<AppointmentEntity>> appointments){
-
-        ArrayList<String> removeKeys = new ArrayList<>();
-        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
-            List<AppointmentEntity> old = readRegisteredAppointments(entry.getValue().get(0));
-            if(old.isEmpty()) continue;
-
-            if(entry.getValue().containsAll(old)){
-                removeKeys.add(entry.getKey());
-            }
-
-        }
-
-        removeKeys.forEach(appointments::remove);
-
-    }
-
-    public void updateChangedData(Map<String,List<AppointmentEntity>> appointments){
-
-            for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
-
-                List<AppointmentEntity> old = readRegisteredAppointments(entry.getValue().get(0));
-                List<AppointmentEntity> payload = entry.getValue();
-
-                if (payload.size() > old.size()) {
-                    insertAppointments(payload, true);
-                    continue;
-                }
-
-                if (payload.size() < old.size()) {
-                    deleteInvalidAppointments(old.get(0), true);
-                    insertAppointments(payload, false);
-                    continue;
-                }
-                deleteInvalidAppointments(old.get(0), false);
-                updateAppointments(payload, true);
-
-            }
-    }
-
     public void updateAppointments(List<AppointmentEntity> appointmentEntities, Boolean getNotified){
 
         try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
@@ -248,10 +193,11 @@ public class SyncDbService {
             db.endTransaction();
         }
     }
+
     public void initAppointments(Map<String, List<AppointmentEntity>> appointments){
 
         for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
-             insertAppointments(entry.getValue(),true);
+             insertAppointments(entry.getValue(),false);
         }
 
     }
@@ -294,6 +240,7 @@ public class SyncDbService {
             db.endTransaction();
         }
     }
+
     public List<ModuleEntity> readRegisteredModules(){
 
         List<ModuleEntity> list = new ArrayList<>();
@@ -316,29 +263,7 @@ public class SyncDbService {
 
     }
 
-    public boolean checkInvalidModules(Map<String,List<AppointmentEntity>> modules){
-
-        List<ModuleEntity> oldList = readRegisteredModules();
-
-        Optional<ModuleEntity> optional = oldList.stream()
-                .filter(o -> modules.containsKey(o.getId()))
-                .findFirst();
-
-        // if language has changed drop everything
-        if(!optional.isPresent()){
-            resetDatabaseTemplate();
-            return false;
-        }
-
-        // if payload contains less appointments than database
-        deleteInvalidModules(modules, oldList);
-
-        return true;
-
-    }
-
-
-    private void deleteInvalidModules(Map<String,List<AppointmentEntity>> modules, List<ModuleEntity> oldList){
+    public void deleteInvalidModules(Map<String,List<AppointmentEntity>> modules, List<ModuleEntity> oldList){
 
         try(SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
             db.beginTransaction();
@@ -359,7 +284,7 @@ public class SyncDbService {
     }
 
 
-    private List<AppointmentEntity> readRegisteredAppointments(AppointmentEntity a){
+    public List<AppointmentEntity> readRegisteredAppointments(AppointmentEntity a){
 
         List<AppointmentEntity> list = new ArrayList<>();
         String queryString = selectUnmodifiedAppointment(a);
@@ -378,10 +303,7 @@ public class SyncDbService {
         }
 
         return list;
-
-
     }
-
 
     // ================ Execute multiple insert statements once ===============
     public void insertOrUpdateModule(Set<ModuleEntity> moduleEntities){
