@@ -2,10 +2,8 @@ package com.hciws22.obslite.notification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -56,11 +54,10 @@ public class NotificationModel {
     public NotificationCompat.Builder buildNotificationTitle(){
         String organisation = Translation.getTranslation( Translation.NOTIFICATION_SUBTITLE, Translation.loadMode(context));
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+        return  new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_sync)
                 .setSubText(organisation);
 
-        return builder;
     }
 
     public void buildNotification(List<Notification> notifications){
@@ -198,7 +195,7 @@ public class NotificationModel {
         }
 
         if(fullName.contains("-")){
-            fullName.replace("-", " ");
+            fullName = fullName.replace("-", " ");
         }
 
         if(fullName.contains(" ")) {

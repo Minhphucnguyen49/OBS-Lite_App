@@ -1,15 +1,11 @@
 package com.hciws22.obslite.week;
 
-import java.time.LocalDateTime;
-
 public class Week {
-    private String date;// next to each day of the week with day
-    private String name;
-    private String moduleType;
-    private String time;
-    private String location;
-
-    private boolean isExpanded;
+    private final String date;// next to each day of the week with day
+    private final String name;
+    private final String moduleType;
+    private final String time;
+    private final String location;
 
     public Week (String name, String moduleType, String location, String date, String time) {
         this.name = name;
@@ -35,10 +31,6 @@ public class Week {
     }
     public String getModuleType() {
         return moduleType;
-    }
-
-    public void setModuleType(String moduleType) {
-        this.moduleType = moduleType;
     }
 
 

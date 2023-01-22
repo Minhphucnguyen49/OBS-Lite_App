@@ -2,9 +2,6 @@ package com.hciws22.obslite.sync;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.AppointmentEntity;
@@ -15,7 +12,6 @@ import com.hciws22.obslite.notification.NotificationController;
 import com.hciws22.obslite.setting.Translation;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +96,7 @@ public class SyncController {
         if(!checkUrlForm(url)){
             Log.d("manual sync: ", "not succeeded");
             return true;
-        };
-
+        }
 
         if(fetchDataFromOBS(url)){
             Log.d("manual sync: ", "fetch not succeeded");

@@ -4,7 +4,6 @@ import com.google.android.material.chip.Chip;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.Translation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;

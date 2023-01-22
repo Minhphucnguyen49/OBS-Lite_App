@@ -13,7 +13,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 public class SyncDbService {
@@ -126,7 +125,7 @@ public class SyncDbService {
     }
 
     public void resetDatabaseTemplate(){
-        try (SQLiteDatabase db = sqLiteHelper.getWritableDatabase();){
+        try (SQLiteDatabase db = sqLiteHelper.getWritableDatabase()){
             db.beginTransaction();
 
             String[] tablesToReset = { "Appointment", "Notification", "Module"};

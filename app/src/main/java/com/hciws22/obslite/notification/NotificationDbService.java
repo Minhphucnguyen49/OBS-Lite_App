@@ -6,18 +6,13 @@ import android.util.Log;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.today.Today;
 
-import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import de.danielnaber.jwordsplitter.AbstractWordSplitter;
-import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
 public class NotificationDbService {
 

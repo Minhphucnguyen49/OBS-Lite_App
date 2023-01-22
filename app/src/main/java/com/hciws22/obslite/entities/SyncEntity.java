@@ -1,8 +1,5 @@
 package com.hciws22.obslite.entities;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 

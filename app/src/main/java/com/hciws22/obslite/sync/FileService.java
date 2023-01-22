@@ -3,16 +3,13 @@ package com.hciws22.obslite.sync;
 import android.util.Log;
 
 import com.hciws22.obslite.entities.AppointmentEntity;
-import com.hciws22.obslite.entities.ExtraInfoEntity;
 import com.hciws22.obslite.entities.ModuleEntity;
 import com.hciws22.obslite.enums.ContentTypeFactory;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +20,6 @@ public class FileService {
     private final List<OBSItem> obsList = new ArrayList<>();
     private final Set<ModuleEntity> moduleEntities = new HashSet<>();
     private final Map<String, List<AppointmentEntity>> appointments = new LinkedHashMap<>();
-
-    private boolean isEnglish = false;
-
 
     // this function will be executed inside a synchronize Block (synchronously)
     public void convertToModule(@NotNull List<String> filteredList){
