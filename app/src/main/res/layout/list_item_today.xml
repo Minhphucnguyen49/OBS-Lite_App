@@ -23,7 +23,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/pg2_p1_20_m"
-                android:textAppearance="@style/module" />
+                android:textAppearance="@style/module_todo" />
 
         </RelativeLayout>
 

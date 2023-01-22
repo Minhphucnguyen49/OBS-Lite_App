@@ -2,16 +2,25 @@ package com.hciws22.obslite.notification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.today.Today;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+
+import de.danielnaber.jwordsplitter.AbstractWordSplitter;
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 
 public class NotificationModel {
 
@@ -22,6 +31,7 @@ public class NotificationModel {
     private static final String DESCRIPTION = "Appointment table has changed";
     private static final String MODULE_DELETED_MESSAGE = "DELETED";
     private static final int NOTIFICATION_ID = 234;
+    private static final int MAX_WIDTH = 29;
     private final Context context;
 
     public NotificationModel(Context context) {
@@ -61,7 +71,7 @@ public class NotificationModel {
         String content = buildNotificationMessage(notifications);
 
         builder.setContentText(content)
-                .setStyle(new NotificationCompat.BigTextStyle().setSummaryText(content));
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
@@ -86,22 +96,12 @@ public class NotificationModel {
         for (int i = 0; i < appointments.size(); i++) {
             Today today = appointments.get(i);
             if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
-            content.append(today.getName())
-                    .append("\n")
-                    .append(today.getTime())
-                    .append(", ")
-                    .append(today.getLocation())
-                    .append("\n\n");
-        }
 
-        // only for demonstrating purpose
-        for (int i = 0; i < appointments.size()-2; i++) {
-            Today today = appointments.get(i);
-            if(!today.getModuleType().isEmpty()) content.append(today.getModuleType()).append(": ");
-            content.append(today.getName())
-                    .append("\n")
+            String name = shortenName(today.getName());
+            content.append(name)
+                    .append(",  ")
                     .append(today.getTime())
-                    .append(", ")
+                    .append(",  ")
                     .append(today.getLocation())
                     .append("\n\n");
         }
@@ -187,6 +187,50 @@ public class NotificationModel {
 
     private String calculateOffset(ZonedDateTime zonedDateTime){
         return zonedDateTime.toLocalTime().plusSeconds(zonedDateTime.getOffset().getTotalSeconds()).toString();
+    }
+
+    private String shortenName(String fullName){
+        String moduleInitials = "";
+
+
+        if(fullName.contains("Datenbanken")){
+            return fullName.replace("Datenbanken", "DB");
+        }
+
+        if(fullName.contains("-")){
+            fullName.replace("-", " ");
+        }
+
+        if(fullName.contains(" ")) {
+            //mehr als ein Wort
+            for (String s : fullName.split(" ")) {
+                moduleInitials += s.charAt(0);
+            }
+            return moduleInitials;
+        }
+
+        return shortGermanWord(fullName);
+    }
+
+    private String shortGermanWord(String name){
+
+
+        AbstractWordSplitter splitter = null;
+        try {
+            splitter = new GermanWordSplitter(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Collection<String> splitWords = splitter.splitWord(name);
+
+        String abbreviation = "";
+        for (String german : splitWords) {
+            abbreviation += german.charAt(0);
+        }
+
+        return abbreviation.toUpperCase(Locale.ROOT);
+
     }
 
 }

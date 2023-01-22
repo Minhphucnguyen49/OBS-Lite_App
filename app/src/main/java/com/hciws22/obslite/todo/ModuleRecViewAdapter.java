@@ -58,37 +58,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
     public List<Todo> getExams(){return todoDbService.selectExams();}
 
 
-    public String shortenName(String fullName){
-        //shorten name to initials
-        String LabNumber = "";
-        String actualName = fullName;
-        String shortName = "";
-
-        //keep lab-number if exists
-        if(fullName.contains("#")) {
-            LabNumber = fullName.substring(fullName.length() - 3);
-            actualName = fullName.substring(0, fullName.length() - 3);
-        }
-        String moduleInitials = "";
-        if(actualName.contains(" ")) {
-            //mehr als ein Wort
-            for (String s : actualName.split(" ")) {
-                moduleInitials += s.charAt(0);
-            }
-            if(fullName.contains("#")) {
-                shortName=moduleInitials+" "+LabNumber;
-            }else{
-                shortName=moduleInitials;
-            }
-            return shortName;
-        }
-
-        if(fullName.contains("#")) {
-            shortName =actualName+=LabNumber;
-        }
-
-        return shortName;
-    }
 
     public String adaptDate(String originDate){
         //rearange date --> DD.MM.YYYY
@@ -99,14 +68,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         return newDate;
     }
 
-    public String checkNameLength(String fullName){
-        //check if name has to be shortened
-        if(fullName.length()>20){
-            return shortenName(fullName);
-        }
-
-        return fullName;
-    }
 
     @NonNull
     @Override
@@ -136,7 +97,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             }
         }
 
-        final String cardName = checkNameLength(modules.get(position).getName()) + "\n" ;
+        final String cardName = modules.get(position).getName() + "\n" ;
         final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
         String cardProgress = "Progress " + modules.get(position).getPercentage() + "%";
 

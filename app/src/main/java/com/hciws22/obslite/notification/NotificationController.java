@@ -4,17 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
-
-import androidx.core.app.NotificationCompat;
-
 import com.hciws22.obslite.db.SqLiteHelper;
-import com.hciws22.obslite.sync.Appointment;
 import com.hciws22.obslite.today.Today;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -77,12 +69,9 @@ public class NotificationController {
         int currentHour = dateTime.getHour();
         int triggerAt = 7;
 
-        List<Today> appointments = notificationDbService.selectTodayAppointments();
-        createDailyNotification(appointments);
-
         if (currentHour == triggerAt){
-           // List<Today> appointments = notificationDbService.selectTodayAppointments();
-           // createDailyNotification(appointments);
+           List<Today> appointments = notificationDbService.selectTodayAppointments();
+           createDailyNotification(appointments);
         }
 
         return false;
