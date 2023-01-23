@@ -57,12 +57,17 @@ public enum Translation {
     POP_UP_NO_APPOINTMENTS("Du hast frei am ","You are free on "),
     POP_UP_NO_APPOINTMENTS_TODAY("Du hast heute frei juhu !!! ","You are free today juhu !!! "),
 
-    // Weeks
+    // Weeks Translation.valueOf()
     MONDAY("MONTAG", "MONDAY"),
+    MONTAG("MONTAG", "MONDAY"),
     TUESDAY("DIENSTAG", "TUESDAY"),
+    DIENSTAG("DIENSTAG", "TUESDAY"),
     WEDNESDAY("MITTWOCH", "WEDNESDAY"),
+    MITTWOCH("MITTWOCH", "WEDNESDAY"),
     THURSDAY("DONNERSTAG", "THURSDAY"),
+    DONNERSTAG("DONNERSTAG", "THURSDAY"),
     FRIDAY("FREITAG", "FRIDAY"),
+    FREITAG("FREITAG", "FRIDAY"),
 
 
 
