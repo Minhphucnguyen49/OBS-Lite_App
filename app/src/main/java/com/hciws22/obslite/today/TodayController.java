@@ -9,6 +9,8 @@ import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.setting.Translation;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.List;
@@ -32,19 +34,24 @@ public class TodayController {
     private static final String PREFERENCES_NAME = "com.hciws22.obslite";
     private static final String PREF_KEY = "mode";//true = deutsch, false = english
 
-    public void showDate(TextView dateToday){
-        String dateToDay = LocalDate.now().toString();
+    public void showDate(TextView dateToday, boolean language){
         //dateToday.setText(getDate(dateToDay));
-        dateToday.setText(getFormattedDate(dateToDay));
+        dateToday.setText(getFormattedDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")), language));
     }
 
-    private String getFormattedDate(String dateString) {
+    private String getFormattedDate(ZonedDateTime zonedDateTime, boolean language) {
         // Parse the date string to create a LocalDate object
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(dateString, formatter);
+        LocalDate date = LocalDate.parse(zonedDateTime.toLocalDate().toString(), formatter);
 
         // Get the full name of the day of the week
-        String dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        String dayName = "";
+        if(language){
+            dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMAN);
+        }else {
+            dayName = date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        }
+
 
         // Format the date in the desired format
         String formattedDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
