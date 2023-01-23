@@ -123,8 +123,11 @@ public class NotificationModel {
                 if(!notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append(notification.getType()).append(": ");
                 }
+                if(alreadySent.contains(" ")){
+                    alreadySent = alreadySent.substring(0, alreadySent.lastIndexOf(" "));
+                }
 
-                content.append(alreadySent.substring(0, alreadySent.lastIndexOf(" "))).append("\n");
+                content.append(alreadySent).append("\n");
 
                 if (notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append("\n");

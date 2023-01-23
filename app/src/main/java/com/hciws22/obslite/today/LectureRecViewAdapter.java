@@ -47,13 +47,12 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
         String location = "\n" + modules.get(position).getLocation();
         holder.moduleInfor.setText(time + name + location);
 
-        if( modules.get(position).getModuleType().contains("V")){
+        String type = modules.get(position).getModuleType();
+        if( type.contains("V") || type.contains("L")){
             holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLecture));
-        }else if(modules.get(position).getModuleType().contains("P") || modules.get(position).getModuleType().contains("Ü")){
-            holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLab));
         }
-        if ( modules.get(position).getModuleType().isEmpty()){
-
+        if(type.contains("P") || type.contains("Ü") || type.contains("E")){
+            holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLab));
         }
 
     }

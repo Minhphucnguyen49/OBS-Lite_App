@@ -15,9 +15,12 @@ import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
 import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
+
+import java.util.Locale;
 
 public class TodayFragment extends Fragment {
     private Context mContext;
@@ -55,7 +58,9 @@ public class TodayFragment extends Fragment {
 
     private void exceptionsHandling() {
         if (todayController.getToDay().isEmpty()){
-            Toast.makeText(mContext, "You are free today Yoo-hoo!!!", Toast.LENGTH_SHORT).show();
+            String freeMessage = Translation.getTranslation( Translation.POP_UP_NO_APPOINTMENTS_TODAY, Translation.loadMode(mContext));
+
+            Toast.makeText(mContext, freeMessage, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -19,6 +19,7 @@ import com.hciws22.obslite.fragments_agenda.TodayFragment;
 import com.hciws22.obslite.fragments_agenda.TomorrowFragment;
 import com.hciws22.obslite.fragments_agenda.WeekFragment;
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.today.TodayController;
 
 public class AgendaFragment extends Fragment {
@@ -40,7 +41,8 @@ public class AgendaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView dateToday = view.findViewById(R.id.date_today);
-        todayController.showDate(dateToday);
+
+        todayController.showDate(dateToday, todayController.loadMode(mContext));
 
         ChipGroup chipGroup = view.findViewById(R.id.chip_group);
 

@@ -1,8 +1,10 @@
 package com.hciws22.obslite.week;
 
+import android.content.Context;
 import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.setting.Translation;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -45,7 +47,7 @@ public class WeekController {
         return expandableListDetail;
     }
 
-    public LinkedHashMap<String, List<String>> getDataString(){
+    public LinkedHashMap<String, List<String>> getDataString(Context context){
         LinkedHashMap<String, List<String>> expandableListDetail = new LinkedHashMap<String, List<String>>();
 
         List<String> monday = getWeekString(getListDetailOf(0));
@@ -54,11 +56,11 @@ public class WeekController {
         List<String> thursday = getWeekString(getListDetailOf(3));
         List<String> friday = getWeekString(getListDetailOf(4));
 
-        expandableListDetail.put("MONDAY",monday);
-        expandableListDetail.put("TUESDAY",tuesday);
-        expandableListDetail.put("WEDNESDAY",wednesday);
-        expandableListDetail.put("THURSDAY",thursday);
-        expandableListDetail.put("FRIDAY",friday);
+        expandableListDetail.put(Translation.getTranslation( Translation.MONDAY, Translation.loadMode(context)),monday);
+        expandableListDetail.put(Translation.getTranslation( Translation.TUESDAY, Translation.loadMode(context)),tuesday);
+        expandableListDetail.put(Translation.getTranslation( Translation.WEDNESDAY, Translation.loadMode(context)),wednesday);
+        expandableListDetail.put(Translation.getTranslation( Translation.THURSDAY, Translation.loadMode(context)),thursday);
+        expandableListDetail.put(Translation.getTranslation( Translation.FRIDAY, Translation.loadMode(context)),friday);
 
         return expandableListDetail;
     }

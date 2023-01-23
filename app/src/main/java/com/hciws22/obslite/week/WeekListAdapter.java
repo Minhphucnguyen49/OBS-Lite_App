@@ -46,6 +46,7 @@ public class WeekListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item_week_listview, null);
+
         }
         TextView expandedListTextView = convertView.findViewById(R.id.expanded_list_item);
         expandedListTextView.setText(expandedListText);

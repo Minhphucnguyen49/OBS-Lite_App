@@ -15,12 +15,14 @@ import android.widget.Toast;
 
 import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.week.WeekController;
 import com.hciws22.obslite.week.WeekListAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class WeekFragment extends Fragment {
     private ExpandableListView expandableListView;
@@ -47,17 +49,19 @@ public class WeekFragment extends Fragment {
 
         expandableListView = view.findViewById(R.id.expandableListView);
         //expandableListDetail = weekController.getData();
-        expandableListDetail = weekController.getDataString();
+        expandableListDetail = weekController.getDataString(mContext);
         expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
 
         adapter = new WeekListAdapter(mContext, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(adapter);
 
         expandableListView.setOnGroupExpandListener(groupPosition -> {
-            //Todo: if no modules -> Toast "you are free"
+
             if (adapter.getChildrenCount(groupPosition) == 0){
+                String freeMessage = Translation.getTranslation( Translation.POP_UP_NO_APPOINTMENTS, Translation.loadMode(mContext));
+                String day = Translation.getTranslation(Translation.valueOf(expandableListTitle.get(groupPosition).toUpperCase(Locale.ROOT)), Translation.loadMode(mContext));
                 Toast.makeText(mContext,
-                        "You are free on " + expandableListTitle.get(groupPosition) +" Yoo-hoo!!!",
+                        freeMessage + day +" Yoo-hoo!!!",
                         Toast.LENGTH_SHORT).show();
             }
         });
