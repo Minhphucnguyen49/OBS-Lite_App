@@ -30,8 +30,9 @@
         android:layout_below="@+id/time_location"
         android:layout_marginLeft="20dp"
         android:text="@string/notes"
-        android:textAppearance="@style/module_time">
-
+        android:textAppearance="@style/module_time"
+        android:visibility="gone"
+        >
     </TextView>
 
 </RelativeLayout>

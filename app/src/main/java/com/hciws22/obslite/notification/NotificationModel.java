@@ -12,8 +12,11 @@ import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.today.Today;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,7 +32,7 @@ public class NotificationModel {
     private static final String DESCRIPTION = "Appointment table has changed";
     private static final String MODULE_DELETED_MESSAGE = "DELETED";
     private static final int NOTIFICATION_ID = 234;
-    private static final int MAX_WIDTH = 29;
+    private static final String CALENDAR_INFO = "Calendar";
     private final Context context;
 
     public NotificationModel(Context context) {
@@ -118,16 +121,19 @@ public class NotificationModel {
 
             if(!notification.getModuleTitle().equals(alreadySent)){
                 alreadySent = notification.getModuleTitle();
+                String moduleTitel = notification.getModuleTitle();
                 content.append(getContentType(notification));
+
+                if(moduleTitel.contains(CALENDAR_INFO)){
+                    moduleTitel = moduleTitel.substring(0, moduleTitel.lastIndexOf(" "));
+                    moduleTitel = shortenName(moduleTitel);
+                }
 
                 if(!notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append(notification.getType()).append(": ");
                 }
-                if(alreadySent.contains(" ")){
-                    alreadySent = alreadySent.substring(0, alreadySent.lastIndexOf(" "));
-                }
 
-                content.append(alreadySent).append("\n");
+                content.append(moduleTitel).append("\n");
 
                 if (notification.getMessage().equals(MODULE_DELETED_MESSAGE)){
                     content.append("\n");
@@ -136,11 +142,22 @@ public class NotificationModel {
 
                 content.append(time)
                         .append(getNotificationTime(notification))
+                        .append(" ")
+                        .append(getNotificationDate(notification))
+                        .append("\n")
                         .append(getLocation(notification)).append("\n\n");
             }
         }
 
         return content.toString();
+
+    }
+
+    private String getNotificationDate(Notification notification) {
+        String startDate = notification.getMessage().substring(0, notification.getMessage().lastIndexOf(" "));
+        ZonedDateTime dateTime =  ZonedDateTime.parse(startDate);
+
+        return dateTime.toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
     }
 
