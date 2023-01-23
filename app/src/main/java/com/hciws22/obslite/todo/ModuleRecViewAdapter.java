@@ -74,7 +74,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         /**
          * CollapsedLayout
          */
-        //String cardPercentage = "";
 
         //Positioning slider with the right card.
         // If code of module (e.g. 300456) is also available in local database,
@@ -83,10 +82,10 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             String percentage = extraInfo.get(i).getPercentage();
             String name = modules.get(position).getName();
             if ( name.equals(extraInfo.get(i).getName()) && !percentage.isEmpty() ){
-                //cardPercentage = percentage;//(Probably do not need this variable, let's check tomorrow)
                 //read from database (Extra Table) and show value in slider
                 setSlider(holder, Float.parseFloat(percentage));
             }
+
         }
 
         final String cardName = modules.get(position).getName() + "\n" ;
@@ -95,10 +94,13 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
 
         holder.moduleInfor.setText(cardName);
         holder.moduleDate.setText(cardDate);
-        if(modules.get(position).getPercentage().isEmpty()){
-            holder.moduleProgress.setText("0%");
+        if(modules.get(position).getPercentage().equals("")){
+            String initProgress = "Progress 0%";
+            holder.moduleProgress.setText(initProgress);
+        } else {
+            holder.moduleProgress.setText(cardProgress);
         }
-        holder.moduleProgress.setText(cardProgress);
+
 
         /**
          * ExpandedLayout

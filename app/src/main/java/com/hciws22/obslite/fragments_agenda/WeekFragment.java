@@ -50,7 +50,7 @@ public class WeekFragment extends Fragment {
         expandableListView = view.findViewById(R.id.expandableListView);
         //expandableListDetail = weekController.getData();
         expandableListDetail = weekController.getDataString(mContext);
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
 
         adapter = new WeekListAdapter(mContext, expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(adapter);
@@ -61,7 +61,7 @@ public class WeekFragment extends Fragment {
                 String freeMessage = Translation.getTranslation( Translation.POP_UP_NO_APPOINTMENTS, Translation.loadMode(mContext));
                 String day = Translation.getTranslation(Translation.valueOf(expandableListTitle.get(groupPosition).toUpperCase(Locale.ROOT)), Translation.loadMode(mContext));
                 Toast.makeText(mContext,
-                        freeMessage + day +" Yoo-hoo!!!",
+                        freeMessage + day + " Yay!!!",
                         Toast.LENGTH_SHORT).show();
             }
         });
