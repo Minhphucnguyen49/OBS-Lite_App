@@ -153,25 +153,46 @@ public class SyncController {
                 continue;
             }
 
-            if (payload.size() < old.size()) {
-                syncDbService.deleteInvalidAppointments(old.get(0), true);
-                syncDbService.insertAppointments(payload, false);
+            Optional<AppointmentEntity> oldApp = findChangedData(payload, old);
+
+            if (payload.size() < old.size() && oldApp.isPresent()) {
+
+               syncDbService.deleteInvalidAppointments(oldApp.get(), true);
+               syncDbService.insertAppointments(payload, false);
                 continue;
             }
-            syncDbService.deleteInvalidAppointments(old.get(0), false);
-            syncDbService.updateAppointments(payload, true);
+
+            if(oldApp.isPresent()){
+                syncDbService.deleteInvalidAppointments(oldApp.get(), false);
+                syncDbService.updateAppointments(payload, true);
+            }
+
 
         }
     }
 
+    private Optional<AppointmentEntity> findChangedData(List<AppointmentEntity> payload, List<AppointmentEntity> old) {
+
+       return old.stream().filter(o -> !payload.contains(o)).findFirst();
+
+    }
+
     public void removeUnchangedDataFromPayload(Map<String,List<AppointmentEntity>> appointments){
+        /*String key = "";
+        for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
+             key = entry.getKey();
+            break;
+        }
+
+        appointments.get(key).remove(0);*/
+
 
         ArrayList<String> removeKeys = new ArrayList<>();
         for (Map.Entry<String, List<AppointmentEntity>> entry : appointments.entrySet()) {
             List<AppointmentEntity> old = syncDbService.readRegisteredAppointments(entry.getValue().get(0));
             if(old.isEmpty()) continue;
 
-            if(entry.getValue().containsAll(old)){
+            if(entry.getValue().containsAll(old) && old.size() == entry.getValue().size()){
                 removeKeys.add(entry.getKey());
             }
 

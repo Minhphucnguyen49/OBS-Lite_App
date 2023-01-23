@@ -291,11 +291,14 @@ public class SyncDbService {
         try(SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null)) {
 
-            AppointmentEntity old = new AppointmentEntity();
+
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                AppointmentEntity old = new AppointmentEntity();
+
                 old.setStartAt(ZonedDateTime.parse(cursor.getString(1)));
                 old.setEndAt(ZonedDateTime.parse(cursor.getString(2)));
+                old.setType(cursor.getString(4));
                 old.setModuleID(cursor.getString(6));
                 list.add(old);
             }
