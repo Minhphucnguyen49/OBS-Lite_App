@@ -18,7 +18,7 @@
             android:id="@+id/title_WEEK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/WEEK"
+            android:text="@string/AGENDA"
             android:textAppearance="@style/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,22 +27,31 @@
 
         <Button
             android:id="@+id/button_to_today"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:text="@string/AGENDA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_edit_text"
+            android:text="@string/AGENDA"
             android:textAppearance="@style/button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/title_WEEK"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <TextView
+        android:id="@+id/date_today_week"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text=""
+        android:textAppearance="@style/date" />
     <androidx.constraintlayout.widget.ConstraintLayout
 
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="530dp"
         android:background="@color/dark"
         tools:context=".WeekActivity">
 
@@ -54,10 +63,6 @@
             android:layout_marginRight="50dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 
 </LinearLayout>
 

@@ -30,8 +30,7 @@ public enum ContentTypeFactory {
         }
 
         if(s.toUpperCase(Locale.ROOT).contains(SUMMARY.name())){
-            extractFileNameFromLine(obsItem,s);
-            obsItem.getAppointment().setType(s.substring(s.indexOf(":")+1, s.lastIndexOf(":")));
+            extractType(obsItem, s);
             return false;
         }
 
@@ -77,15 +76,28 @@ public enum ContentTypeFactory {
         );
     }
 
-    private static void extractFileNameFromLine(OBSItem obsItem, String s){
+    private static void extractType(OBSItem obsItem, String s){
+        boolean containsType = extractFileNameFromLine(obsItem,s);
+
+        if(!containsType) return;
+
+        obsItem.getAppointment().setType(s.substring(s.indexOf(":")+1, s.lastIndexOf(":")));
+
+    }
+
+    private static boolean extractFileNameFromLine(OBSItem obsItem, String s){
         if(s.contains("#")){
             obsItem.setName(s.substring(s.lastIndexOf(":")+2,s.lastIndexOf("#")-1));
             obsItem.getAppointment().setNr(s.substring(s.lastIndexOf("#")));
-        }else{
+        }else if(s.contains(": ")){
             obsItem.setName(s.substring(s.lastIndexOf(":")+2));
+        }else{
+            obsItem.setName(s.substring(s.lastIndexOf(":")+1));
+            return false;
         }
 
         obsItem.getAppointment().setType(s.substring(s.indexOf(":")+1, s.lastIndexOf(":")));
+        return true;
 
     }
 
