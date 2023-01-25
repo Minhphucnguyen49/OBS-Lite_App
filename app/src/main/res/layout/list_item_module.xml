@@ -63,23 +63,10 @@
                 android:layout_below="@+id/module_infor"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginBottom="0dp"
                 android:src="@drawable/ic_arrow_down">
-
-            </ImageView>
-
-            <ImageView
-                android:id="@+id/btnUpArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/ic_arrow_up"
-                android:visibility="gone">
 
             </ImageView>
 
@@ -93,6 +80,8 @@
             >
 
             <include layout="@layout/expanded_card" />
+
+
         </RelativeLayout>
     </RelativeLayout>
 

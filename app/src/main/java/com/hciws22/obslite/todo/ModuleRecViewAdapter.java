@@ -92,6 +92,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         final String cardDate = adaptDate(modules.get(position).getDate())+ "\n";
         String cardProgress = "Progress " + modules.get(position).getPercentage() + "%";
 
+
         holder.moduleInfor.setText(cardName);
         holder.moduleDate.setText(cardDate);
         if(modules.get(position).getPercentage().equals("")){
@@ -118,9 +119,6 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         holder.time_location.setText(timeLocation);
 
         setVisibilityView(holder, position);
-        holder.downArrow.setOnClickListener(view -> {
-            holder.downArrow.animate().rotation(holder.downArrow.getRotation()-180).start();
-        });
 
     }
 
@@ -135,10 +133,13 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
         if (modules.get(position).isExpanded()){
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.VISIBLE);
-
+            holder.downArrow.setVisibility(View.GONE);
+            holder.upArrow.setVisibility(View.VISIBLE);
         }else{
             TransitionManager.beginDelayedTransition(holder.module, new AutoTransition());
             holder.expandedRelLayout.setVisibility(View.GONE);
+            holder.upArrow.setVisibility(View.GONE);
+            holder.downArrow.setVisibility(View.VISIBLE);
         }
     }
 
@@ -181,13 +182,16 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
             time_location = itemView.findViewById(R.id.time_location);
             slider = itemView.findViewById(R.id.slider);
 
+            /*
             collapsedRelLayout.setOnClickListener(view -> {
                 Todo module = modules.get(getAdapterPosition());
                 module.setExpanded( !module.isExpanded() );//toggle
                 notifyItemChanged( getAdapterPosition() );//no need to notify all like notifyDataChanged()
             });
 
-            /*
+             */
+
+
             downArrow.setOnClickListener(view -> {
                 Todo module = modules.get(getAdapterPosition());
                 module.setExpanded( !module.isExpanded() );//toggle
@@ -199,7 +203,7 @@ public class ModuleRecViewAdapter extends RecyclerView.Adapter<ModuleRecViewAdap
                 module.setExpanded( !module.isExpanded() );//toggle
                 notifyItemChanged(getAdapterPosition());
             });
-             */
+
 
             // save data in Extra Table
             slider.addOnChangeListener((slider, value, fromUser) -> {
