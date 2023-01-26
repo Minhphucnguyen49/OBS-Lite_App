@@ -47,6 +47,9 @@ public enum Translation {
     TOMORROW("MORGEN","TOMORROW"),
     THIS_WEEK("DIESE WOCHE","THIS WEEK"),
 
+    // Navigation
+    AGENDA("Agenda", "Schedule"),
+    SETTING("Einstellungen", "Settings"),
 
     //Toasts
     SUCCESS_TOAST("Erfolgreich", "Success"),

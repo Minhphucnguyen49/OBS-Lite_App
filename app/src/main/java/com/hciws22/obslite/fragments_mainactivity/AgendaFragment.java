@@ -40,6 +40,10 @@ public class AgendaFragment extends Fragment {
         View view = inflater.inflate(R.layout.agenda, container, false);
         super.onViewCreated(view, savedInstanceState);
 
+        TextView todayTitle = view.findViewById(R.id.title_TODAY);
+        todayTitle.setText(Translation.getTranslation( Translation.AGENDA, Translation.loadMode(mContext)));
+
+
         TextView dateToday = view.findViewById(R.id.date_today);
 
         todayController.showDate(dateToday, todayController.loadMode(mContext));

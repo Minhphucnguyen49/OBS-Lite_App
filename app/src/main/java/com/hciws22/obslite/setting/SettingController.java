@@ -9,6 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hciws22.obslite.MainActivity;
+import com.hciws22.obslite.R;
 import com.hciws22.obslite.db.SqLiteHelper;
 import com.hciws22.obslite.entities.SyncEntity;
 import com.hciws22.obslite.notification.NotificationController;
@@ -72,7 +76,7 @@ public class SettingController {
         languages.setOnClickListener(view -> {
             toggleMode("mode");
             applyAllChanges(title,warningNoLink,editText,syncTime,warningSign,languageTitle, notificationTitle, languages,notification, dailyAssistant );
-            //applyChanges(title, sendBtn, context);
+
         });
     }
 
@@ -132,6 +136,11 @@ public class SettingController {
         notification.setText(Translation.getTranslation( Translation.NOTIFICATION_TOGGLE, settingsModel.loadMode(context)));
 
         editText.setHint(Translation.getTranslation( Translation.INSERT_PREVIEW, settingsModel.loadMode(context)));
+
+        BottomNavigationView bottomNavigationView = MainActivity.getBottomNavigationView();
+        bottomNavigationView.getMenu().getItem(1).setTitle(Translation.getTranslation( Translation.AGENDA, Translation.loadMode(context)));
+        bottomNavigationView.getMenu().getItem(2).setTitle(Translation.getTranslation( Translation.SETTING, Translation.loadMode(context)));
+
     }
 
 //Optional<SharedPreferences> sharedPreferences = Optional.ofNullable(context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE));

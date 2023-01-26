@@ -20,7 +20,6 @@ import com.hciws22.obslite.today.LectureRecViewAdapter;
 import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 
-import java.util.Locale;
 
 public class TodayFragment extends Fragment {
     private Context mContext;
