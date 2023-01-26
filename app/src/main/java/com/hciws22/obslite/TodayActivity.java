@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hciws22.obslite.db.SqLiteHelper;
+import com.hciws22.obslite.setting.Translation;
 import com.hciws22.obslite.today.LectureRecViewAdapter;
+import com.hciws22.obslite.today.Today;
 import com.hciws22.obslite.today.TodayController;
 import com.hciws22.obslite.utils.SpacingItemDecorator;
 

@@ -55,6 +55,8 @@ public class LectureRecViewAdapter extends RecyclerView.Adapter<LectureRecViewAd
             holder.moduleToday.setCardBackgroundColor(ContextCompat.getColor(contextToShowImage,R.color.colorLab));
         }
 
+
+
     }
 
     @Override

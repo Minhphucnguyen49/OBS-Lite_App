@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.databinding.ActivityMainBinding;
 import com.hciws22.obslite.jobs.AutoNotificationService;
@@ -18,21 +22,33 @@ import com.hciws22.obslite.fragments_mainactivity.AgendaFragment;
 import com.hciws22.obslite.fragments_mainactivity.SettingsFragment;
 import com.hciws22.obslite.fragments_mainactivity.TodoFragment;
 import com.hciws22.obslite.jobs.DailyAssistant;
+import com.hciws22.obslite.setting.Translation;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
 
+    private static BottomNavigationView bottomNavigationView;
+
+    public static BottomNavigationView getBottomNavigationView(){
+        return bottomNavigationView;
+    }
+
     @Override
+    //@SuppressLint("RestrictedApi")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new AgendaFragment()); //default screen when app starts
 
-        BottomNavigationView bottomNavigationView;
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.getMenu().getItem(1).setTitle(Translation.getTranslation( Translation.AGENDA, Translation.loadMode(this)));
+        bottomNavigationView.getMenu().getItem(2).setTitle(Translation.getTranslation( Translation.SETTING, Translation.loadMode(this)));
+
         bottomNavigationView.setSelectedItemId(R.id.agenda);
 
         /**
@@ -57,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
     public void setUpDailyAssistantScheduler(){
         DailyAssistant.setContext(this);
         ComponentName componentName = new ComponentName(this, DailyAssistant.class);

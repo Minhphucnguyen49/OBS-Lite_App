@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hciws22.obslite.setting.SettingController;
 import com.hciws22.obslite.sync.SyncController;
 

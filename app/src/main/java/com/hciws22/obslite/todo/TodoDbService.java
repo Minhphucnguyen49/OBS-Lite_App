@@ -186,6 +186,10 @@ public class TodoDbService {
     //================ Execute multiple insert statements once ===============
     public void insertExtraInfo(List<Todo> extraInfoEntities){
 
+        if(extraInfoEntities.isEmpty()){
+            return;
+        }
+
         SQLiteDatabase db = sqLiteHelper.getWritableDatabase();
         try {
             db.beginTransaction();
