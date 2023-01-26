@@ -37,12 +37,14 @@ public class WeekController {
         List<Week> wednesday = new ArrayList<Week>(getListDetailOf(2));
         List<Week> thursday = new ArrayList<Week>(getListDetailOf(3));
         List<Week> friday = new ArrayList<Week>(getListDetailOf(4));
+        List<Week> saturday = new ArrayList<Week>(getListDetailOf(5));
 
         expandableListDetail.put("MONDAY",monday);
         expandableListDetail.put("TUESDAY",tuesday);
         expandableListDetail.put("WEDNESDAY",wednesday);
         expandableListDetail.put("THURSDAY",thursday);
         expandableListDetail.put("FRIDAY",friday);
+        expandableListDetail.put("SATURDAY",saturday);
 
         return expandableListDetail;
     }
@@ -55,13 +57,14 @@ public class WeekController {
         List<String> wednesday = getWeekString(getListDetailOf(2));
         List<String> thursday = getWeekString(getListDetailOf(3));
         List<String> friday = getWeekString(getListDetailOf(4));
+        List<String> saturday = getWeekString(getListDetailOf(5));
 
         expandableListDetail.put(Translation.getTranslation( Translation.MONDAY, Translation.loadMode(context)),monday);
         expandableListDetail.put(Translation.getTranslation( Translation.TUESDAY, Translation.loadMode(context)),tuesday);
         expandableListDetail.put(Translation.getTranslation( Translation.WEDNESDAY, Translation.loadMode(context)),wednesday);
         expandableListDetail.put(Translation.getTranslation( Translation.THURSDAY, Translation.loadMode(context)),thursday);
         expandableListDetail.put(Translation.getTranslation( Translation.FRIDAY, Translation.loadMode(context)),friday);
-
+        expandableListDetail.put(Translation.getTranslation( Translation.SATURDAY, Translation.loadMode(context)),saturday);
         return expandableListDetail;
     }
 
