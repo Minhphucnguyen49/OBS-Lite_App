@@ -112,7 +112,13 @@ public class WeekController {
         List<String> weekString = new ArrayList<>();
         String tab = "\t \t \t \t \t \t \t \t \t";
         weekArrayList.forEach(s -> {
-            weekString.add(s.getModuleType() + ":" + shortenName(s.getName())+ tab + s.getLocation() + tab + s.getTime());
+            String location = s.getLocation();
+            String type = s.getModuleType() + ":";
+
+            if(type.equals(":")) type = "S:";
+
+
+            weekString.add(type + shortenName(s.getName())+ tab + location + tab + s.getTime());
         });
 
         return weekString;

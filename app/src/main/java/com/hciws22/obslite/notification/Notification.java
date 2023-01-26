@@ -52,7 +52,7 @@ public class Notification {
     }
 
     public String getType() {
-        return Optional.ofNullable(type).orElse("");
+        return type.isEmpty() ? "S" : type;
     }
 
     public Integer getId() {
@@ -60,7 +60,7 @@ public class Notification {
     }
 
     public String getModuleTitle() {
-        return moduleTitle;
+        return moduleTitle.isEmpty() ? "S" : moduleTitle;
     }
 
     public boolean isNewAdded() {
