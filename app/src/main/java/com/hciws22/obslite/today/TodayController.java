@@ -38,6 +38,10 @@ public class TodayController {
         //dateToday.setText(getDate(dateToDay));
         dateToday.setText(getFormattedDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")), language));
     }
+    public void showDateTomorrow(TextView dateToday, boolean language){
+        //dateToday.setText(getDate(dateToDay));
+        dateToday.setText(getFormattedDate(ZonedDateTime.now(ZoneId.of("Europe/Berlin")).plusDays(1), language));
+    }
 
     private String getFormattedDate(ZonedDateTime zonedDateTime, boolean language) {
         // Parse the date string to create a LocalDate object

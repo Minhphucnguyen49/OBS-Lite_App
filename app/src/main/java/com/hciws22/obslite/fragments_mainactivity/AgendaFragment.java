@@ -54,9 +54,9 @@ public class AgendaFragment extends Fragment {
         Chip tomorrowChoice = view.findViewById(R.id.chip_2);
         Chip weekChoice = view.findViewById(R.id.chip_3);
 
-        setTodayChip(todayChoice);
-        setWeekChip(weekChoice);
-        setTomorrowChip(tomorrowChoice);
+        setTodayChip(dateToday, todayChoice);
+        setWeekChip(dateToday, weekChoice);
+        setTomorrowChip(dateToday, tomorrowChoice);
 
         //set Today View as default
         chipGroup.setSelectionRequired(true);
@@ -83,40 +83,50 @@ public class AgendaFragment extends Fragment {
     }
 
 
-    private void setWeekChip(Chip weekChoice) {
+    private void setWeekChip(TextView dateToday, Chip weekChoice) {
         String weekText = "WEEK";
         weekChoice.setText(weekText);
-        showWeek(weekChoice);
+        showWeek(dateToday, weekChoice);
     }
-    private void setTomorrowChip(Chip morgenChoice) {
+    private void setTomorrowChip(TextView dateToday, Chip morgenChoice) {
+
         String weekText = "TOMORROW";
         morgenChoice.setText(weekText);
-        showTomorrow(morgenChoice);
+        showTomorrow(dateToday, morgenChoice);
     }
-    private void setTodayChip(Chip todayChoice) {
+    private void setTodayChip(TextView dateToday, Chip todayChoice) {
         String todayText = "TODAY";
         todayChoice.setText(todayText);
-        showToday(todayChoice);
+        showToday(dateToday, todayChoice);
 
     }
-    private void showToday(Chip selectedChip){
+    private void showToday(TextView dateToday, Chip selectedChip){
         selectedChip.setOnClickListener(v -> {
+            //show todays date
+            todayController.showDate(dateToday, todayController.loadMode(mContext));
+
             //TODO: selectTodayView
             Fragment todayFragment = new TodayFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.agenda_scrollable, todayFragment).commit();
         });
     }
-    private void showWeek(Chip selectedChip) {
+    private void showWeek(TextView dateToday, Chip selectedChip) {
         selectedChip.setOnClickListener(v -> {
+            //show todays date
+            todayController.showDate(dateToday, todayController.loadMode(mContext));
+
             //TODO: selectWeekView
             Fragment weekFragment = new WeekFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.agenda_scrollable, weekFragment).commit();
         });
     }
-    private void showTomorrow(Chip selectedChip){
+    private void showTomorrow(TextView dateToday, Chip selectedChip){
         selectedChip.setOnClickListener(v -> {
+            //add 1 Day to title
+            todayController.showDateTomorrow(dateToday, todayController.loadMode(mContext));
+
             //TODO: selectTodayView
             Fragment tomorrowFragment = new TomorrowFragment();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
