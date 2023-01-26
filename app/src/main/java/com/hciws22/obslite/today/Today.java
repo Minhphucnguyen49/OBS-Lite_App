@@ -30,7 +30,7 @@ public class Today {
         return location;
     }
     public String getModuleType() {
-        return moduleType;
+        return moduleType.isEmpty() ? "S" : moduleType;
     }
 
     public void setModuleType(String moduleType) {

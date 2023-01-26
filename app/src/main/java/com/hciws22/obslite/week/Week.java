@@ -1,5 +1,7 @@
 package com.hciws22.obslite.week;
 
+import java.util.Optional;
+
 public class Week {
     private final String date;// next to each day of the week with day
     private final String name;
@@ -27,7 +29,7 @@ public class Week {
     }
 
     public String getLocation() {
-        return location;
+        return location.isEmpty() ? ("no location") : location;
     }
     public String getModuleType() {
         return moduleType;
