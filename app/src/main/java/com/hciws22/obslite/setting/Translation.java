@@ -72,6 +72,8 @@ public enum Translation {
     FRIDAY("FREITAG", "FRIDAY"),
     FREITAG("FREITAG", "FRIDAY"),
 
+    SATURDAY("SAMSTAG", "SATURDAY"),
+    SAMSTAG("SAMSTAG", "SATURDAY"),
 
 
     // Default
